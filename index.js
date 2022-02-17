@@ -5,7 +5,10 @@ const consing = require('consign');
 app.use(express.urlencoded({extended: true}));
 
 consing()
-.include('.rotas/rotas.js')
+.include('./configuracao/passport.js')
+.then('./configuracao/middleware.js')
+.then('./configuracao/autenticacao.js')
+.then('.rotas/rotas.js')
 .into(app)
 
 app.listen(8080, function() {
