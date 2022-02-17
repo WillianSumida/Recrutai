@@ -56,4 +56,4 @@ CREATE TABLE `compatibilidade` (
     CONSTRAINT `descricaovaga_fk` FOREIGN KEY (`descricao_vaga`) REFERENCES `vaga` (`descricao`) ON DELETE CASCADE,
     CONSTRAINT `interessecandidato_fk` FOREIGN KEY (`interesse_candidato`) REFERENCES `candidato` (`interesse`) ON DELETE CASCADE,
     CONSTRAINT `interesserecrutador_fk` FOREIGN KEY (`interesse_recrutador`) REFERENCES `recrutador` (`interesse`) ON DELETE CASCADE,
-)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
