@@ -7,8 +7,8 @@ CREATE TABLE `usuario` (
     `nome` varchar(100) NOT NULL, 
     `login` varchar(50) NOT NULL, 
     `senha` varchar(15) NOT NULL, 
-    `candidato_recrutador` BOOLEAN DEFAULT false, 
-    CONSTRAINT usuario_pk (id)
+    `candidato_recrutador` boolean DEFAULT false, 
+    CONSTRAINT usuario_pk primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `vagas` (
