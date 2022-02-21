@@ -14,7 +14,7 @@ module.exports = app => {
     const strategy = new Strategy(params, (payload, done) => {      
        
         //Coloca na variável user o ID de usuário e valida se ele é válido
-        const user = banco.listarUmRecrutador || banco.listarUmCandidato({
+        const user = banco.listarUmUsuario ({
             id: payload.id,
         });
         

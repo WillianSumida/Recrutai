@@ -18,8 +18,6 @@ async function login(usuario){
     console.log("Validando login...");
     const conexao = await conecta();
     const [resultado] = await conexao.query("SELECT * FROM usuario WHERE login = ?;", [usuario.login]);
-    console.log("Vou printar resultado", resultado)
-    console.log("Vou printar resultado 0", resultado[0])
     return resultado[0];
 }
 
@@ -33,23 +31,8 @@ async function inserirUsuario(usuario){
         return "Login previamente cadastrado!"
     }
 
-    const sql = "INSERT INTO usuario(nome,login,senha,admin) VALUES (?,?,?,?)";
-    const param = [usuario.nome, usuario.login, usuario.senha, usuario.admin];
-    return await conexao.query(sql,param);
-}
-
-//Alterar
-async function alterarUsuario(usuario){
-    console.log("Alterando usuário...");
-    const conexao = await conecta();
-    const[resultado] = await conexao.query("SELECT * FROM usuario WHERE id=?;",[usuario.id]);
-
-    if (resultado.length==0){
-        return "Id Inexistente!"
-    }
-
-    const sql = "UPDATE usuario SET nome=?, senha=?, admin=? WHERE id=?;";
-    const param = [usuario.nome, usuario.senha, usuario.admin, usuario.id];
+    const sql = "INSERT INTO usuario(nome,login,senha,candidato_recrutador) VALUES (?,?,?,?)";
+    const param = [usuario.nome, usuario.login, usuario.senha, usuario.candidato_recrutador];
     return await conexao.query(sql,param);
 }
 
@@ -89,5 +72,5 @@ async function listarUmUsuario(id){
 }
 
 module.exports = { login,
-    listarUsuarios, listarUmUsuario, inserirUsuario, excluirUsuario, alterarUsuario
+    listarUsuarios, listarUmUsuario, inserirUsuario, excluirUsuario
 }

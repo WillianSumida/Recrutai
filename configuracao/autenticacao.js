@@ -2,7 +2,7 @@ const {authSecret} = require("../.env")
 const jwt = require('jwt-simple')
 const banco = require("../bancoDeDados/conexao");
 
-dule.exports = app => {
+module.exports = app => {
     const login = async (req, res) => {
         console.log("req: ", req);
         //Validando se o campo foi preenchido

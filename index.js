@@ -8,7 +8,7 @@ consing()
 .include('./configuracao/passport.js')
 .then('./configuracao/middleware.js')
 .then('./configuracao/autenticacao.js')
-.then('.rotas/rotas.js')
+.then('./rotas/rotas.js')
 .into(app)
 
 app.listen(8080, function() {
