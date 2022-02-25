@@ -9,7 +9,7 @@ const StyledInput = styled.input`
   border: none;
   margin: 0.5rem 0;
   background-color: #f5f5f5;
-  box-shadow: 0px 14px 9px -15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 14px 9px -15px rgba(255, 99, 71, 0.6);
   border-radius: 8px;
   padding: 0 1rem;
   transition: all 0.2s ease-in;
@@ -27,11 +27,11 @@ const Container = styled.div`
 const Status = styled.div`
   height: 10px;
   width: 10px;
-  background: #9d9d9d;
+  background: #ffa689;
   border-radius: 10px;
   margin-left: 1rem;
   ${StyledInput}:focus + & {
-    background: #ffa689;
+    background: #1065b2;
   }
   ${StyledInput}:invalid + & {
     background: #fe2f75;

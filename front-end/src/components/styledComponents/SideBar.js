@@ -43,7 +43,7 @@ const LogoWrapper = styled.div`
     height: 6rem;
   }
   h3 {
-    color: #ff8d8d;
+    color: #1065b2;
     text-align: center;
     font-size: 22px;
   }
@@ -55,7 +55,6 @@ const LogoWrapper = styled.div`
 `;
 
 const Container = styled.div`
-  min-width: 400px;
   backdrop-filter: blur(35px);
   background-color: rgba(255, 255, 255, 0.8);
   height: 100%;
@@ -70,12 +69,12 @@ const Container = styled.div`
     padding: 0;
   }
   h4 {
-    color: #808080;
+    color: #1065b2;
     font-weight: bold;
     font-size: 13px;
     margin-top: 2rem;
     span {
-      color: #ff8d8d;
+      color: #1065b2;
       cursor: pointer;
     }
   }

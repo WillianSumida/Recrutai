@@ -36,6 +36,7 @@ export default function SideBar() {
                 <h3>Sign Up</h3>
                 <Input placeholder="Full Name" />
                 <Input type="email" placeholder="Email" />
+                <Input type="email" placeholder="Email" />
                 <Input type="password" placeholder="Password" />
                 <Input type="password" placeholder="Confrim Password" />
                 <button>Sign Up</button>
