@@ -4,7 +4,7 @@ async function conecta() {
     const con = await banco.createConnection({
         host: "localhost",
         port: 3306,
-        user: "sa",
+        user: "root",
         password: "root",
         database: "recruta"
     })
