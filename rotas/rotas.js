@@ -18,8 +18,10 @@ module.exports = app => {
       body("candidato_recrutador").trim(),
   ],
   async (req, res) => {
+      console.log(req);
       const erro = validationResult(req);
       if (!erro.isEmpty()) {
+          console.log(erro);
           res.status(400).send(erro.array())
       } else { 
           const resultado = await banco.inserirUsuario({
