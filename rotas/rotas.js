@@ -16,10 +16,10 @@ module.exports = app => {
         body("senha", "Senha deve ter entre 6 e 8 caracteres").trim().isLength({ min: 6, max: 8 }),
         body("nome", "*Obrigatório").trim().isLength({ min: 2, max: 100 }),
         body("recrutador").trim(),
-        body("cidade").trim().isLength({ min: 2, max: 100 }),
+        /* body("cidade").trim().isLength({ min: 2, max: 100 }),
         body("estado").trim().isLength({ min: 2, max: 2 }),
         body("verificado").trim(),
-        body("telefone").trim().isLength({ min: 8, max: 15 }),
+        body("telefone").trim().isLength({ min: 8, max: 15 }), */
     ],
         async (req, res) => {
             const erro = validationResult(req);
@@ -30,11 +30,11 @@ module.exports = app => {
                     login: req.body.login,
                     senha: req.body.senha,
                     nome: req.body.nome,
-                    recrutador: req.body.recrutador,
-                    cidade: req.body.cidade, 
-                    estado: req.body.estado, 
-                    verificado: req.body.verificado,
-                    telefone: req.body.telefone
+                    recrutador: req.body.recrutador, //por enquanto estatico
+                    cidade: "", 
+                    estado: "", 
+                    verificado: 0,
+                    telefone: ''
                 });
                 if (resultado == "Login previamente cadastrado!") {
                     res.status(400).send(resultado)
