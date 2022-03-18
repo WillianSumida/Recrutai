@@ -77,7 +77,7 @@ async function inserirCandidato(candidato) {
     console.log("Inserindo candidato...");
     const conexao = await conecta();
 
-    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,tag1,tag2,tag3,idade,portfolio) VALUES (?,?,?,?,?,?,?,?)";
+    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,tag1,tag2,tag3,idade,portfolio) VALUES (?,?,?,?,?,?,?,?,?)";
     const param = [candidato.usuario_id, candidato.grau_formacao,candidato.instituicao_ensino,candidato.tag1,candidato.tag2,candidato.tag3,candidato.idade,candidato.portfolio];
     return await conexao.query(sql, param);
 }
@@ -133,52 +133,59 @@ async function listarUmCandidato(usuario_id) {
     return resultado[0];
 }
 
-/*
-//<><><><><><><> SEÇÃO VAGAS <><><><><><><><>
-//Inserir Vagas
-async function inserirVagas(vagas) {
-    console.log("Inserindo vagas...");
+//<><><><><><><> SEÇÃO VAGA <><><><><><><><>
+//Inserir Vaga
+async function inserirVaga(vaga) {
+    console.log("Inserindo vaga...");
     const conexao = await conecta();
 
-    const sql = "INSERT INTO vagas(recrutador_id,nome_recrutador,empresa,informacoes,localidade,salario,interesse) VALUES (?,?,?,?,?,?,?)";
-    const param = [vagas.recrutador_id, vagas.nome_recrutador, vagas.empresa, vagas.informacoes, vagas.localidade, vagas.salario, vagas.interesses];
+    const sql = "INSERT INTO vaga(id,cargo,descricao,salario,tipo,tag1,tag2,tag3,cidade,estado,ativo,quantidade,recrutador_usuario_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    const param = [vaga.id,vaga.cargo,vaga.descricao,vaga.salario,vaga.tipo,vaga.tag1,vaga.tag2,vaga.tag3,vaga.cidade,vaga.estado,vaga.ativo,vaga.quantidade,vaga.recrutador_usuario_id];
     return await conexao.query(sql, param);
 }
 
-//Excluir Vagas
-async function excluirVagas(id) {
-    console.log("Excluindo vagas...");
+//Alterar Vaga
+async function alterarVaga(vaga) {
+    console.log("Alterando vaga...");
     const conexao = await conecta();
-    const [resultado] = await conexao.query("SELECT * FROM vagas WHERE id=?;", [id]);
+    const [resultado] = await conexao.query("SELECT * FROM vaga WHERE id=?;", [vaga.id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    const sql = "UPDATE vaga SET cargo=?, descricao=?,salario=?,tipo=?,tag1=?,tag2=?,tag3=?,cidade=?,estado=?,ativo=?,quantidade=?,recrutador_usuario_id=? WHERE id=?;";
+    const param = [vaga.cargo, vaga.descricao,vaga.salario,vaga.tipo,vaga.tag1,vaga.tag2,vaga.tag3,vaga.cidade,vaga.estado,vaga.ativo,vaga.quantidade,vaga.recrutador_usuario_id, vaga.id];
+    return await conexao.query(sql, param);
+}
+
+//Excluir Vaga
+async function excluirVaga(id) {
+    console.log("Excluindo vaga...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM vaga WHERE id=?;", [id]);
 
     if (resultado.length == 0) {
         return "Id inexistente!"
     }
 
-    return await conexao.query("DELETE FROM vagas WHERE id=?", [id]);
+    return await conexao.query("DELETE FROM vaga WHERE id=?;", [id])
 }
 
-//Listar Todas as Vagas
-async function listarTodasVagas(user_id) {
-    console.log("Listando todos as vagas do recrutador com id: " + user_id);
-    const conexaoAtiva = await conecta();
-
-    const [resultado] = await conexaoAtiva.query("SELECT * FROM usuario WHERE id=?;", [user_id]);
-
-    if (resultado.length == 0) {
-        return "Não existe usuário com o ID informado!"
-    }
-
-    const [resultado2] = await conexaoAtiva.query("SELECT * FROM vagas WHERE id_recrutador=?;", [user_id]);
-
-    return resultado2;
-}
-
-//Listar Uma vagas
-async function listarUmaVagas(id) {
+//Listar Todas Vagas
+async function listarVagas() {
     console.log("Listando vagas...");
     const conexao = await conecta();
-    const [resultado] = await conexao.query("SELECT * FROM vagas WHERE id=?;", [id]);
+    const [resultado] = await conexao.query("SELECT * FROM vaga");
+    return resultado;
+}
+
+//Listar Uma Vaga
+async function listarUmaVaga(id) {
+    console.log("Listando vaga...");
+
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM vaga WHERE id=?;", [id]);
 
     if (resultado.length == 0) {
         return "Id Inexistente!"
@@ -187,57 +194,11 @@ async function listarUmaVagas(id) {
     return resultado[0];
 }
 
-
-
-    //Alterar Vagas
-    async function alterarPerfil(perfil) {
-        console.log("Alterando perfil...");
-        const conexao = await conecta();
-        const [resultado] = await conexao.query("SELECT * FROM perfil WHERE id=?;", [perfil.id]);
-
-        if (resultado.length == 0) {
-            return "Id Inexistente!"
-        }
-
-        const sql = "UPDATE perfil SET descricao=?,formacao=?,email=?,localidade=?,interesse=? WHERE id=?;";
-        const param = [perfil.descricao, perfil.formacao, perfil.email, perfil.localidade, perfil.interesse];
-        return await conexao.query(sql, param);
-    }
-
-    //Excluir Perfil
-    async function excluirPerfil(id) {
-        console.log("Excluindo perfil...");
-        const conexao = await conecta();
-        const [resultado] = await conexao.query("SELECT * FROM perfil WHERE id=?;", [id]);
-
-        if (resultado.length == 0) {
-            return "Id inexistente!"
-        }
-
-        return await conexao.query("DELETE FROM perfil WHERE id=?", [id]);
-    }
-
-    //Listar O Perfil do Candidato 
-    async function listarPerfil(user_id) {
-        console.log("Listando todos o perfil do candidato: " + user_id);
-        const conexaoAtiva = await conecta();
-
-        const [resultado] = await conexaoAtiva.query("SELECT * FROM usuario WHERE id=?;", [user_id]);
-
-        if (resultado.length == 0) {
-            return "Não existe usuário com o ID informado!"
-        }
-
-        const [resultado2] = await conexaoAtiva.query("SELECT * FROM perfil WHERE id_candidato=?;", [user_id]);
-
-        return resultado2;
-    }
-*/
-
 module.exports = {
     login,
     listarUsuarios, listarUmUsuario, inserirUsuario, excluirUsuario,
-    listarCandidatos, listarUmCandidato, inserirCandidato, excluirCandidato, alterarCandidato
+    listarCandidatos, listarUmCandidato, inserirCandidato, excluirCandidato, alterarCandidato,
+    listarVagas, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga
     //listarUmaVagas, listarTodasVagas, inserirVagas, excluirVagas, alterarVagas,
     //listarPerfil, inserirPerfil, excluirPerfil, alterarPerfil
 }

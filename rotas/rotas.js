@@ -83,8 +83,9 @@ module.exports = app => {
             }
         });
 
-    //<><><><><><><>SEÇÃO PERFIL DO CANDIDATO<><><><><><><><><><>
-    //<><><><><><><>SOMENTE CANDIDATO (1) TEM ESSA VISÃO<><><><><><>
+//<><><><><><><><><><><><><><><><><><><><><><><><><>
+//<><><><><><><>SEÇÃO CANDIDATO<><><><><><><><><><>
+//<><><><><><><><><><><><><><><><><><><><><><><><><>
 
     //Inserir Perfil
     app.route("/adicionarCandidato")
@@ -185,4 +186,126 @@ module.exports = app => {
             }
         });
 
-};
+//<><><><><><><><><><><><><><><><><><><><><><><><><>
+//<><><><><><><>SEÇÃO VAGAS<><><><><><><><><><>
+//<><><><><><><><><><><><><><><><><><><><><><><><><>
+
+   //Inserir Vaga
+   app.route("/adicionarVaga")
+   .all(app.configuracao.passport.authenticate())
+   .post([
+        body("id").trim().isLength({ min: 1 }),
+        body("cargo").trim().isLength({ min: 2, max: 100 }),
+        body("descricao").trim().isLength({ min: 0, max: 255 }),
+        body("salario").trim().isLength({ min: 2, max: 10 }),
+        body("tipo").trim().isLength({ min: 2, max: 100 }),
+        body("tag1").trim().isLength({ min: 2, max: 100 }),
+        body("tag2").trim().isLength({ min: 2, max: 100 }),
+        body("tag3").trim().isLength({ min: 2, max: 100 }),
+        body("cidade").trim().isLength({ min: 1, max: 100 }),
+        body("estado").trim().isLength({ min: 0, max: 2 }),
+        body("ativo").trim(),
+        body("quantidade").trim().isLength({ min: 1, max: 3 }),
+        body("recrutador_usuario_id").trim().isLength({ min: 1 }),],
+       async (req, res) => {
+           const erro = validationResult(req);
+
+           if (!erro.isEmpty()) {
+               res.send(erro.array())
+           } else {
+               const resultado = await banco.inserirVaga({
+                id: req.body.id,
+                cargo: req.body.cargo,
+                descricao: req.body.descricao,
+                salario: req.body.salario,
+                tipo: req.body.tipo,
+                tag1: req.body.tag1,
+                tag2: req.body.tag2,
+                tag3: req.body.tag3,
+                cidade: req.body.cidade,
+                estado: req.body.estado, 
+                ativo: req.body.ativo, 
+                quantidade: req.body.quantidade, 
+                recrutador_usuario_id: req.body.recrutador_usuario_id
+               });
+               res.send(resultado);
+           }
+       });
+
+   //Alterar Vaga
+   app.route("/alterarVaga")
+   .all(app.configuracao.passport.authenticate())
+   .put([
+        body("id").trim().isLength({ min: 1 }),
+        body("cargo").trim().isLength({ min: 2, max: 100 }),
+        body("descricao").trim().isLength({ min: 0, max: 255 }),
+        body("salario").trim().isLength({ min: 2, max: 10 }),
+        body("tipo").trim().isLength({ min: 2, max: 100 }),
+        body("tag1").trim().isLength({ min: 2, max: 100 }),
+        body("tag2").trim().isLength({ min: 2, max: 100 }),
+        body("tag3").trim().isLength({ min: 2, max: 100 }),
+        body("cidade").trim().isLength({ min: 1, max: 100 }),
+        body("estado").trim().isLength({ min: 0, max: 2 }),
+        body("ativo").trim(),
+        body("quantidade").trim().isLength({ min: 1, max: 3 }),
+        body("recrutador_usuario_id").trim().isLength({ min: 1 }),],
+       async (req, res) => {
+           const erro = validationResult(req);
+
+           if (!erro.isEmpty()) {
+               res.send(erro.array())
+           } else {
+               const resultado = await banco.alterarVaga({
+                id: req.body.id,
+                cargo: req.body.cargo,
+                descricao: req.body.descricao,
+                salario: req.body.salario,
+                tipo: req.body.tipo,
+                tag1: req.body.tag1,
+                tag2: req.body.tag2,
+                tag3: req.body.tag3,
+                cidade: req.body.cidade,
+                estado: req.body.estado, 
+                ativo: req.body.ativo, 
+                quantidade: req.body.quantidade, 
+                recrutador_usuario_id: req.body.recrutador_usuario_id
+               });
+               res.send(resultado);
+           }
+       });
+
+    //Excluindo Vaga
+    app.route("/excluirVaga/:id?")
+        .all(app.configuracao.passport.authenticate())
+        .delete(async (req, res) => {
+            if (req.params.id) {
+                const resultado = await banco.excluirVaga(req.params.id);
+                if (resultado == "Id Inexistente!") {
+                    res.status(400).send("Id Inexistente!")
+                } else {
+                    res.send(resultado);
+                }
+            }
+        });
+
+    //Listar Todas as Vagas
+    app.route("/listarVagas")
+        .all(app.configuracao.passport.authenticate())
+        .get(async (req, res) => {
+            const resultado = await banco.listarVagas();
+            res.send(resultado);
+        });
+
+    //Listar Uma Vaga
+    app.route("/listarUmaVaga/:id")
+    .all(app.configuracao.passport.authenticate())
+    .get(async (req, res) => {
+        if (req.params.id) {
+            const resultado = await banco.listarUmaVaga(req.params.id);
+            res.send(resultado);
+        } else {
+            res.send("Id Inexistente!")
+        }
+    });
+
+    };
