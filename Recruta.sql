@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `senha` VARCHAR(100) NOT NULL,
   `nome` VARCHAR(100) NOT NULL,
   `recrutador` BOOLEAN NOT NULL DEFAULT 0,
-  `cidade` VARCHAR(100) NULL,
-  `estado` VARCHAR(2) NULL,
+  `cidade` VARCHAR(100) ,
+  `estado` VARCHAR(2) ,
   `verificado` BOOLEAN NOT NULL DEFAULT 0,
   `telefone` VARCHAR(15),
   PRIMARY KEY (`id`),
@@ -17,18 +17,18 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   UNIQUE INDEX `login_UNIQUE` (`login` ASC)) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `candidato` (
-  `Usuario_id` INT NOT NULL,
+  `usuario_id` INT NOT NULL,
   `grau_formacao` VARCHAR(100) NOT NULL,
   `instituicao_ensino` VARCHAR(100) NOT NULL,
   `tag1` VARCHAR(100) NULL,
   `tag2` VARCHAR(100) NULL,
   `tag3` VARCHAR(100) NULL,
   `idade` INT NOT NULL,
-  `portifolio` VARCHAR(100) NULL,
-  PRIMARY KEY (`Usuario_id`),
-  CONSTRAINT `fk_Candidato_Usuario`
-    FOREIGN KEY (`Usuario_id`)
-    REFERENCES `Usuario` (`id`)
+  `portfolio` VARCHAR(100) NULL,
+  PRIMARY KEY (`usuario_id`),
+  CONSTRAINT `fk_candidato_usuario`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `usuario` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION) ENGINE = InnoDB;
 

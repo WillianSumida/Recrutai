@@ -71,6 +71,68 @@ async function listarUmUsuario(id) {
     return resultado[0];
 }
 
+//<><><><><><><> SEÇÃO CANDIDATO <><><><><><><><>
+//Inserir Candidato
+async function inserirCandidato(candidato) {
+    console.log("Inserindo candidato...");
+    const conexao = await conecta();
+
+    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,tag1,tag2,tag3,idade,portfolio) VALUES (?,?,?,?,?,?,?,?)";
+    const param = [candidato.usuario_id, candidato.grau_formacao,candidato.instituicao_ensino,candidato.tag1,candidato.tag2,candidato.tag3,candidato.idade,candidato.portfolio];
+    return await conexao.query(sql, param);
+}
+
+//Alterar Candidato
+async function alterarCandidato(candidato) {
+    console.log("Alterando candidato...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM candidato WHERE usuario_id=?;", [candidato.usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    const sql = "UPDATE candidato SET grau_formacao=?, instituicao_ensino=?, tag1=?, tag2=?, tag3=?, idade=?, portfolio=? WHERE usuario_id=?;";
+    const param = [candidato.grau_formacao, candidato.instituicao_ensino, candidato.tag1, candidato.tag2, candidato.tag3, candidato.idade, candidato.portfolio, candidato.usuario_id];
+    return await conexao.query(sql, param);
+}
+
+//Excluir Candidato
+async function excluirCandidato(usuario_id) {
+    console.log("Excluindo candidato...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM candidato WHERE usuario_id=?;", [usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id inexistente!"
+    }
+
+    return await conexao.query("DELETE FROM candidato WHERE usuario_id=?;", [usuario_id]);
+
+}
+
+//Listar Todos Candidatos
+async function listarCandidatos() {
+    console.log("Listando candidatos...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM candidato");
+    return resultado;
+}
+
+//Listar Um Candidato
+async function listarUmCandidato(usuario_id) {
+    console.log("Listando candidato...");
+
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM candidato WHERE usuario_id=?;", [usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    return resultado[0];
+}
+
 /*
 //<><><><><><><> SEÇÃO VAGAS <><><><><><><><>
 //Inserir Vagas
@@ -80,21 +142,6 @@ async function inserirVagas(vagas) {
 
     const sql = "INSERT INTO vagas(recrutador_id,nome_recrutador,empresa,informacoes,localidade,salario,interesse) VALUES (?,?,?,?,?,?,?)";
     const param = [vagas.recrutador_id, vagas.nome_recrutador, vagas.empresa, vagas.informacoes, vagas.localidade, vagas.salario, vagas.interesses];
-    return await conexao.query(sql, param);
-}
-
-//Alterar Vagas
-async function alterarVagas(vagas) {
-    console.log("Alterando vagas...");
-    const conexao = await conecta();
-    const [resultado] = await conexao.query("SELECT * FROM vagas WHERE id=?;", [vagas.id]);
-
-    if (resultado.length == 0) {
-        return "Id Inexistente!"
-    }
-
-    const sql = "UPDATE vagas SET empresa=?, informacoes=?, localidade=?, salario=?, interesse=? WHERE id=?;";
-    const param = [vagas.empresa, vagas.informacoes, vagas.localidade, vagas.salario, vagas.interesses, vagas.id];
     return await conexao.query(sql, param);
 }
 
@@ -140,16 +187,7 @@ async function listarUmaVagas(id) {
     return resultado[0];
 }
 
-//<><><><><><><> SEÇÃO PERFIL CANDIDATO <><><><><><><><>
-    //Inserir Perfil
-    async function inserirPerfil(perfil) {
-        console.log("Inserindo perfil...");
-        const conexao = await conecta();
 
-        const sql = "INSERT INTO perfil(id_candidato,nome,descricao,formacao,email,localidade,interesse) VALUES (?,?,?,?,?,?,?)";
-        const param = [perfil.id_candidato, perfil.nome, perfil.descricao, perfil.formacao, perfil.email, perfil.localidade, perfil.interesse];
-        return await conexao.query(sql, param);
-    }
 
     //Alterar Vagas
     async function alterarPerfil(perfil) {
@@ -199,6 +237,7 @@ async function listarUmaVagas(id) {
 module.exports = {
     login,
     listarUsuarios, listarUmUsuario, inserirUsuario, excluirUsuario,
+    listarCandidatos, listarUmCandidato, inserirCandidato, excluirCandidato, alterarCandidato
     //listarUmaVagas, listarTodasVagas, inserirVagas, excluirVagas, alterarVagas,
     //listarPerfil, inserirPerfil, excluirPerfil, alterarPerfil
 }
