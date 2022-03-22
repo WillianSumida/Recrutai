@@ -1,3 +1,5 @@
+
+
 //CRIANDO CONEXÃO
 async function conecta() {
     const banco = require("mysql2/promise");
@@ -30,10 +32,15 @@ async function inserirUsuario(usuario) {
     if (resultado.length > 0) {
         return "Login previamente cadastrado!"
     }
-
-    const sql = "INSERT INTO usuario(login,senha,nome,recrutador,cidade,estado,verificado,telefone) VALUES (?,?,?,?,?,?,?,?)";
-    const param = [usuario.login, usuario.senha, usuario.nome, usuario.recrutador, usuario.cidade, usuario.estado, usuario.verificado, usuario.telefone];
-    return await conexao.query(sql, param);
+    try{
+        const sql = "INSERT INTO usuario(login,senha,nome,recrutador,cidade,estado,verificado,telefone) VALUES (?,?,?,?,?,?,?,?)";
+        const param = [usuario.login, usuario.senha, usuario.nome, usuario.recrutador, usuario.cidade, usuario.estado, usuario.verificado, usuario.telefone];
+        return await conexao.query(sql, param);
+    }
+    catch(erro)
+    {
+        return "Erro ao inserir" + erro;
+    }   
 }
 
 //Excluir

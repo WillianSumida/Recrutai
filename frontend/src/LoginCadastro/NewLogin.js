@@ -19,10 +19,10 @@ import styled from "styled-components";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 5 }}>
+    <Typography variant="body2" color="text.primary" align="center" sx={{ mt: 5 }}>
       {'Copyright © '}
       <Link1 color="inherit" href="">
-        Your Website
+        Recrutai
       </Link1>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -112,7 +112,7 @@ export default function SignInSide() {
             <img src={logo} width='40%' height='40%' className='img'/>
 
             <Typography component="h1" variant="h5" color='#8D40C9'>
-              Sign in
+              Acesse sua conta
             </Typography>
             <Box component="form" onSubmit={handleSubmit}  sx={{ mt: 1 }}>
               <CssTextField
@@ -121,7 +121,7 @@ export default function SignInSide() {
                 fullWidth
                 id="login"
                 type="email"
-                label="Email Address"
+                label="Email"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -131,14 +131,13 @@ export default function SignInSide() {
                 required
                 fullWidth
                 name="senha"
-                label="Password"
+                label="Senha"
                 type="password"
                 id="senha"
-                autoComplete="current-password"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label="Lembre-me"
               />
               <ColorButton
                 type="submit"
@@ -146,12 +145,12 @@ export default function SignInSide() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Acessar
               </ColorButton>
               <Grid container>
                 <Grid item>
                   <Link1 href="/newcadastro" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                    {"Não possui uma conta? Cadastre-se"}
                   </Link1>
                 </Grid>
               </Grid>
