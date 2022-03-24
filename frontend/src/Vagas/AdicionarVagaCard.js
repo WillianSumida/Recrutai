@@ -4,19 +4,53 @@ import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import Form from './FormAdicionarVaga'
 
 export default function AdicionarVagaCard() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    minWidth:'80%',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    mx: "auto" ,
+    p: 4,
+    borderRadius: 2
+  };
+
   return (  
     <>
     <Grid item xs={12} sm={6} md={4}>
         <Card minWidth="50%" style={{ height: '100%', backgroundColor:"#E3C9F8" }} align={"center"}>
           <CardHeader
             title="Adicionar uma vaga"/>
-          <IconButton aria-label="Editar vaga">
-              <AddCircleOutlineIcon sx={{ fontSize: 150 }} style={{color:"#8D40C9", opacity:0.2}}  />
+          <IconButton aria-label="Adicionar vaga">
+              <AddCircleOutlineIcon onClick={handleOpen} sx={{ fontSize: 150 }} style={{color:"#8D40C9", opacity:0.2}}  />
           </IconButton>
         </Card>
     </Grid>
+
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} >
+          <Form />
+        </Box>
+      </Modal>
     </>
   );
 }

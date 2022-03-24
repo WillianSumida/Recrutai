@@ -199,6 +199,7 @@ export default function Cadastro() {
               type="submit"
               fullWidth
               variant="contained"
+              size="large"
               sx={{ mt: 3, mb: 2 }}
             >
               Cadastrar
