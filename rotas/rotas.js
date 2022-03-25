@@ -194,14 +194,14 @@ module.exports = app => {
    app.route("/adicionarVaga")
    .all(app.configuracao.passport.authenticate())
    .post([
-        body("id").trim().isLength({ min: 1 }),
+        //body("id").trim().isLength({ min: 1 }),
         body("cargo").trim().isLength({ min: 2, max: 100 }),
         body("descricao").trim().isLength({ min: 0, max: 255 }),
         body("salario").trim().isLength({ min: 2, max: 10 }),
-        body("tipo").trim().isLength({ min: 2, max: 100 }),
-        body("tag1").trim().isLength({ min: 2, max: 100 }),
-        body("tag2").trim().isLength({ min: 2, max: 100 }),
-        body("tag3").trim().isLength({ min: 2, max: 100 }),
+        body("tipo").trim().isLength({ min: 0, max: 100 }),
+        body("tag1").trim().isLength({ min: 0, max: 100 }),
+        body("tag2").trim().isLength({ min: 0, max: 100 }),
+        body("tag3").trim().isLength({ min: 0, max: 100 }),
         body("cidade").trim().isLength({ min: 1, max: 100 }),
         body("estado").trim().isLength({ min: 0, max: 2 }),
         body("ativo").trim(),
@@ -214,7 +214,7 @@ module.exports = app => {
                res.send(erro.array())
            } else {
                const resultado = await banco.inserirVaga({
-                id: req.body.id,
+                //id: req.body.id,
                 cargo: req.body.cargo,
                 descricao: req.body.descricao,
                 salario: req.body.salario,
@@ -224,7 +224,7 @@ module.exports = app => {
                 tag3: req.body.tag3,
                 cidade: req.body.cidade,
                 estado: req.body.estado, 
-                ativo: req.body.ativo, 
+                ativo: true, 
                 quantidade: req.body.quantidade, 
                 recrutador_usuario_id: req.body.recrutador_usuario_id
                });

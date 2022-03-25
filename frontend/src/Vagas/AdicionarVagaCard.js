@@ -21,12 +21,16 @@ export default function AdicionarVagaCard() {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     minWidth:'80%',
+    maxWidth:'100%',
+    maxHeight:'80%',
+    overflow:'scroll',
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '1px solid #8D40C9',
     boxShadow: 24,
     mx: "auto" ,
     p: 4,
-    borderRadius: 2
+    borderRadius: 2,
+    mt:3
   };
 
   return (  
