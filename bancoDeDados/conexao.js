@@ -146,8 +146,8 @@ async function inserirVaga(vaga) {
     console.log("Inserindo vaga...");
     const conexao = await conecta();
 
-    const sql = "INSERT INTO vaga(id,cargo,descricao,salario,tipo,tag1,tag2,tag3,cidade,estado,ativo,quantidade,recrutador_usuario_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    const param = [vaga.id,vaga.cargo,vaga.descricao,vaga.salario,vaga.tipo,vaga.tag1,vaga.tag2,vaga.tag3,vaga.cidade,vaga.estado,vaga.ativo,vaga.quantidade,vaga.recrutador_usuario_id];
+    const sql = "INSERT INTO vaga(cargo,descricao,salario,tipo,tag1,tag2,tag3,cidade,estado,ativo,quantidade,recrutador_usuario_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+    const param = [vaga.cargo,vaga.descricao,vaga.salario,vaga.tipo,vaga.tag1,vaga.tag2,vaga.tag3,vaga.cidade,vaga.estado,vaga.ativo,vaga.quantidade,vaga.recrutador_usuario_id];
     return await conexao.query(sql, param);
 }
 

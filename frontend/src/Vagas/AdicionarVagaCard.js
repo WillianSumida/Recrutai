@@ -1,19 +1,24 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+//import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import Form from './FormAdicionarVaga'
+//import Modal from '@mui/material/Modal';
+import FormAdicionarVaga from './FormAdicionarVaga';
+import { Modal, Button} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 export default function AdicionarVagaCard() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const style = {
     position: 'absolute',
@@ -40,20 +45,13 @@ export default function AdicionarVagaCard() {
           <CardHeader
             title="Adicionar uma vaga"/>
           <IconButton aria-label="Adicionar vaga">
-              <AddCircleOutlineIcon onClick={handleOpen} sx={{ fontSize: 150 }} style={{color:"#8D40C9", opacity:0.2}}  />
+              <AddCircleOutlineIcon onClick={handleShow} sx={{ fontSize: 150 }} style={{color:"#8D40C9", opacity:0.2}}  />
           </IconButton>
         </Card>
     </Grid>
 
-    <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} >
-          <Form />
-        </Box>
+      <Modal centered={true} show={show} size={'xl'} scrollable={true} onHide={handleClose}>
+        <FormAdicionarVaga/>
       </Modal>
     </>
   );

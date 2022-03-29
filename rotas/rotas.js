@@ -211,24 +211,30 @@ module.exports = app => {
            const erro = validationResult(req);
 
            if (!erro.isEmpty()) {
+                console.log(erro);
                res.send(erro.array())
            } else {
-               const resultado = await banco.inserirVaga({
-                //id: req.body.id,
-                cargo: req.body.cargo,
-                descricao: req.body.descricao,
-                salario: req.body.salario,
-                tipo: req.body.tipo,
-                tag1: req.body.tag1,
-                tag2: req.body.tag2,
-                tag3: req.body.tag3,
-                cidade: req.body.cidade,
-                estado: req.body.estado, 
-                ativo: true, 
-                quantidade: req.body.quantidade, 
-                recrutador_usuario_id: req.body.recrutador_usuario_id
-               });
-               res.send(resultado);
+               try{
+                    const resultado = await banco.inserirVaga({
+                        //id: req.body.id,
+                        cargo: req.body.cargo,
+                        descricao: req.body.descricao,
+                        salario: req.body.salario,
+                        tipo: req.body.tipo,
+                        tag1: req.body.tag1,
+                        tag2: req.body.tag2,
+                        tag3: req.body.tag3,
+                        cidade: req.body.cidade,
+                        estado: req.body.estado, 
+                        ativo: true, 
+                        quantidade: req.body.quantidade, 
+                        recrutador_usuario_id: req.body.recrutador_usuario_id
+                    });
+                    res.send(resultado);
+                }
+                catch{
+                    console.log("Erro.");
+                }
            }
        });
 
@@ -293,6 +299,7 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
             const resultado = await banco.listarVagas();
+            console.log(resultado);
             res.send(resultado);
         });
 

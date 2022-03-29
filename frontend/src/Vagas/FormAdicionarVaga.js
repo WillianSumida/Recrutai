@@ -1,19 +1,9 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import styled from "styled-components";
-import MenuItem from '@mui/material/MenuItem';
+import { Button, Form, Row, Col, Modal} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 
 const theme = createTheme();
@@ -48,173 +38,145 @@ export default function AddVaga() {
     { 'value': 'Sergipe' },
     { 'value': 'Tocantins' },
   ];
-  
 
-
-
-
-
+  //let [lista, setLista] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    const Usuario = {
-      login: data.get('email'),
-      nome: data.get('firstName'),
-      senha: data.get('senha'),
-      recrutador: data.get('tipo'),
+    const Vaga = {
+      cargo: data.get('cargo'),
+      descricao: data.get('descricao'),
+      salario: data.get('salario'),
+      tipo: data.get('tipo'),
+      tag1: data.get('tag1'),
+      tag2: data.get('tag2'),
+      tag3: data.get('tag3'),
+      cidade: data.get('cidade'),
+      estado: 'MG',
+      quantidade: data.get('quantidade'),
+      ativo: true,
+      recrutador_usuario_id: 16
     };
+
+    (async() => {
+      const resposta = await fetch("http://localhost:8080/adicionarVaga", {
+        method: "POST",
+        headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTYsIm5vbWUiOiJKdWJpbGV1IiwiaWF0IjoxNjQ4NTE1NjEyLCJleHAiOjExODY5MzEyNDA2NDAwfQ.dKgjLPdb2noXxneRKtsVkxJHnafr1PJnKc9Nu7xfL4s'},
+        body: JSON.stringify(Vaga)
+      });
+  
+      var respostaJson = await resposta.json();
+      
+    })();
+
+    /*(async () => {
+      alert("AAAAAAAAAAAA");
+      const response = await fetch("http://localhost:8080/listarVagas", {
+          method: "GET",
+          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTYsIm5vbWUiOiJKdWJpbGV1IiwiaWF0IjoxNjQ4NTE1NjEyLCJleHAiOjExODY5MzEyNDA2NDAwfQ.dKgjLPdb2noXxneRKtsVkxJHnafr1PJnKc9Nu7xfL4s'}
+      })
+
+      var respostaJson = await response.json();
+      setLista(respostaJson);
+      console.log(lista);
+    })();*/
   }
 
-  const CssTextField = styled(TextField)({
-    '& label.Mui-focused': {
-      color: '#8D40C9',
-    },
-    '& .MuiInput-underline:after': {
-      color: '#8D40C9',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#8D40C9',
-      },
-      '&:hover fieldset': {
-        borderColor: '#8D40C9',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#8D40C9',
-      },
-    },
-  });
-  
-  const ColorButton = styled(Button)(({ theme }) => ({
-    color: "white",
-    backgroundColor: "#8D40C9",
-    '&:hover': {
-      backgroundColor: "#8D40C9",
-    },
-  }));
 
   return (
     <>
-    <ThemeProvider theme={theme}>
-      <Container component="main" >
-        <Typography  sx={{marginBottom: 3 , color:"#8D40C9"}} id="modal-modal-title" variant="h6" component="h2">
-            Adicionar Vaga
-        </Typography>
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 0,
-            p: 'auto',
-            m: 'auto',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <CssTextField
+      <Modal.Header closeButton>
+          <Modal.Title>Adicionar Vaga</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Cargo</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Cargo"
               name="cargo"
+              minLength="2"
+              maxLength="100"
+              autoFocus
               required
-              fullWidth
-              id="cargo"
-              label="Cargo"
             />
-             <CssTextField
-              name="descricao"
-              required
-              fullWidth
-              id="descricao"
-              label="Descricao"
-              margin="normal"
-            />
-             <CssTextField
-              type='number'
-              required
-              fullWidth
-              id="salario"
-              label="Salario"
-              margin="normal"
-            />
-             <CssTextField
-              name="tipo"
-              required
-              fullWidth
-              id="tipo"
-              label="Tipo"
-              margin="normal"
-            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Descrição da vaga</Form.Label>
+            <Form.Control as="textarea" name="descricao" placeholder='Essa vaga possui...' maxLength="255" rows={3}/>
+          </Form.Group>
 
-            
-             <CssTextField
-              name="tag1"
-              required
-              fullWidth
-              id="tag1"
-              label="Tag1"
-              margin="normal"
-            />
-             <CssTextField
-              name="tag2"
-              required
-              fullWidth
-              id="tag2"
-              label="Tag2"
-              margin="normal"
-            />
-             <CssTextField
-              name="tag3"
-              required
-              fullWidth
-              id="tag3"
-              label="Tag3"
-              margin="normal"
-            />
-              <CssTextField
-                  select
-                  name="estado"
-                  label="Estado *"
-                  fullWidth
-                  margin="normal"
-                >
+          <Row>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Salário</Form.Label>
+                <Form.Control type="number" step=".01" name="salario" placeholder='0,00' required/>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Tipo</Form.Label>
+                <Form.Select name="tipo" >
+                  <option selected value="presencial">Presencial</option>
+                  <option value="remoto">Remoto</option>
+                </Form.Select>
+              </Form.Group>
+              </Col>
+          </ Row>
+
+          <Row>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Habilidade 1</Form.Label>
+                <Form.Control type="text" name="tag1" placeholder='Java'/>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Habilidade 2</Form.Label>
+                <Form.Control type="text" name="tag2" placeholder='C#'/>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Habilidade 3</Form.Label>
+                <Form.Control type="text" name="tag3" placeholder='SQL'/>
+              </Form.Group>
+            </Col>
+          </ Row>
+
+          <Row>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Estado</Form.Label>
+                <Form.Select name="estado" >
                 {estados.map((estado) => (
-                    <MenuItem key={estado.value} value={estado.value}>
-                      {estado.value}
-                    </MenuItem>
-                  ))}
-                </CssTextField>
+                          <option value={estado.value}>{estado.value}</option>
+                ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Cidade</Form.Label>
+                <Form.Control type="text" name="cidade" placeholder='São Carlos' required/>
+              </Form.Group>
+            </Col>
+          </Row>
+          
+          <Form.Group className="mb-3">
+            <Form.Label>Quantidade</Form.Label>
+            <Form.Control type="number" name="quantidade" placeholder='10' required/>
+          </Form.Group>
 
-             <CssTextField
-              name="cidade"
-              required
-              fullWidth
-              id="cidade"
-              label="Cidade "
-              margin="normal"
-            />
-             <CssTextField
-              name="quantidade"
-              required
-              type='number'
-              fullWidth
-              id="quantidade"
-              label="Qtde Vagas "
-              margin="normal"
-            />
-
-            <ColorButton
-              type="submit"
-              fullWidth
-              variant="contained"
-              size="large"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Adicionar Vaga
-            </ColorButton>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+          <Modal.Footer>
+            <Button type='submit' style={{backgroundColor: '#8D40C9' }}>Adicionar vaga!</Button>
+          </Modal.Footer>
+        </Form>
+      </Modal.Body>
     </>
   );
 }
