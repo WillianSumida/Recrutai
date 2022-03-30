@@ -25,7 +25,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function RecipeReviewCard() {
+export default (props) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -36,18 +36,16 @@ export default function RecipeReviewCard() {
     <>
     <Grid item xs={12} sm={6} md={4}>
       <Badge color="warning" badgeContent="999+">
-        <Card minWidth="50%">
+        <Card>
           <CardHeader
             action={<IconButton aria-label="settings">
               <MoreVertIcon />
             </IconButton>}
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016" />
+            title={props.vaga.cargo.toUpperCase()}
+            subheader={props.vaga.tag1.toLowerCase() + " " + props.vaga.tag2.toLowerCase() + " " + props.vaga.tag3.toLowerCase()} />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              This impressive paella is a perfect party dish and a fun meal to cook
-              together with your guests. Add 1 cup of frozen peas along with the mussels,
-              if you like.
+            {props.vaga.descricao}
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
@@ -68,10 +66,17 @@ export default function RecipeReviewCard() {
           </CardActions>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography paragraph>Method:</Typography>
               <Typography paragraph>
-                Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-                aside for 10 minutes.
+                Salario: {props.vaga.salario}
+              </Typography>
+              <Typography paragraph>
+                Tipo: {props.vaga.tipo}
+              </Typography>
+              <Typography paragraph>
+                Localização: {props.vaga.estado + " - " + props.vaga.cidade }
+              </Typography>
+              <Typography paragraph>
+                Tipo: {props.vaga.tipo}
               </Typography>
             </CardContent>
           </Collapse>

@@ -39,8 +39,6 @@ export default function AddVaga() {
     { 'value': 'Tocantins' },
   ];
 
-  //let [lista, setLista] = useState([]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -57,31 +55,21 @@ export default function AddVaga() {
       estado: 'MG',
       quantidade: data.get('quantidade'),
       ativo: true,
-      recrutador_usuario_id: 16
+      recrutador_usuario_id: 2
     };
 
     (async() => {
       const resposta = await fetch("http://localhost:8080/adicionarVaga", {
         method: "POST",
-        headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTYsIm5vbWUiOiJKdWJpbGV1IiwiaWF0IjoxNjQ4NTE1NjEyLCJleHAiOjExODY5MzEyNDA2NDAwfQ.dKgjLPdb2noXxneRKtsVkxJHnafr1PJnKc9Nu7xfL4s'},
+        headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg2NzcyNzgsImV4cCI6MTE4NzA0NzY0MDE2MDB9.oo_v_YWaa-rLd3Ag7zqbE5sRWaxFq9Ru6u_uEl7SKgY'},
         body: JSON.stringify(Vaga)
       });
   
-      var respostaJson = await resposta.json();
-      
+      var respostaJson = await resposta.json(); 
+    
     })();
 
-    /*(async () => {
-      alert("AAAAAAAAAAAA");
-      const response = await fetch("http://localhost:8080/listarVagas", {
-          method: "GET",
-          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTYsIm5vbWUiOiJKdWJpbGV1IiwiaWF0IjoxNjQ4NTE1NjEyLCJleHAiOjExODY5MzEyNDA2NDAwfQ.dKgjLPdb2noXxneRKtsVkxJHnafr1PJnKc9Nu7xfL4s'}
-      })
-
-      var respostaJson = await response.json();
-      setLista(respostaJson);
-      console.log(lista);
-    })();*/
+    
   }
 
 
