@@ -10,33 +10,33 @@ const theme = createTheme();
 
 export default function AddVaga() {
   const estados = [
-    { 'value': 'Acre' },
-    { 'value': 'Alagoas' },
-    { 'value': 'Amapá' },
-    { 'value': 'Amazonas' },
-    { 'value': 'Bahia' },
-    { 'value': 'Ceará' },
-    { 'value': 'Distrito Federal' },
-    { 'value': 'Espírito Santo' },
-    { 'value': 'Goías' },
-    { 'value': 'Maranhão' },
-    { 'value': 'Mato Grosso' },
-    { 'value': 'Mato Grosso do Sul' },
-    { 'value': 'Minas Gerais' },
-    { 'value': 'Pará' },
-    { 'value': 'Paraíba' },
-    { 'value': 'Paraná' },
-    { 'value': 'Pernambuco' },
-    { 'value': 'Piauí' },
-    { 'value': 'Rio de Janeiro' },
-    { 'value': 'Rio Grande do Norte' },
-    { 'value': 'Rio Grande do Sul' },
-    { 'value': 'Rondônia' },
-    { 'value': 'Roraíma' },
-    { 'value': 'Santa Catarina' },
-    { 'value': 'São Paulo' },
-    { 'value': 'Sergipe' },
-    { 'value': 'Tocantins' },
+    {"nome": "Acre", "sigla": "AC"},
+    {"nome": "Alagoas", "sigla": "AL"},
+    {"nome": "Amapá", "sigla": "AP"},
+    {"nome": "Amazonas", "sigla": "AM"},
+    {"nome": "Bahia", "sigla": "BA"},
+    {"nome": "Ceará", "sigla": "CE"},
+    {"nome": "Distrito Federal", "sigla": "DF"},
+    {"nome": "Espírito Santo", "sigla": "ES"},
+    {"nome": "Goiás", "sigla": "GO"},
+    {"nome": "Maranhão", "sigla": "MA"},
+    {"nome": "Mato Grosso", "sigla": "MT"},
+    {"nome": "Mato Grosso do Sul", "sigla": "MS"},
+    {"nome": "Minas Gerais", "sigla": "MG"},
+    {"nome": "Pará", "sigla": "PA"},
+    {"nome": "Paraíba", "sigla": "PB"},
+    {"nome": "Paraná", "sigla": "PR"},
+    {"nome": "Pernambuco", "sigla": "PE"},
+    {"nome": "Piauí", "sigla": "PI"},
+    {"nome": "Rio de Janeiro", "sigla": "RJ"},
+    {"nome": "Rio Grande do Norte", "sigla": "RN"},
+    {"nome": "Rio Grande do Sul", "sigla": "RS"},
+    {"nome": "Rondônia", "sigla": "RO"},
+    {"nome": "Roraima", "sigla": "RR"},
+    {"nome": "Santa Catarina", "sigla": "SC"},
+    {"nome": "São Paulo", "sigla": "SP"},
+    {"nome": "Sergipe", "sigla": "SE"},
+    {"nome": "Tocantins", "sigla": "TO"}
   ];
 
   const handleSubmit = (event) => {
@@ -52,7 +52,7 @@ export default function AddVaga() {
       tag2: data.get('tag2'),
       tag3: data.get('tag3'),
       cidade: data.get('cidade'),
-      estado: 'MG',
+      estado: data.get('estado'),
       quantidade: data.get('quantidade'),
       ativo: true,
       recrutador_usuario_id: 2
@@ -142,7 +142,7 @@ export default function AddVaga() {
                 <Form.Label>Estado</Form.Label>
                 <Form.Select name="estado" >
                 {estados.map((estado) => (
-                          <option value={estado.value}>{estado.value}</option>
+                          <option value={estado.sigla}>{estado.nome}</option>
                 ))}
                 </Form.Select>
               </Form.Group>

@@ -32,6 +32,17 @@ export default (props) => {
     setExpanded(!expanded);
   };
 
+/*   function deleteVaga(id){
+    (async() => {
+      const resposta = await fetch("http://localhost:8080/excluirVaga/"+id, {
+        method: "DELETE",
+        headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg2NzcyNzgsImV4cCI6MTE4NzA0NzY0MDE2MDB9.oo_v_YWaa-rLd3Ag7zqbE5sRWaxFq9Ru6u_uEl7SKgY'},
+      });
+  
+      var respostaJson = await resposta.json(); 
+    })();
+  }
+ */
   return (  
     <>
     <Grid item xs={12} sm={6} md={4}>
@@ -50,7 +61,7 @@ export default (props) => {
           </CardContent>
           <CardActions disableSpacing>
             <IconButton aria-label="Remover vaga">
-              <DeleteIcon />
+              <DeleteIcon/>
             </IconButton>
             <IconButton aria-label="Editar vaga">
               <EditIcon />
