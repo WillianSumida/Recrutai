@@ -298,9 +298,13 @@ module.exports = app => {
     app.route("/listarVagas")
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
+            try{
             const resultado = await banco.listarVagas();
             console.log(resultado);
             res.send(resultado);
+            }catch{
+
+            }
         });
 
     //Listar Uma Vaga

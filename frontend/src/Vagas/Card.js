@@ -12,7 +12,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Badge from '@mui/material/Badge';
-import Grid from '@mui/material/Grid';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -45,9 +44,8 @@ export default (props) => {
  */
   return (  
     <>
-    <Grid item xs={12} sm={6} md={4}>
       <Badge color="warning" badgeContent="999+">
-        <Card>
+        <Card sx={{maxWidth:'22rem', minWidth:'22rem', minHeight:'14.5rem'}}>
           <CardHeader
             action={<IconButton aria-label="settings">
               <MoreVertIcon />
@@ -56,9 +54,10 @@ export default (props) => {
             subheader={props.vaga.tag1.toLowerCase() + " " + props.vaga.tag2.toLowerCase() + " " + props.vaga.tag3.toLowerCase()} />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-            {props.vaga.descricao}
+              {props.vaga.descricao}
             </Typography>
           </CardContent>
+          <br/><br/>
           <CardActions disableSpacing>
             <IconButton aria-label="Remover vaga">
               <DeleteIcon/>
@@ -93,7 +92,6 @@ export default (props) => {
           </Collapse>
         </Card>
       </Badge>
-    </Grid>
     </>
   );
 }
