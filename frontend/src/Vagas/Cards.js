@@ -12,7 +12,7 @@ export default function Cards(){
     console.log('entrou');
     fetch("http://localhost:8080/listarVagas", {
           method: "GET",
-          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg3NjE5MzgsImV4cCI6MTE4NzEwODU5NTM2MDB9.AK-DuxJMfresK2rPYRAO9_zfhkUEVhHtYMa4KisL1lk'}
+          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'}
       }).then(res=> {
         return res.json();
       }).then(data=>{

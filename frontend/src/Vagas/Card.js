@@ -12,6 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Badge from '@mui/material/Badge';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -24,6 +26,17 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+function deleteVaga(id){
+  (async() => {
+    const resposta = await fetch("http://localhost:8080/excluirVaga/"+id, {
+      method: "DELETE",
+      headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg2NzcyNzgsImV4cCI6MTE4NzA0NzY0MDE2MDB9.oo_v_YWaa-rLd3Ag7zqbE5sRWaxFq9Ru6u_uEl7SKgY'},
+    });
+
+    var respostaJson = await resposta.json(); 
+  })();
+}
+
 export default (props) => {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -31,17 +44,6 @@ export default (props) => {
     setExpanded(!expanded);
   };
 
-/*   function deleteVaga(id){
-    (async() => {
-      const resposta = await fetch("http://localhost:8080/excluirVaga/"+id, {
-        method: "DELETE",
-        headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg2NzcyNzgsImV4cCI6MTE4NzA0NzY0MDE2MDB9.oo_v_YWaa-rLd3Ag7zqbE5sRWaxFq9Ru6u_uEl7SKgY'},
-      });
-  
-      var respostaJson = await resposta.json(); 
-    })();
-  }
- */
   return (  
     <>
       <Badge color="warning" badgeContent="999+">
@@ -51,9 +53,17 @@ export default (props) => {
               <MoreVertIcon />
             </IconButton>}
             title={props.vaga.cargo.toUpperCase()}
-            subheader={props.vaga.tag1.toLowerCase() + " " + props.vaga.tag2.toLowerCase() + " " + props.vaga.tag3.toLowerCase()} />
+            subheader= 'Março, 03, 2022'/>
+              
           <CardContent>
             <Typography variant="body2" color="text.secondary">
+            <Stack direction="row" spacing={1}>
+              <Chip label={props.vaga.tag1.toUpperCase()} clickable={true} />
+              <Chip label={props.vaga.tag2.toUpperCase()} clickable={true} />
+              <Chip label={props.vaga.tag3.toUpperCase()} clickable={true} />
+            </Stack>
+            </Typography>
+            <Typography>
               {props.vaga.descricao}
             </Typography>
           </CardContent>
@@ -77,16 +87,16 @@ export default (props) => {
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>
-                Salario: {props.vaga.salario}
+                <strong>Salario</strong>: {props.vaga.salario}
               </Typography>
               <Typography paragraph>
-                Tipo: {props.vaga.tipo}
+                <strong>Tipo</strong>: {props.vaga.tipo}
               </Typography>
               <Typography paragraph>
-                Localização: {props.vaga.estado + " - " + props.vaga.cidade }
+              <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade }
               </Typography>
               <Typography paragraph>
-                Tipo: {props.vaga.tipo}
+              <strong>Vagas</strong>: {props.vaga.quantidade}
               </Typography>
             </CardContent>
           </Collapse>

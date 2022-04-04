@@ -41,7 +41,7 @@ export default function AdicionarVagaCard() {
   return (  
     <>
     <Grid item xs={12} sm={6} md={4}>
-        <Card sx={{maxWidth:'22rem', minWidth:'22rem', minHeight:'15.2rem'}} style={{backgroundColor:"#E3C9F8" }} align={"center"}>
+        <Card sx={{maxWidth:'22rem', minWidth:'22rem', minHeight:'16rem'}} style={{backgroundColor:"#E3C9F8" }} align={"center"}>
           <CardHeader
             title="Adicionar uma vaga"/>
           <IconButton aria-label="Adicionar vaga">
