@@ -14,6 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Badge from '@mui/material/Badge';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import {Row, Col} from 'react-bootstrap';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -46,8 +47,8 @@ export default (props) => {
 
   return (  
     <>
-      <Badge color="warning" badgeContent="999+">
-        <Card sx={{maxWidth:'22rem', minWidth:'22rem', minHeight:'14.5rem'}}>
+      <Badge color="warning" large badgeContent={props.vaga.quantidade}>
+        <Card sx={{maxWidth:'21rem', minWidth:'21rem', minHeight:'14.5rem'}}>
           <CardHeader
             action={<IconButton aria-label="settings">
               <MoreVertIcon />
@@ -62,12 +63,37 @@ export default (props) => {
               <Chip label={props.vaga.tag2.toUpperCase()} clickable={true} />
               <Chip label={props.vaga.tag3.toUpperCase()} clickable={true} />
             </Stack>
-            </Typography>
-            <Typography>
-              {props.vaga.descricao}
-            </Typography>
-          </CardContent>
-          <br/><br/>
+            </Typography><br></br>
+
+            <Row>
+              <Col>
+              <Typography>
+                  <strong>Salario</strong>: {props.vaga.salario}
+              </Typography>                   
+              </Col>
+              <Col>
+              <Typography>
+                <strong>Tipo</strong>: {props.vaga.tipo}
+              </Typography>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Typography >
+                <strong>Vagas</strong>: {props.vaga.quantidade}
+                </Typography>
+              </Col>
+              <Col>
+                <Typography>
+                <strong>Nível</strong>: 'Pleno'
+                </Typography>
+              </Col>
+            </Row>
+
+              <Typography paragraph><br/>
+              <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade }
+              </Typography>
+            </CardContent>
           <CardActions disableSpacing>
             <IconButton aria-label="Remover vaga">
               <DeleteIcon/>
@@ -87,16 +113,7 @@ export default (props) => {
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>
-                <strong>Salario</strong>: {props.vaga.salario}
-              </Typography>
-              <Typography paragraph>
-                <strong>Tipo</strong>: {props.vaga.tipo}
-              </Typography>
-              <Typography paragraph>
-              <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade }
-              </Typography>
-              <Typography paragraph>
-              <strong>Vagas</strong>: {props.vaga.quantidade}
+                {props.vaga.descricao}
               </Typography>
             </CardContent>
           </Collapse>

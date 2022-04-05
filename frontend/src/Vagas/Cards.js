@@ -23,10 +23,10 @@ export default function Cards(){
   return (  
     <>
         <Container sx={{ py: 8 }} >
-            <Grid container spacing={4} alignItems="stretch">
+            <Grid container sx={{mx:'1rem'}}>
                 <AddVaga></AddVaga>
                 {lista.map((vagaObjeto) => (
-                  <Grid item xs={12} sm={6} md={4}>
+                  <Grid item xs={12} sm={6} md={4} sx={{mb:'2rem'}} >
                     <Card vaga={vagaObjeto}/>
                   </Grid>
                 ))}
