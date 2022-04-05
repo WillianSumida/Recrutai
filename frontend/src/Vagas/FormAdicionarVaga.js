@@ -91,24 +91,24 @@ export default function AddVaga(props) {
       //props.vaga.nivel = '';
       vaga.descricao = 'Essa vaga é ...';
       vaga.salario = '0,00';
-      //props.vaga.tipo = '';
+      vaga.tipo = '';
       vaga.tag1 = 'Java';
       vaga.tag2 = 'C#';
       vaga.tag3 = 'PHP';
       vaga.cidade = 'São Carlos';
-      //props.vaga.estado = '';
+      vaga.estado = '';
       vaga.quantidade = '10';
   }else{
       vaga.cargo = props.vaga.cargo;
       //props.vaga.nivel = '';
       vaga.descricao = props.vaga.descricao;
       vaga.salario = props.vaga.salario;
-      //props.vaga.tipo = '';
+      vaga.tipo = props.vaga.tipo;
       vaga.tag1 =props.vaga.tag1;
       vaga.tag2 = props.vaga.tag2;
       vaga.tag3 = props.vaga.tag3;
       vaga.cidade = props.vaga.cidade;
-      //props.vaga.estado = '';
+      vaga.estado = props.vaga.estado;
       vaga.quantidade = props.vaga.quantidade;
   }
 
@@ -141,7 +141,7 @@ export default function AddVaga(props) {
               <Form.Group className="mb-3">
                 <Form.Label>Nível</Form.Label>
                 <Form.Select name="nivel" >
-                  <option selected value="estagio">Estagio</option>
+                  <option value="estagio" selected>Estagio</option>
                   <option value="junior">Junior</option>
                   <option value="pleno">Pleno</option>
                   <option value="senior">Senior</option>
@@ -151,8 +151,8 @@ export default function AddVaga(props) {
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Tipo</Form.Label>
-                <Form.Select name="tipo" >
-                  <option selected value="presencial">Presencial</option>
+                <Form.Select name="tipo" defaultValue={vaga.tipo}>
+                  <option value="presencial">Presencial</option>
                   <option value="remoto">Remoto</option>
                 </Form.Select>
               </Form.Group>
@@ -184,7 +184,7 @@ export default function AddVaga(props) {
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Estado</Form.Label>
-                <Form.Select name="estado" >
+                <Form.Select name="estado" defaultValue={vaga.estado}>
                 {estados.map((estado) => (
                           <option value={estado.sigla}>{estado.nome}</option>
                 ))}
