@@ -51,7 +51,7 @@ export default function AdicionarVagaCard() {
     </Grid>
 
       <Modal centered={true} show={show} size={'xl'} scrollable={true} onHide={handleClose}>
-        <FormAdicionarVaga/>
+        <FormAdicionarVaga title='Adicionar Vaga'/>
       </Modal>
     </>
   );

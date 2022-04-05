@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -15,6 +16,8 @@ import Badge from '@mui/material/Badge';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import {Row, Col} from 'react-bootstrap';
+import FormAdicionarVaga from './FormAdicionarVaga';
+import { Modal, Button} from 'react-bootstrap';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -27,8 +30,13 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+
 export default (props) => {
   const [expanded, setExpanded] = React.useState(false);
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -99,7 +107,7 @@ export default (props) => {
               <DeleteIcon onClick={deletarVaga}/>
             </IconButton>
             <IconButton aria-label="Editar vaga">
-              <EditIcon />
+              <EditIcon onClick={handleShow}/>
             </IconButton>
             <ExpandMore
               expand={expanded}
@@ -119,6 +127,10 @@ export default (props) => {
           </Collapse>
         </Card>
       </Badge>
+
+      <Modal centered={true} show={show} size={'xl'} scrollable={true} onHide={handleClose}>
+        <FormAdicionarVaga title='Alterar Vaga' vaga={props.vaga}/>
+      </Modal>
     </>
   );
 }

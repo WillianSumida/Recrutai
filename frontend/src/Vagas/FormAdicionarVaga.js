@@ -8,7 +8,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 
 const theme = createTheme();
 
-export default function AddVaga() {
+export default function AddVaga(props) {
   const estados = [
     {"nome": "Acre", "sigla": "AC"},
     {"nome": "Alagoas", "sigla": "AL"},
@@ -55,29 +55,67 @@ export default function AddVaga() {
       estado: data.get('estado'),
       quantidade: data.get('quantidade'),
       //nivel: data.get('nivel'),
-      ativo: true,
+      ativo: 0,
       recrutador_usuario_id: 2
     };
 
-    (async() => {
-      const resposta = await fetch("http://localhost:8080/adicionarVaga", {
-        method: "POST",
-        headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
-        body: JSON.stringify(Vaga)
-      });
-  
-      var respostaJson = await resposta.json(); 
+    if (props.title == 'Adicionar Vaga'){
+      (async() => {
+        const resposta = await fetch("http://localhost:8080/adicionarVaga", {
+          method: "POST",
+          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
+          body: JSON.stringify(Vaga)
+        });
     
-    })();
-
-    
+        var respostaJson = await resposta.json(); 
+      
+      })();
+    }else{
+        Vaga.id = props.vaga.id;
+        (async() => {
+          const resposta = await fetch("http://localhost:8080/alterarVaga", {
+            method: "PUT",
+            headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
+            body: JSON.stringify(Vaga)
+          });
+      
+          var respostaJson = await resposta.json(); 
+      })();
+    }
   }
 
+  const vaga ={};
+  if (props.title === 'Adicionar Vaga'){
+    console.log('ENTROU NO ALTERAR PROPS');
+      vaga.cargo = 'cargo';
+      //props.vaga.nivel = '';
+      vaga.descricao = 'Essa vaga é ...';
+      vaga.salario = '0,00';
+      //props.vaga.tipo = '';
+      vaga.tag1 = 'Java';
+      vaga.tag2 = 'C#';
+      vaga.tag3 = 'PHP';
+      vaga.cidade = 'São Carlos';
+      //props.vaga.estado = '';
+      vaga.quantidade = '10';
+  }else{
+      vaga.cargo = props.vaga.cargo;
+      //props.vaga.nivel = '';
+      vaga.descricao = props.vaga.descricao;
+      vaga.salario = props.vaga.salario;
+      //props.vaga.tipo = '';
+      vaga.tag1 =props.vaga.tag1;
+      vaga.tag2 = props.vaga.tag2;
+      vaga.tag3 = props.vaga.tag3;
+      vaga.cidade = props.vaga.cidade;
+      //props.vaga.estado = '';
+      vaga.quantidade = props.vaga.quantidade;
+  }
 
   return (
     <>
       <Modal.Header closeButton>
-          <Modal.Title>Adicionar Vaga</Modal.Title>
+          <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -85,7 +123,7 @@ export default function AddVaga() {
             <Form.Label>Cargo</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Cargo"
+              placeholder={vaga.cargo}
               name="cargo"
               minLength="2"
               maxLength="100"
@@ -95,7 +133,7 @@ export default function AddVaga() {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Descrição da vaga</Form.Label>
-            <Form.Control as="textarea" name="descricao" placeholder='Essa vaga possui...' maxLength="255" rows={3}/>
+            <Form.Control as="textarea" name="descricao" placeholder={vaga.descricao} maxLength="255" rows={3}/>
           </Form.Group>
 
           <Row>
@@ -125,19 +163,19 @@ export default function AddVaga() {
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Habilidade 1</Form.Label>
-                <Form.Control type="text" name="tag1" placeholder='Java'/>
+                <Form.Control type="text" name="tag1" placeholder={vaga.tag1}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Habilidade 2</Form.Label>
-                <Form.Control type="text" name="tag2" placeholder='C#'/>
+                <Form.Control type="text"  name="tag2" placeholder={vaga.tag2}/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Habilidade 3</Form.Label>
-                <Form.Control type="text" name="tag3" placeholder='SQL'/>
+                <Form.Control type="text" name="tag3" placeholder={vaga.tag3}/>
               </Form.Group>
             </Col>
           </ Row>
@@ -156,7 +194,7 @@ export default function AddVaga() {
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Cidade</Form.Label>
-                <Form.Control type="text" name="cidade" placeholder='São Carlos' required/>
+                <Form.Control type="text" name="cidade" placeholder={vaga.cidade} required/>
               </Form.Group>
             </Col>
           </Row>
@@ -165,20 +203,20 @@ export default function AddVaga() {
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Salário</Form.Label>
-                <Form.Control type="number" step=".01" name="salario" placeholder='0,00' required/>
+                <Form.Control type="number" step=".01" name="salario" placeholder={vaga.salario} required/>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Quantidade</Form.Label>
-                <Form.Control type="number" name="quantidade" placeholder='10' required/>
+                <Form.Control type="number" name="quantidade" placeholder={vaga.quantidade} required/>
               </Form.Group>
             </Col>
           </Row>
           
 
           <Modal.Footer>
-            <Button type='submit' style={{backgroundColor: '#8D40C9' }}>Adicionar vaga!</Button>
+            <Button type='submit' style={{backgroundColor: '#8D40C9' }}>{props.title}</Button>
           </Modal.Footer>
         </Form>
       </Modal.Body>
