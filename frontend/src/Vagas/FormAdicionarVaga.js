@@ -54,6 +54,7 @@ export default function AddVaga() {
       cidade: data.get('cidade'),
       estado: data.get('estado'),
       quantidade: data.get('quantidade'),
+      //nivel: data.get('nivel'),
       ativo: true,
       recrutador_usuario_id: 2
     };
@@ -100,8 +101,13 @@ export default function AddVaga() {
           <Row>
             <Col>
               <Form.Group className="mb-3">
-                <Form.Label>Salário</Form.Label>
-                <Form.Control type="number" step=".01" name="salario" placeholder='0,00' required/>
+                <Form.Label>Nível</Form.Label>
+                <Form.Select name="nivel" >
+                  <option selected value="estagio">Estagio</option>
+                  <option value="junior">Junior</option>
+                  <option value="pleno">Pleno</option>
+                  <option value="senior">Senior</option>
+                </Form.Select>
               </Form.Group>
             </Col>
             <Col>
@@ -112,7 +118,7 @@ export default function AddVaga() {
                   <option value="remoto">Remoto</option>
                 </Form.Select>
               </Form.Group>
-              </Col>
+            </Col>
           </ Row>
 
           <Row>
@@ -155,10 +161,21 @@ export default function AddVaga() {
             </Col>
           </Row>
           
-          <Form.Group className="mb-3">
-            <Form.Label>Quantidade</Form.Label>
-            <Form.Control type="number" name="quantidade" placeholder='10' required/>
-          </Form.Group>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Salário</Form.Label>
+                <Form.Control type="number" step=".01" name="salario" placeholder='0,00' required/>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Quantidade</Form.Label>
+                <Form.Control type="number" name="quantidade" placeholder='10' required/>
+              </Form.Group>
+            </Col>
+          </Row>
+          
 
           <Modal.Footer>
             <Button type='submit' style={{backgroundColor: '#8D40C9' }}>Adicionar vaga!</Button>

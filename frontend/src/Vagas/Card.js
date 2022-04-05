@@ -27,22 +27,22 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function deleteVaga(id){
-  (async() => {
-    const resposta = await fetch("http://localhost:8080/excluirVaga/"+id, {
-      method: "DELETE",
-      headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg2NzcyNzgsImV4cCI6MTE4NzA0NzY0MDE2MDB9.oo_v_YWaa-rLd3Ag7zqbE5sRWaxFq9Ru6u_uEl7SKgY'},
-    });
-
-    var respostaJson = await resposta.json(); 
-  })();
-}
-
 export default (props) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  function deletarVaga(){
+    (async() => {
+      const resposta = await fetch("http://localhost:8080/excluirVaga/"+props.vaga.id, {
+        method: "DELETE",
+        headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg2NzcyNzgsImV4cCI6MTE4NzA0NzY0MDE2MDB9.oo_v_YWaa-rLd3Ag7zqbE5sRWaxFq9Ru6u_uEl7SKgY'},
+      });
+      console.log('entre no delete');
+      var respostaJson = await resposta.json(); 
+    })();
   };
 
   return (  
@@ -91,12 +91,12 @@ export default (props) => {
             </Row>
 
               <Typography paragraph><br/>
-              <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade }
+                <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade }
               </Typography>
             </CardContent>
           <CardActions disableSpacing>
             <IconButton aria-label="Remover vaga">
-              <DeleteIcon/>
+              <DeleteIcon onClick={deletarVaga}/>
             </IconButton>
             <IconButton aria-label="Editar vaga">
               <EditIcon />
