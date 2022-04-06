@@ -77,7 +77,7 @@ async function inserirCandidato(candidato) {
     console.log("Inserindo candidato...");
     const conexao = await conecta();
 
-    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,tag1,tag2,tag3,idade,portfolio) VALUES (?,?,?,?,?,?,?,?,?)";
+    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,tag1,tag2,tag3,idade,portfolio) VALUES (?,?,?,?,?,?,?,?)";
     const param = [candidato.usuario_id, candidato.grau_formacao,candidato.instituicao_ensino,candidato.tag1,candidato.tag2,candidato.tag3,candidato.idade,candidato.portfolio];
     return await conexao.query(sql, param);
 }
@@ -132,6 +132,126 @@ async function listarUmCandidato(usuario_id) {
 
     return resultado[0];
 }
+
+//<><><><><><><> SEÇÃO EXPERIÊNCIAS <><><><><><><><>
+//Inserir Experiência
+async function inserirExperiencia(experiencia) {
+    console.log("Inserindo experiência...");
+    const conexao = await conecta();
+
+    const sql = "INSERT INTO experiencia(id,candidato_usuario_id,empresa,cargo) VALUES (?,?,?,?)";
+    const param = [experiencia.id, experiencia.candidato_usuario_id, experiencia.empresa,experiencia.cargo];
+    return await conexao.query(sql, param);
+}
+
+//Alterar Experiência
+async function alterarExperiencia(experiencia) {
+    console.log("Alterando experiência...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM experiencia WHERE id=?;", [experiencia.id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    //NO FRONT, O ID DO USUÁRIO DEVE SER ESTÁTICO, NÃO PODE DEIXAR O USUÁRIO ALTERAR
+    const sql = "UPDATE experiencia SET empresa=?, cargo=? WHERE id=?;";
+    const param = [experiencia.empresa, experiencia.cargo, experiencia.id];
+    return await conexao.query(sql, param);
+}
+
+//Excluir Experiência - Deleta a experiência em específico
+async function excluirExperiencia(id) {
+    console.log("Excluindo experiência...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM experiencia WHERE id=?;", [id]);
+
+    if (resultado.length == 0) {
+        return "Id inexistente!"
+    }
+
+    return await conexao.query("DELETE FROM experiencia WHERE id=?;", [id]);
+
+}
+
+//Listar Experiências
+async function listarExperiencias(candidato_usuario_id) {
+    console.log("Listando experiências...");
+
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM experiencia WHERE candidato_usuario_id=?;", [candidato_usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    return resultado[0];
+}
+
+//<><><><><><><> SEÇÃO RECRUTADOR <><><><><><><><>
+
+//Inserir Candidato
+async function inserirRecrutador(recrutador) {
+    console.log("Inserindo recrutador...");
+    const conexao = await conecta();
+
+    const sql = "INSERT INTO recrutador(usuario_id,empresa,cargo) VALUES (?,?,?)";
+    const param = [recrutador.usuario_id, recrutador.empresa,recrutador.cargo];
+    return await conexao.query(sql, param);
+}
+
+
+//Alterar Recrutador
+async function alterarRecrutador(recrutador) {
+    console.log("Alterando recrutador...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM recrutador WHERE usuario_id=?;", [recrutador.usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    const sql = "UPDATE recrutador SET empresa=?, cargo=? WHERE usuario_id=?;";
+    const param = [recrutador.empresa, recrutador.cargo, recrutador.usuario_id];
+    return await conexao.query(sql, param);
+}
+
+//Excluir Recrutador
+async function excluirRecrutador(usuario_id) {
+    console.log("Excluindo recrutador...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM recrutador WHERE usuario_id=?;", [usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id inexistente!"
+    }
+
+    return await conexao.query("DELETE FROM usuario WHERE id=?;", [usuario_id]);
+
+}
+
+//Listar Todos Recrutadores
+async function listarRecrutadores() {
+    console.log("Listando recrutadores...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM recrutador");
+    return resultado;
+}
+
+//Listar Um Recrutador
+async function listarUmRecrutador(usuario_id) {
+    console.log("Listando recrutador...");
+
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM recrutador WHERE usuario_id=?;", [usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    return resultado[0];
+}
+
 
 //<><><><><><><> SEÇÃO VAGA <><><><><><><><>
 //Inserir Vaga
@@ -194,11 +314,65 @@ async function listarUmaVaga(id) {
     return resultado[0];
 }
 
+//<><><><><><><> SEÇÃO PROCESSO <><><><><><><><>
+//Inserir Processo
+async function inserirProcesso(processo) {
+    console.log("Inserindo processo...");
+    const conexao = await conecta();
+
+    const sql = "INSERT INTO processo(candidato_usuario_id,recrutador_usuario_id,vaga_id,contato,devolutiva) VALUES (?,?,?,?,?)";
+    const param = [processo.candidato_usuario_id,processo.recrutador_usuario_id,processo.vaga_id, processo.contato, processo.devolutiva];
+    return await conexao.query(sql, param);
+}
+
+//Alterar Processo
+async function alterarProcesso(processo) {
+    console.log("Alterando processo...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM processo WHERE candidato_usuario_id =? and recrutador_usuario_id =? and vaga_id =?;", [processo.candidato_usuario_id, processo.recrutador_usuario_id, processo.vaga_id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    const sql = "UPDATE processo SET contato=?, devolutiva=? WHERE candidato_usuario_id =? and recrutador_usuario_id =? and vaga_id=?;";
+    const param = [processo.contato, processo.devolutiva, processo.candidato_usuario_id,processo.recrutador_usuario_id, processo.vaga_id];
+    return await conexao.query(sql, param);
+}
+
+//Listar Processo Candidato
+async function listarProcessosCandidato(candidato_usuario_id) {
+    console.log("Listando processo do candidato...");
+
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM processo WHERE candidato_usuario_id=?;", [candidato_usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    return resultado[0];
+}
+//Listar Processo Recrutador
+async function listarProcessosRecrutador(recrutador_usuario_id) {
+    console.log("Listando processos do recrutador...");
+
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM processo WHERE recrutador_usuario_id=?;", [recrutador_usuario_id]);
+
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    return resultado[0];
+}
+
 module.exports = {
     login,
     listarUsuarios, listarUmUsuario, inserirUsuario, excluirUsuario,
     listarCandidatos, listarUmCandidato, inserirCandidato, excluirCandidato, alterarCandidato,
-    listarVagas, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga
-    //listarUmaVagas, listarTodasVagas, inserirVagas, excluirVagas, alterarVagas,
-    //listarPerfil, inserirPerfil, excluirPerfil, alterarPerfil
+    listarVagas, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga,
+    listarUmRecrutador, listarRecrutadores, inserirRecrutador, excluirRecrutador, alterarRecrutador,
+    listarExperiencias, inserirExperiencia, excluirExperiencia, alterarExperiencia,
+    listarProcessosCandidato, listarProcessosRecrutador, inserirProcesso, alterarProcesso
 }

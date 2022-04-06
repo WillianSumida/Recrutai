@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `candidato` (
   CONSTRAINT `fk_candidato_usuario`
     FOREIGN KEY (`usuario_id`)
     REFERENCES `usuario` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `recrutador` (
@@ -40,18 +40,20 @@ CREATE TABLE IF NOT EXISTS `recrutador` (
   CONSTRAINT `fk_Recrutador_Usuario1`
     FOREIGN KEY (`Usuario_id`)
     REFERENCES `Usuario` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION) ENGINE = InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS `experiencia` (
-  `Candidato_Usuario_id` INT NOT NULL,
+  `id` INT NOT NULL, 
+  `candidato_Usuario_id` INT NOT NULL,
   `cargo` VARCHAR(100) NULL,
   `empresa` VARCHAR(100) NULL,
+  PRIMARY KEY (id),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC)  ,
   INDEX `fk_Experiencia_Candidato1_idx` (`Candidato_Usuario_id` ASC)  ,
-  CONSTRAINT `fk_Experiencia_Candidato1`
-    FOREIGN KEY (`Candidato_Usuario_id`)
-    REFERENCES `Candidato` (`Usuario_id`)
+  CONSTRAINT `fk_Experiencia_Candidato2`
+    FOREIGN KEY (`candidato_usuario_id`) REFERENCES `Candidato` (`usuario_id`) 
     ON DELETE NO ACTION
     ON UPDATE NO ACTION) ENGINE = InnoDB;
 
@@ -79,20 +81,25 @@ CREATE TABLE IF NOT EXISTS `vaga` (
     ON UPDATE NO ACTION) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `processo` (
-  `Candidato_Usuario_id` INT NOT NULL,
-  `Vaga_id` INT NOT NULL,
+  `candidato_usuario_id` INT NOT NULL,
+  `recrutador_usuario_id` INT NOT NULL,
+  `vaga_id` INT NOT NULL,
   `contato` BOOLEAN NOT NULL DEFAULT 0,
   `devolutiva` BOOLEAN NOT NULL DEFAULT 0,
-  PRIMARY KEY (`Candidato_Usuario_id`, `Vaga_id`),
-  INDEX `fk_Candidato_has_Vaga_Vaga1_idx` (`Vaga_id` ASC)  ,
-  INDEX `fk_Candidato_has_Vaga_Candidato1_idx` (`Candidato_Usuario_id` ASC)  ,
+  PRIMARY KEY (`candidato_usuario_id`, `recrutador_usuario_id`, `vaga_id`),
+  INDEX `fk_Candidato_has_Vaga_Vaga1_idx` (`vaga_id` ASC)  ,
+  INDEX `fk_Candidato_has_Vaga_Candidato1_idx` (`candidato_usuario_id` ASC)  ,
+  INDEX `fk_Candidato_has_Vaga_Recrutador1_idx` (`recrutador_usuario_id` ASC)  ,
   CONSTRAINT `fk_Candidato_has_Vaga_Candidato1`
-    FOREIGN KEY (`Candidato_Usuario_id`)
-    REFERENCES `Candidato` (`Usuario_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    FOREIGN KEY (`candidato_usuario_id`) 
+    REFERENCES `candidato` (`usuario_id`) 
+    ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Candidato_has_Vaga_Vaga1`
-    FOREIGN KEY (`Vaga_id`)
-    REFERENCES `Vaga` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION) ENGINE = InnoDB;
+    FOREIGN KEY (`vaga_id`) 
+    REFERENCES `vaga` (`id`) 
+    ON DELETE NO ACTION ON UPDATE NO ACTION, 
+  CONSTRAINT `fk_Candidato_has_Vaga_Recrutador1` 
+	FOREIGN KEY (`recrutador_usuario_id`) 
+  REFERENCES `recrutador` (`Usuario_id`) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
