@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import logo from "../assets/logo1.png"
 import background from '../assets/bg.jpg'
 import styled from "styled-components";
@@ -20,19 +20,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.primary" align="center" sx={{ mt: 5 }}>
-      {'Copyright © '}
-      <Link1 color="inherit" href="">
-        Your Website
-      </Link1>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import 'react-toastify/dist/ReactToastify.min.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -71,24 +60,31 @@ export default function Cadastro() {
       login: data.get('email'),
       nome: data.get('firstName'),
       senha: data.get('senha'),
-      recrutador: 1,
+      recrutador: data.get('tipo'),
     };
 
-    (async() => {
-      const resposta = await fetch("http://localhost:8080/adicionarUsuario", {
-        method: "POST",
-        headers: {"content-Type": "application/json"},
-        body: JSON.stringify(Usuario)
-      });
+    if(Usuario.senha == data.get("password")){
+      (async() => {
+        const resposta = await fetch("http://localhost:8080/adicionarUsuario", {
+          method: "POST",
+          headers: {"content-Type": "application/json"},
+          body: JSON.stringify(Usuario)
+        });
+    
+        var respostaJson = await resposta.json();
   
-      var respostaJson = await resposta.json();
- 
-    })();
+      })();
+      document.getElementById("myCheck").click();
+    }
+    else {
+        toast.error('As senhas não coincidem')
+    }
   };
 
   return (
 
       <Grid container component="main" sx={{ height: '100vh' }}>
+        <ToastContainer></ToastContainer>
         <CssBaseline />
         <Grid
           item
@@ -118,7 +114,7 @@ export default function Cadastro() {
             <img src={logo} width='40%' height='40%' className='img'/>
 
           <Typography component="h1" variant="h5" color='#8D40C9'>
-            Sign up
+            Cadastre-se
           </Typography>
           <Box component="form" onSubmit={handleSubmit} item sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -127,15 +123,16 @@ export default function Cadastro() {
 
                 <CssTextField
                   select
+                  name="tipo"
                   label="Eu sou"
                   fullWidth
                   autoFocus
                 >
 
-                    <MenuItem key="Recrutador" value={true}>
+                    <MenuItem key="Recrutador" value={1}>
                       Recrutador
                     </MenuItem>
-                    <MenuItem key="Candidato" value={false}>
+                    <MenuItem key="Candidato" value={0}>
                       Candidato
                     </MenuItem>
 
@@ -148,7 +145,7 @@ export default function Cadastro() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Primeiro nome"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -157,7 +154,7 @@ export default function Cadastro() {
                   fullWidth
                   id="lastName"
                   label="Last Name"
-                  name="lastName"
+                  name="Sobrenome"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -165,7 +162,7 @@ export default function Cadastro() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   type="email"
                 />
@@ -175,7 +172,7 @@ export default function Cadastro() {
                   required
                   fullWidth
                   name="senha"
-                  label="Password"
+                  label="Senha"
                   type="password"
                   id="senha"
                 />
@@ -185,7 +182,7 @@ export default function Cadastro() {
                   required
                   fullWidth
                   name="password"
-                  label="Confirm Password"
+                  label="Confirmar Senha"
                   type="password"
                   id="password"
                 />
@@ -202,17 +199,20 @@ export default function Cadastro() {
               type="submit"
               fullWidth
               variant="contained"
+              size="large"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Cadastrar
             </ColorButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link1 href="/newlogin" variant="body2">
-                  Already have an account? Sign in
+                  Já possui uma conta? Acesse
                 </Link1>
               </Grid>
-            </Grid>
+            </Grid>          
+            <Link1 type="hidden" href="/newlogin" id="myCheck" variant="body2">
+            </Link1>
           </Box>
           </Box>
         </Grid>
