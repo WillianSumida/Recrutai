@@ -84,15 +84,9 @@ module.exports = app => {
             }
         });
 
-<<<<<<< HEAD
-    //<><><><><><><><><><><><><><><><><><><><><><><><><>
-    //<><><><><><><>SEÇÃO CANDIDATO<><><><><><><><><><>
-    //<><><><><><><><><><><><><><><><><><><><><><><><><>
-=======
 //<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 //<><><><><><><>    SEÇÃO CANDIDATO   <><><><><><><><><><>
 //<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
->>>>>>> e34a956d1f4868c01a563e058634ae431b17a06e
 
     //Inserir Perfil
     app.route("/adicionarCandidato")
@@ -193,7 +187,6 @@ module.exports = app => {
             }
         });
 
-<<<<<<< HEAD
     //<><><><><><><><><><><><><><><><><><><><><><><><><>
     //<><><><><><><> EXPERIÊNCIA <><><><><><><><><><>
     //<><><><><><><><><><><><><><><><><><><><><><><><><>
@@ -390,7 +383,6 @@ module.exports = app => {
                 } else {
                     const resultado = await banco.inserirVaga({
                         id: req.body.id,
-=======
 //<><><><><><><><><><><><><><><><><><><><><><><><><>
 //<><><><><><><>SEÇÃO VAGAS<><><><><><><><><><>
 //<><><><><><><><><><><><><><><><><><><><><><><><><>
@@ -422,7 +414,6 @@ module.exports = app => {
                try{
                     const resultado = await banco.inserirVaga({
                         //id: req.body.id,
->>>>>>> e34a956d1f4868c01a563e058634ae431b17a06e
                         cargo: req.body.cargo,
                         descricao: req.body.descricao,
                         salario: req.body.salario,
@@ -431,64 +422,13 @@ module.exports = app => {
                         tag2: req.body.tag2,
                         tag3: req.body.tag3,
                         cidade: req.body.cidade,
-<<<<<<< HEAD
-                        estado: req.body.estado,
-                        ativo: req.body.ativo,
-                        quantidade: req.body.quantidade,
-=======
                         estado: req.body.estado, 
                         ativo: true, 
                         quantidade: req.body.quantidade, 
->>>>>>> e34a956d1f4868c01a563e058634ae431b17a06e
                         recrutador_usuario_id: req.body.recrutador_usuario_id
                     });
                     res.send(resultado);
                 }
-<<<<<<< HEAD
-            });
-
-    //Alterar Vaga
-    app.route("/alterarVaga")
-        .all(app.configuracao.passport.authenticate())
-        .put([
-            body("id").trim().isLength({ min: 1 }),
-            body("cargo").trim().isLength({ min: 2, max: 100 }),
-            body("descricao").trim().isLength({ min: 0, max: 255 }),
-            body("salario").trim().isLength({ min: 2, max: 10 }),
-            body("tipo").trim().isLength({ min: 2, max: 100 }),
-            body("tag1").trim().isLength({ min: 2, max: 100 }),
-            body("tag2").trim().isLength({ min: 2, max: 100 }),
-            body("tag3").trim().isLength({ min: 2, max: 100 }),
-            body("cidade").trim().isLength({ min: 1, max: 100 }),
-            body("estado").trim().isLength({ min: 0, max: 2 }),
-            body("ativo").trim(),
-            body("quantidade").trim().isLength({ min: 1, max: 3 }),
-            body("recrutador_usuario_id").trim().isLength({ min: 1 }),],
-            async (req, res) => {
-                const erro = validationResult(req);
-
-                if (!erro.isEmpty()) {
-                    res.send(erro.array())
-                } else {
-                    const resultado = await banco.alterarVaga({
-                        id: req.body.id,
-                        cargo: req.body.cargo,
-                        descricao: req.body.descricao,
-                        salario: req.body.salario,
-                        tipo: req.body.tipo,
-                        tag1: req.body.tag1,
-                        tag2: req.body.tag2,
-                        tag3: req.body.tag3,
-                        cidade: req.body.cidade,
-                        estado: req.body.estado,
-                        ativo: req.body.ativo,
-                        quantidade: req.body.quantidade,
-                        recrutador_usuario_id: req.body.recrutador_usuario_id
-                    });
-                    res.send(resultado);
-                }
-            });
-=======
                 catch{
                     console.log("Erro.");
                 }
@@ -536,7 +476,6 @@ module.exports = app => {
                res.send(resultado);
            }
        });
->>>>>>> e34a956d1f4868c01a563e058634ae431b17a06e
 
     //Excluindo Vaga
     app.route("/excluirVaga/:id?")

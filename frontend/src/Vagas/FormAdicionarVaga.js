@@ -4,11 +4,15 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Form, Row, Col, Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const theme = createTheme();
 
 export default function AddVaga(props) {
+  const listaVagas = useSelector(state => state.vagaRecrutador);
+  const dispatch = useDispatch();
+
   const estados = [
     {"nome": "Acre", "sigla": "AC"},
     {"nome": "Alagoas", "sigla": "AL"},
@@ -78,10 +82,11 @@ export default function AddVaga(props) {
             headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
             body: JSON.stringify(Vaga)
           });
-      
           var respostaJson = await resposta.json(); 
+          await dispatch({type:'UpdateVagaRecrutador', vaga: Vaga})
       })();
     }
+
   }
 
   const vaga ={};
@@ -151,7 +156,7 @@ export default function AddVaga(props) {
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Tipo</Form.Label>
-                <Form.Select name="tipo" defaultValue={vaga.tipo}>
+                <Form.Select name="tipo" defaultValue={vaga.tipo} >
                   <option value="presencial">Presencial</option>
                   <option value="remoto">Remoto</option>
                 </Form.Select>
