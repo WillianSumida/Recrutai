@@ -26,6 +26,12 @@ export default function Cards(){
 
   return (  
     <>
+    <ul>
+    {listaVagas.map((vaga) => (
+      <li>{vaga.cargo}</li>
+                ))}
+    </ul>
+
         <Container sx={{ py: 8 }} >
             <Grid container sx={{mx:'1rem'}}>
                 <AddVaga></AddVaga>

@@ -353,36 +353,6 @@ module.exports = app => {
             }
         });
 
-
-    //<><><><><><><><><><><><><><><><><><><><><><><><><>
-    //<><><><><><><>SEÇÃO VAGAS<><><><><><><><><><>
-    //<><><><><><><><><><><><><><><><><><><><><><><><><>
-
-    //Inserir Vaga
-    app.route("/adicionarVaga")
-        .all(app.configuracao.passport.authenticate())
-        .post([
-            body("id").trim().isLength({ min: 1 }),
-            body("cargo").trim().isLength({ min: 2, max: 100 }),
-            body("descricao").trim().isLength({ min: 0, max: 255 }),
-            body("salario").trim().isLength({ min: 2, max: 10 }),
-            body("tipo").trim().isLength({ min: 2, max: 100 }),
-            body("tag1").trim().isLength({ min: 2, max: 100 }),
-            body("tag2").trim().isLength({ min: 2, max: 100 }),
-            body("tag3").trim().isLength({ min: 2, max: 100 }),
-            body("cidade").trim().isLength({ min: 1, max: 100 }),
-            body("estado").trim().isLength({ min: 0, max: 2 }),
-            body("ativo").trim(),
-            body("quantidade").trim().isLength({ min: 1, max: 3 }),
-            body("recrutador_usuario_id").trim().isLength({ min: 1 }),],
-            async (req, res) => {
-                const erro = validationResult(req);
-
-                if (!erro.isEmpty()) {
-                    res.send(erro.array())
-                } else {
-                    const resultado = await banco.inserirVaga({
-                        id: req.body.id,
 //<><><><><><><><><><><><><><><><><><><><><><><><><>
 //<><><><><><><>SEÇÃO VAGAS<><><><><><><><><><>
 //<><><><><><><><><><><><><><><><><><><><><><><><><>

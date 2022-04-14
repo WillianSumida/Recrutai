@@ -54,6 +54,7 @@ export default (props) => {
       });
       console.log('entre no delete');
       var respostaJson = await resposta.json(); 
+      await dispatch({type:'DeleteVagaRecrutador', vaga: props.vaga})
     })();
   };
 

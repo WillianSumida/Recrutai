@@ -72,6 +72,7 @@ export default function AddVaga(props) {
         });
     
         var respostaJson = await resposta.json(); 
+        await dispatch({type:'AddVagaRecrutador', vaga: Vaga})
       
       })();
     }else{
@@ -91,7 +92,6 @@ export default function AddVaga(props) {
 
   const vaga ={};
   if (props.title === 'Adicionar Vaga'){
-    console.log('ENTROU NO ALTERAR PROPS');
       vaga.cargo = 'cargo';
       //props.vaga.nivel = '';
       vaga.descricao = 'Essa vaga é ...';
