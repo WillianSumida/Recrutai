@@ -24,6 +24,8 @@ module.exports = app => {
     ],
         async (req, res) => {
             const erro = validationResult(req);
+            const retorno = null
+
             if (!erro.isEmpty()) {
                 res.status(400).send(erro.array())
             } else {
@@ -39,14 +41,12 @@ module.exports = app => {
                         telefone: ''
                     });
                     if (resultado == "Login previamente cadastrado!") {
-                        res.status(400).send(resultado)
+                        retorno = ({ 'error': false, 'mensagem': resultado })
                     }
                 } catch {
-                    console.log("Erro");
+                    retorno = ({ 'error': true, 'mensagem': 'Cadastro não realizado!' })
                 }
-
-                //res.status(200).send("Usuário inserido com sucesso!")
-
+                res.send(retorno);
             }
         });
 
@@ -54,13 +54,22 @@ module.exports = app => {
     app.route("/excluirUsuario/:id?")
         .all(app.configuracao.passport.authenticate())
         .delete(async (req, res) => {
+
+            const retorno = null;
+
             if (req.params.id) {
-                const resultado = await banco.excluirUsuario(req.params.id);
+                try {
+                    const resultado = await banco.excluirUsuario(req.params.id);
+                    resultado = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    resultado = ({ 'error': true, 'mensagem': 'Falha ao exluir usuário!' })
+                }
                 if (resultado == "Id Inexistente!") {
                     res.status(400).send("Id Inexistente!")
                 } else {
                     res.send(resultado);
                 }
+                res.send(retorno);
             }
         });
 
@@ -68,31 +77,38 @@ module.exports = app => {
     app.route("/listarUsuarios")
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
-            const resultado = await banco.listarUsuarios();
-            res.send(resultado);
+            const retorno = null;
+            try {
+                const resultado = await banco.listarUsuarios();
+                retorno = ({ 'error': false, 'mensagem': resultado })
+            } catch {
+                retorno = ({ 'error': true, 'mensagem': 'Falha ao listar usuários!' })
+            }
+            res.send(retorno);
         });
 
     //Listar Um Usuário
     app.route("/listarUmUsuario/:id?")
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
+            const retorno = null;
+
             if (req.params.id) {
-                const resultado = await banco.listarUmUsuario(req.params.id);
-                res.send(resultado);
+                try {
+                    const resultado = await banco.listarUmUsuario(req.params.id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': 'Usuário não existente!' })
+                }
             } else {
                 res.send("Id Inexistente!")
             }
+            res.send(retorno)
         });
 
-<<<<<<< HEAD
     //<><><><><><><><><><><><><><><><><><><><><><><><><>
     //<><><><><><><>SEÇÃO CANDIDATO<><><><><><><><><><>
     //<><><><><><><><><><><><><><><><><><><><><><><><><>
-=======
-//<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
-//<><><><><><><>    SEÇÃO CANDIDATO   <><><><><><><><><><>
-//<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
->>>>>>> e34a956d1f4868c01a563e058634ae431b17a06e
 
     //Inserir Perfil
     app.route("/adicionarCandidato")
@@ -112,17 +128,24 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.inserirCandidato({
-                        usuario_id: req.body.usuario_id,
-                        grau_formacao: req.body.grau_formacao,
-                        instituicao_ensino: req.body.instituicao_ensino,
-                        tag1: req.body.tag1,
-                        tag2: req.body.tag2,
-                        tag3: req.body.tag3,
-                        idade: req.body.idade,
-                        portfolio: req.body.portfolio
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.inserirCandidato({
+                            usuario_id: req.body.usuario_id,
+                            grau_formacao: req.body.grau_formacao,
+                            instituicao_ensino: req.body.instituicao_ensino,
+                            tag1: req.body.tag1,
+                            tag2: req.body.tag2,
+                            tag3: req.body.tag3,
+                            idade: req.body.idade,
+                            portfolio: req.body.portfolio
+                        });
+                        if (resultado == "Login previamente cadastrado!") {
+                            retorno = ({ 'error': false, 'mensagem': resultado })
+                        }
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': 'Cadastro não realizado!' })
+                    }
+                    res.send(retorno);
                 }
             });
 
@@ -145,17 +168,22 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.alterarCandidato({
-                        usuario_id: req.body.usuario_id,
-                        grau_formacao: req.body.grau_formacao,
-                        instituicao_ensino: req.body.instituicao_ensino,
-                        tag1: req.body.tag1,
-                        tag2: req.body.tag2,
-                        tag3: req.body.tag3,
-                        idade: req.body.idade,
-                        portfolio: req.body.portfolio
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.alterarCandidato({
+                            usuario_id: req.body.usuario_id,
+                            grau_formacao: req.body.grau_formacao,
+                            instituicao_ensino: req.body.instituicao_ensino,
+                            tag1: req.body.tag1,
+                            tag2: req.body.tag2,
+                            tag3: req.body.tag3,
+                            idade: req.body.idade,
+                            portfolio: req.body.portfolio
+                        });
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Falha ao editar candidato!" })
+                    }
+                    res.send(retorno);
                 }
             });
 
@@ -164,21 +192,29 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .delete(async (req, res) => {
             if (req.params.usuario_id) {
-                const resultado = await banco.excluirCandidato(req.params.usuario_id);
-                if (resultado == "Id Inexistente!") {
-                    res.status(400).send("Id Inexistente!")
-                } else {
-                    res.send(resultado);
+                try {
+                    const resultado = await banco.excluirCandidato(req.params.usuario_id);
+                    if (resultado == "Id Inexistente!") {
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    }
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro ao excluir candidato!" })
                 }
             }
+            res.send(retorno);
         });
 
     //Listar Todos os Candidatos
     app.route("/listarCandidatos")
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
-            const resultado = await banco.listarCandidatos();
-            res.send(resultado);
+            try {
+                const resultado = await banco.listarCandidatos();
+                retorno = ({ 'error': false, 'mensagem': resultado })
+            } catch {
+                retorno = ({ 'error': true, 'mensagem': "Erro ao listar candidatos!" })
+            }
+            res.send(retorno);
         });
 
     //Listar Um Candidato
@@ -186,14 +222,15 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
             if (req.params.usuario_id) {
-                const resultado = await banco.listarUmCandidato(req.params.usuario_id);
-                res.send(resultado);
-            } else {
-                res.send("Id Inexistente!")
+                try {
+                    const resultado = await banco.listarUmCandidato(req.params.usuario_id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Usuário inexistente!" })
+                }
             }
         });
 
-<<<<<<< HEAD
     //<><><><><><><><><><><><><><><><><><><><><><><><><>
     //<><><><><><><> EXPERIÊNCIA <><><><><><><><><><>
     //<><><><><><><><><><><><><><><><><><><><><><><><><>
@@ -213,14 +250,19 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.inserirExperiencia({
-                        id: req.body.id,
-                        candidato_usuario_id: req.body.candidato_usuario_id,
-                        empresa: req.body.empresa,
-                        cargo: req.body.cargo
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.inserirExperiencia({
+                            id: req.body.id,
+                            candidato_usuario_id: req.body.candidato_usuario_id,
+                            empresa: req.body.empresa,
+                            cargo: req.body.cargo
+                        });
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Erro ao cadastrar experiência!" })
+                    }
                 }
+                res.send(retorno);
             });
 
     //Alterar Experiência
@@ -238,13 +280,18 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.alterarExperiencia({
-                        id: req.body.id,
-                        candidato_usuario_id: req.body.candidato_usuario_id,
-                        empresa: req.body.empresa,
-                        cargo: req.body.cargo
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.alterarExperiencia({
+                            id: req.body.id,
+                            candidato_usuario_id: req.body.candidato_usuario_id,
+                            empresa: req.body.empresa,
+                            cargo: req.body.cargo
+                        });
+                        retorno = ({ 'error': false, 'mensagem': retorno })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Erro ao alterar experiência!" })
+                    }
+                    res.send(retorno);
                 }
             });
 
@@ -253,13 +300,14 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .delete(async (req, res) => {
             if (req.params.id) {
-                const resultado = await banco.excluirExperiencia(req.params.id);
-                if (resultado == "Id Inexistente!") {
-                    res.status(400).send("Id Inexistente!")
-                } else {
-                    res.send(resultado);
+                try {
+                    const resultado = await banco.excluirExperiencia(req.params.id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro ao excluir experiência!" })
                 }
             }
+            res.send(retorno)
         });
 
     //Listar Experiências
@@ -267,10 +315,13 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
             if (req.params.usuario_id) {
-                const resultado = await banco.listarExperiencias(req.params.usuario_id);
-                res.send(resultado);
-            } else {
-                res.send("Id Inexistente!")
+                try {
+                    const resultado = await banco.listarExperiencias(req.params.usuario_id);
+                    retorno = ({ 'error': false, 'mensagem': retorno })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro listar experiências do usuário!" })
+                }
+                res.send(retorno)
             }
         });
 
@@ -292,12 +343,17 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.inserirRecrutador({
-                        usuario_id: req.body.usuario_id,
-                        empresa: req.body.empresa,
-                        cargo: req.body.cargo
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.inserirRecrutador({
+                            usuario_id: req.body.usuario_id,
+                            empresa: req.body.empresa,
+                            cargo: req.body.cargo
+                        });
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Erro ao cadastrar recrutador!" })
+                    }
+                    res.send(retorno);
                 }
             });
 
@@ -315,12 +371,18 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.alterarRecrutador({
-                        usuario_id: req.body.usuario_id,
-                        empresa: req.body.empresa,
-                        cargo: req.body.cargo
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.alterarRecrutador({
+                            usuario_id: req.body.usuario_id,
+                            empresa: req.body.empresa,
+                            cargo: req.body.cargo
+                        });
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Erro ao alterar recrutador!" })
+                    }
+
+                    res.send(retorno);
                 }
             });
 
@@ -330,12 +392,13 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .delete(async (req, res) => {
             if (req.params.usuario_id) {
-                const resultado = await banco.excluirRecrutador(req.params.usuario_id);
-                if (resultado == "Id Inexistente!") {
-                    res.status(400).send("Id Inexistente!")
-                } else {
-                    res.send(resultado);
+                try {
+                    const resultado = await banco.excluirRecrutador(req.params.usuario_id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro excluir recrutador!" })
                 }
+                res.send(retorno)
             }
         });
 
@@ -344,8 +407,13 @@ module.exports = app => {
     app.route("/listarRecrutadores")
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
-            const resultado = await banco.listarRecrutadores();
-            res.send(resultado);
+            try {
+                const resultado = await banco.listarRecrutadores();
+                retorno = ({ 'error': false, 'mensagem': resultado })
+            } catch {
+                retorno = ({ 'error': true, 'mensagem': "Erro ao listar recrutadores!" })
+            }
+            res.send(retorno);
         });
 
     //Listar Um Recrutador
@@ -353,10 +421,13 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
             if (req.params.usuario_id) {
-                const resultado = await banco.listarUmRecrutador(req.params.usuario_id);
-                res.send(resultado);
-            } else {
-                res.send("Id Inexistente!")
+                try {
+                    const resultado = await banco.listarUmRecrutador(req.params.usuario_id);
+                    retorno = ({ 'error': true, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Recrutador Inexistente!" })
+                }
+                res.send(retorno);
             }
         });
 
@@ -388,63 +459,28 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.inserirVaga({
-                        id: req.body.id,
-=======
-//<><><><><><><><><><><><><><><><><><><><><><><><><>
-//<><><><><><><>SEÇÃO VAGAS<><><><><><><><><><>
-//<><><><><><><><><><><><><><><><><><><><><><><><><>
-
-   //Inserir Vaga
-   app.route("/adicionarVaga")
-   .all(app.configuracao.passport.authenticate())
-   .post([
-        //body("id").trim().isLength({ min: 1 }),
-        body("cargo").trim().isLength({ min: 2, max: 100 }),
-        body("descricao").trim().isLength({ min: 0, max: 255 }),
-        body("salario").trim().isLength({ min: 2, max: 10 }),
-        body("tipo").trim().isLength({ min: 0, max: 100 }),
-        body("tag1").trim().isLength({ min: 0, max: 100 }),
-        body("tag2").trim().isLength({ min: 0, max: 100 }),
-        body("tag3").trim().isLength({ min: 0, max: 100 }),
-        body("cidade").trim().isLength({ min: 1, max: 100 }),
-        body("estado").trim().isLength({ min: 0, max: 2 }),
-        body("ativo").trim(),
-        body("quantidade").trim().isLength({ min: 1, max: 3 }),
-        body("recrutador_usuario_id").trim().isLength({ min: 1 }),],
-       async (req, res) => {
-           const erro = validationResult(req);
-
-           if (!erro.isEmpty()) {
-                console.log(erro);
-               res.send(erro.array())
-           } else {
-               try{
-                    const resultado = await banco.inserirVaga({
-                        //id: req.body.id,
->>>>>>> e34a956d1f4868c01a563e058634ae431b17a06e
-                        cargo: req.body.cargo,
-                        descricao: req.body.descricao,
-                        salario: req.body.salario,
-                        tipo: req.body.tipo,
-                        tag1: req.body.tag1,
-                        tag2: req.body.tag2,
-                        tag3: req.body.tag3,
-                        cidade: req.body.cidade,
-<<<<<<< HEAD
-                        estado: req.body.estado,
-                        ativo: req.body.ativo,
-                        quantidade: req.body.quantidade,
-=======
-                        estado: req.body.estado, 
-                        ativo: true, 
-                        quantidade: req.body.quantidade, 
->>>>>>> e34a956d1f4868c01a563e058634ae431b17a06e
-                        recrutador_usuario_id: req.body.recrutador_usuario_id
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.inserirVaga({
+                            id: req.body.id,
+                            cargo: req.body.cargo,
+                            descricao: req.body.descricao,
+                            salario: req.body.salario,
+                            tipo: req.body.tipo,
+                            tag1: req.body.tag1,
+                            tag2: req.body.tag2,
+                            tag3: req.body.tag3,
+                            cidade: req.body.cidade,
+                            estado: req.body.estado,
+                            ativo: req.body.ativo,
+                            quantidade: req.body.quantidade,
+                            recrutador_usuario_id: req.body.recrutador_usuario_id
+                        });
+                        retorno = ({ 'error': false, 'mensagem': retorno })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Erro ao cadastrar vaga!" })
+                    }
+                    res.send(retorno);
                 }
-<<<<<<< HEAD
             });
 
     //Alterar Vaga
@@ -470,85 +506,42 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.alterarVaga({
-                        id: req.body.id,
-                        cargo: req.body.cargo,
-                        descricao: req.body.descricao,
-                        salario: req.body.salario,
-                        tipo: req.body.tipo,
-                        tag1: req.body.tag1,
-                        tag2: req.body.tag2,
-                        tag3: req.body.tag3,
-                        cidade: req.body.cidade,
-                        estado: req.body.estado,
-                        ativo: req.body.ativo,
-                        quantidade: req.body.quantidade,
-                        recrutador_usuario_id: req.body.recrutador_usuario_id
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.alterarVaga({
+                            id: req.body.id,
+                            cargo: req.body.cargo,
+                            descricao: req.body.descricao,
+                            salario: req.body.salario,
+                            tipo: req.body.tipo,
+                            tag1: req.body.tag1,
+                            tag2: req.body.tag2,
+                            tag3: req.body.tag3,
+                            cidade: req.body.cidade,
+                            estado: req.body.estado,
+                            ativo: req.body.ativo,
+                            quantidade: req.body.quantidade,
+                            recrutador_usuario_id: req.body.recrutador_usuario_id
+                        });
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Erro ao alterar vaga!" })
+                    }
+                    res.send(retorno);
                 }
             });
-=======
-                catch{
-                    console.log("Erro.");
-                }
-           }
-       });
-
-   //Alterar Vaga
-   app.route("/alterarVaga")
-   .all(app.configuracao.passport.authenticate())
-   .put([
-        body("id").trim().isLength({ min: 1 }),
-        body("cargo").trim().isLength({ min: 2, max: 100 }),
-        body("descricao").trim().isLength({ min: 0, max: 255 }),
-        body("salario").trim().isLength({ min: 2, max: 10 }),
-        body("tipo").trim().isLength({ min: 2, max: 100 }),
-        body("tag1").trim().isLength({ min: 2, max: 100 }),
-        body("tag2").trim().isLength({ min: 2, max: 100 }),
-        body("tag3").trim().isLength({ min: 2, max: 100 }),
-        body("cidade").trim().isLength({ min: 1, max: 100 }),
-        body("estado").trim().isLength({ min: 0, max: 2 }),
-        body("ativo").trim(),
-        body("quantidade").trim().isLength({ min: 1, max: 3 }),
-        body("recrutador_usuario_id").trim().isLength({ min: 1 }),],
-       async (req, res) => {
-           const erro = validationResult(req);
-
-           if (!erro.isEmpty()) {
-               res.send(erro.array())
-           } else {
-               const resultado = await banco.alterarVaga({
-                id: req.body.id,
-                cargo: req.body.cargo,
-                descricao: req.body.descricao,
-                salario: req.body.salario,
-                tipo: req.body.tipo,
-                tag1: req.body.tag1,
-                tag2: req.body.tag2,
-                tag3: req.body.tag3,
-                cidade: req.body.cidade,
-                estado: req.body.estado, 
-                ativo: req.body.ativo, 
-                quantidade: req.body.quantidade, 
-                recrutador_usuario_id: req.body.recrutador_usuario_id
-               });
-               res.send(resultado);
-           }
-       });
->>>>>>> e34a956d1f4868c01a563e058634ae431b17a06e
 
     //Excluindo Vaga
     app.route("/excluirVaga/:id?")
         .all(app.configuracao.passport.authenticate())
         .delete(async (req, res) => {
             if (req.params.id) {
-                const resultado = await banco.excluirVaga(req.params.id);
-                if (resultado == "Id Inexistente!") {
-                    res.status(400).send("Id Inexistente!")
-                } else {
-                    res.send(resultado);
+                try {
+                    const resultado = await banco.excluirVaga(req.params.id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro ao cadastrar experiência!" })
                 }
+                res.send(retorno)
             }
         });
 
@@ -556,12 +549,11 @@ module.exports = app => {
     app.route("/listarVagas")
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
-            try{
-            const resultado = await banco.listarVagas();
-            console.log(resultado);
-            res.send(resultado);
-            }catch{
-
+            try {
+                const resultado = await banco.listarVagas();
+                retorno = ({ 'error': false, 'mensagem': resultado })
+            } catch {
+                retorno = ({ 'error': true, 'mensagem': "Erro ao listar vagas!" })
             }
         });
 
@@ -570,10 +562,13 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
             if (req.params.id) {
-                const resultado = await banco.listarUmaVaga(req.params.id);
-                res.send(resultado);
-            } else {
-                res.send("Id Inexistente!")
+                try {
+                    const resultado = await banco.listarUmaVaga(req.params.id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Vaga Inexistente!" })
+                }
+                res.send(retorno);
             }
         });
 
@@ -597,14 +592,19 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.inserirProcesso({
-                        candidato_usuario_id: req.body.candidato_usuario_id,
-                        recrutador_usuario_id: req.body.recrutador_usuario_id,
-                        vaga_id: req.body.vaga_id,
-                        contato: req.body.contato,
-                        devolutiva: req.body.devolutiva
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.inserirProcesso({
+                            candidato_usuario_id: req.body.candidato_usuario_id,
+                            recrutador_usuario_id: req.body.recrutador_usuario_id,
+                            vaga_id: req.body.vaga_id,
+                            contato: req.body.contato,
+                            devolutiva: req.body.devolutiva
+                        });
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Erro ao cadastrar processo!" })
+                    }
+                    res.send(retorno);
                 }
             });
 
@@ -624,14 +624,19 @@ module.exports = app => {
                 if (!erro.isEmpty()) {
                     res.send(erro.array())
                 } else {
-                    const resultado = await banco.alterarProcesso({
-                        candidato_usuario_id: req.body.candidato_usuario_id,
-                        recrutador_usuario_id: req.body.recrutador_usuario_id,
-                        vaga_id: req.body.vaga_id,
-                        contato: req.body.contato,
-                        devolutiva: req.body.devolutiva
-                    });
-                    res.send(resultado);
+                    try {
+                        const resultado = await banco.alterarProcesso({
+                            candidato_usuario_id: req.body.candidato_usuario_id,
+                            recrutador_usuario_id: req.body.recrutador_usuario_id,
+                            vaga_id: req.body.vaga_id,
+                            contato: req.body.contato,
+                            devolutiva: req.body.devolutiva
+                        });
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch {
+                        retorno = ({ 'error': true, 'mensagem': "Erro ao alterar processo!" })
+                    }
+                    res.send(retorno);
                 }
             });
 
@@ -641,12 +646,14 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .delete(async (req, res) => {
             if (req.params.candidato_usuario_id && req.params.recrutador_usuario_id && req.params.vaga_id) {
-                const resultado = await banco.excluirProcesso(req.params.candidato_usuario_id,req.params.recrutador_usuario_id,req.params.vaga_id);
-                if (resultado == "Id Inexistente!") {
-                    res.status(400).send("Id Inexistente!")
-                } else {
-                    res.send(resultado);
+                try {
+                    const resultado = await banco.excluirProcesso(req.params.candidato_usuario_id, req.params.recrutador_usuario_id, req.params.vaga_id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro ao excluir processo!" })
                 }
+                res.send(retorno);
+
             }
         });
 
@@ -655,10 +662,13 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
             if (req.params.candidato_usuario_id) {
-                const resultado = await banco.listarProcessosCandidato(req.params.candidato_usuario_id);
-                res.send(resultado);
-            } else {
-                res.send("Id Inexistente!")
+                try {
+                    const resultado = await banco.listarProcessosCandidato(req.params.candidato_usuario_id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro ao listar processos seletivos!" })
+                }
+                res.send(retorno);
             }
         });
 
@@ -667,11 +677,13 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .get(async (req, res) => {
             if (req.params.recrutador_usuario_id) {
-                const resultado = await banco.listarProcessosRecrutador(req.params.recrutador_usuario_id);
-                res.send(resultado);
-            } else {
-                res.send("Id Inexistente!")
+                try {
+                    const resultado = await banco.listarProcessosRecrutador(req.params.recrutador_usuario_id);
+                    retorno = ({ 'error': false, 'mensagem': resultado })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro ao listar processos seletivos do recrutador!" })
+                }
+                res.send(retorno);
             }
         });
-
 };
