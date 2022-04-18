@@ -18,6 +18,7 @@ import Stack from '@mui/material/Stack';
 import {Row, Col} from 'react-bootstrap';
 import FormAdicionarVaga from './FormAdicionarVaga';
 import { Modal, Button} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,6 +33,9 @@ const ExpandMore = styled((props) => {
 
 
 export default (props) => {
+  const listaVagas = useSelector(state => state.vagaRecrutador);
+  const dispatch = useDispatch();
+
   const [expanded, setExpanded] = React.useState(false);
 
   const [show, setShow] = useState(false);
@@ -50,6 +54,7 @@ export default (props) => {
       });
       console.log('entre no delete');
       var respostaJson = await resposta.json(); 
+      await dispatch({type:'DeleteVagaRecrutador', vaga: props.vaga})
     })();
   };
 
