@@ -60,7 +60,7 @@ export default function AddVaga(props) {
       quantidade: data.get('quantidade'),
       //nivel: data.get('nivel'),
       ativo: 0,
-      recrutador_usuario_id: 2
+      recrutador_usuario_id: 16
     };
 
     if (props.title == 'Adicionar Vaga'){
@@ -77,6 +77,7 @@ export default function AddVaga(props) {
       })();
     }else{
         Vaga.id = props.vaga.id;
+        console.log(Vaga.id);
         (async() => {
           const resposta = await fetch("http://localhost:8080/alterarVaga", {
             method: "PUT",
@@ -84,6 +85,7 @@ export default function AddVaga(props) {
             body: JSON.stringify(Vaga)
           });
           var respostaJson = await resposta.json(); 
+          console.log(resposta);
           await dispatch({type:'UpdateVagaRecrutador', vaga: Vaga})
       })();
     }

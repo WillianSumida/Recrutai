@@ -9,10 +9,14 @@ import { Button } from 'react-bootstrap';
 import { css } from '@emotion/react';
 
 export default function Cards(){
-  const listaVagas = useSelector(state => state.vagaRecrutador);
+  var listaVagas = useSelector(state => state.vagaRecrutador);
+/*   const listaVagasFiltrada = listaVagas.flatMap(vaga => {
+    return vaga.cargo != "aaaaa" [] : [vaga];
+  });
+  console.log(JSON.stringify(listaVagasFiltrada));*/
   const dispatch = useDispatch();
-  const [lista, setLista] = useState([]);
-  
+  const [filtro, setFiltro] = useState("");
+
   useEffect(()=>{
     fetch("http://localhost:8080/listarVagas", {
           method: "GET",
@@ -24,23 +28,34 @@ export default function Cards(){
       })
   }, []);  
 
+  const onHandle = (event) => {
+      console.log("aaaaaaaaaaaaaaaaaaaaa");
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      listaVagas = listaVagas.filter(vaga => vaga.cargo == "estagio4545");
+      console.log(JSON.stringify(listaVagas));
+  };
+
   return (  
     <>
-    <ul>
-    {listaVagas.map((vaga) => (
-      <li>{vaga.cargo}</li>
-                ))}
-    </ul>
-
         <Container sx={{ py: 8 }} >
-            <Grid container sx={{mx:'1rem'}}>
-                <AddVaga></AddVaga>
-                {listaVagas.map((vagaObjeto) => (
-                  <Grid item xs={12} sm={6} md={4} sx={{mb:'2rem'}} >
-                    <Card vaga={vagaObjeto}/>
-                  </Grid>
-                ))}
-            </Grid>
+
+          <form onSubmit={onHandle}>
+            <input type="text" class="form-control" name="filtro"/>
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            </div>
+          </form>
+
+          <Grid container sx={{mx:'1rem'}}>
+            <AddVaga></AddVaga>
+            {listaVagas.map((vagaObjeto) => (
+              <Grid item xs={12} sm={6} md={4} sx={{mb:'2rem'}} >
+                <Card vaga={vagaObjeto}/>
+              </Grid>
+            ))}
+          </Grid>
+
         </Container>
     </>
   );
