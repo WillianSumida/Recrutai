@@ -14,8 +14,8 @@ export default function Cards(){
     return vaga.cargo != "aaaaa" [] : [vaga];
   });
   console.log(JSON.stringify(listaVagasFiltrada));*/
+  const [filtro, setFiltro] = useState("")
   const dispatch = useDispatch();
-  const [filtro, setFiltro] = useState("");
 
   useEffect(()=>{
     fetch("http://localhost:8080/listarVagas", {
@@ -24,17 +24,19 @@ export default function Cards(){
       }).then(res=> {
         return res.json();
       }).then(data=>{
-        data.map((vagaObjeto) => dispatch({type:'AddVagaRecrutador', vaga: vagaObjeto}));
+        data.mensagem.map((vagaObjeto) => dispatch({type:'AddVagaRecrutador', vaga: vagaObjeto}));
       })
   }, []);  
 
   const onHandle = (event) => {
-      console.log("aaaaaaaaaaaaaaaaaaaaa");
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      listaVagas = listaVagas.filter(vaga => vaga.cargo == "estagio4545");
-      console.log(JSON.stringify(listaVagas));
-  };
+      setFiltro(data.get('filtro'))
+  
+      //dispatch({type:'FiltrarVagaRecrutador', cargo: data.get('filtro')});      
+    }
+
+
 
   return (  
     <>
@@ -49,11 +51,20 @@ export default function Cards(){
 
           <Grid container sx={{mx:'1rem'}}>
             <AddVaga></AddVaga>
-            {listaVagas.map((vagaObjeto) => (
-              <Grid item xs={12} sm={6} md={4} sx={{mb:'2rem'}} >
-                <Card vaga={vagaObjeto}/>
-              </Grid>
-            ))}
+            {(filtro==="" || filtro===null) ? 
+              (listaVagas.map((vagaObjeto) => (
+                <Grid item xs={12} sm={6} md={4} sx={{mb:'2rem'}} >
+                  <Card vaga={vagaObjeto}/>
+                </Grid>
+              ))) : 
+              (
+                (listaVagas.filter(obj => obj.cargo === filtro).map((vagaObjeto) => (
+                  <Grid item xs={12} sm={6} md={4} sx={{mb:'2rem'}} >
+                    <Card vaga={vagaObjeto}/>
+                  </Grid>
+                )))
+              )
+            }
           </Grid>
 
         </Container>

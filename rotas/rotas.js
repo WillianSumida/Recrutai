@@ -555,6 +555,7 @@ module.exports = app => {
             } catch {
                 retorno = ({ 'error': true, 'mensagem': "Erro ao listar vagas!" })
             }
+            res.send(retorno)
         });
 
     //Listar Uma Vaga
