@@ -5,8 +5,14 @@ import AddVaga from "./AdicionarVagaCard";
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'react-bootstrap';
-import { css } from '@emotion/react';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import Box from '@mui/material/Box';
+import styled from "styled-components";
+
+
 
 export default function Cards(){
   var listaVagas = useSelector(state => state.vagaRecrutador);
@@ -29,19 +35,50 @@ export default function Cards(){
   }, []);  
 
   const onHandle = (event) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      setFiltro(data.get('filtro'))
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    setFiltro(data.get('filtro'))
+
+    //dispatch({type:'FiltrarVagaRecrutador', cargo: data.get('filtro')});      
+  }
+
+  const CssTextField = styled(TextField)({
+    '& label.Mui-focused': {
+      color: '#8D40C9',
+    },
+    '& .MuiInput-underline:after': {
+      color: '#8D40C9',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#8D40C9',
+      },
+      '&:hover fieldset': {
+        borderColor: '#8D40C9',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#8D40C9',
+      },
+    },
+  });
   
-      //dispatch({type:'FiltrarVagaRecrutador', cargo: data.get('filtro')});      
-    }
-
-
-
   return (  
     <>
         <Container sx={{ py: 8 }} >
-
+        <Box m={1}>
+          <CssTextField
+            label="TextField"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton edge="end" color="primary">
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
           <form onSubmit={onHandle}>
             <input type="text" class="form-control" name="filtro"/>
             <div class="input-group-append">
