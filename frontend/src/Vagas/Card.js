@@ -10,13 +10,12 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Badge from '@mui/material/Badge';
+import FormatListBulletedIcon from '@mui/icons-material/Info';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import {Row, Col} from 'react-bootstrap';
 import FormAdicionarVaga from './FormAdicionarVaga';
+import VisualizarVaga from './VisualizarVaga';
 import { Modal, Button} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -36,15 +35,13 @@ export default (props) => {
   const listaVagas = useSelector(state => state.vagaRecrutador);
   const dispatch = useDispatch();
 
-  const [expanded, setExpanded] = React.useState(false);
-
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [showInfo, setShowInfo] = useState(false);
+  const handleCloseInfo = () => setShowInfo(false);
+  const handleShowInfo = () => setShowInfo(true);
 
   function deletarVaga(){
     (async() => {
@@ -60,25 +57,23 @@ export default (props) => {
 
   return (  
     <>
-      <Badge color="warning" large badgeContent={props.vaga.quantidade}>
-        <Card sx={{maxWidth:'21rem', minWidth:'21rem', minHeight:'14.5rem'}}>
-          <CardHeader
-            action={<IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>}
-            title={props.vaga.cargo.toUpperCase()}
-            subheader= 'Março, 03, 2022'/>
-              
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
+    <Card sx={{ minWidth: 275, borderRadius: 3 , border: 1 }} style={{borderColor: '#8D40C9'}}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          {props.vaga.cargo.toUpperCase()}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          13 de Março de 2027
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
             <Stack direction="row" spacing={1}>
               <Chip label={props.vaga.tag1.toUpperCase()} clickable={true} />
               <Chip label={props.vaga.tag2.toUpperCase()} clickable={true} />
               <Chip label={props.vaga.tag3.toUpperCase()} clickable={true} />
             </Stack>
-            </Typography><br></br>
-
-            <Row>
+        </Typography>
+        <br />
+        <Row>
               <Col>
               <Typography>
                   <strong>Salario</strong>: {props.vaga.salario}
@@ -107,34 +102,25 @@ export default (props) => {
                 <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade }
               </Typography>
             </CardContent>
-          <CardActions disableSpacing>
+      <CardActions disableSpacing>
             <IconButton aria-label="Remover vaga">
               <DeleteIcon onClick={deletarVaga}/>
             </IconButton>
             <IconButton aria-label="Editar vaga">
               <EditIcon onClick={handleShow}/>
             </IconButton>
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
+            <ExpandMore aria-label="Visualizar vaga">
+              <FormatListBulletedIcon onClick={handleShowInfo} clickable={true}/>
             </ExpandMore>
           </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>
-                {props.vaga.descricao}
-              </Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
-      </Badge>
+    </Card>
 
       <Modal centered={true} show={show} size={'xl'} scrollable={true} onHide={handleClose}>
         <FormAdicionarVaga title='Alterar Vaga' vaga={props.vaga}/>
+      </Modal>
+
+      <Modal centered={true} show={showInfo} size={'md'} scrollable={true} onHide={handleCloseInfo}>
+        <VisualizarVaga title='Visualizar' vaga={props.vaga}/>
       </Modal>
     </>
   );

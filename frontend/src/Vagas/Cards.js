@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import styled from "styled-components";
+import Navbar from "../Navbar/Navbar";
 
 
 
@@ -36,6 +37,7 @@ export default function Cards(){
 
   const onHandle = (event) => {
     event.preventDefault();
+    console.log(event.currentTarget);
     const data = new FormData(event.currentTarget);
     setFiltro(data.get('filtro'))
 
@@ -64,33 +66,34 @@ export default function Cards(){
   
   return (  
     <>
-        <Container sx={{ py: 8 }} >
-        <Box m={1}>
-          <CssTextField
-            label="TextField"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton edge="end" color="primary">
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Box>
-          <form onSubmit={onHandle}>
-            <input type="text" class="form-control" name="filtro"/>
-            <div class="input-group-append">
-              <button class="btn btn-outline-primary" type="submit">Buscar</button>
-            </div>
-          </form>
+      <Navbar></Navbar>
+        <Container sx={{ py: 4 }}>
+          <Box onSubmit={onHandle} component="form">
+            <CssTextField
+              label="TextField"
+              fullWidth
+              name="filtro"
+              className='SearchBar'
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton type='submit' edge="end" style={{color:"#8D40C9"}}>
+                      <SearchIcon/>
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          <br></br>
 
-          <Grid container sx={{mx:'1rem'}}>
-            <AddVaga></AddVaga>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={4} sm={6}>
+              <AddVaga></AddVaga>
+            </Grid>
             {(filtro==="" || filtro===null) ? 
               (listaVagas.map((vagaObjeto) => (
-                <Grid item xs={12} sm={6} md={4} sx={{mb:'2rem'}} >
+                <Grid item xs={12} md={4} sm={6} key={vagaObjeto.cargo}>
                   <Card vaga={vagaObjeto}/>
                 </Grid>
               ))) : 
@@ -103,8 +106,8 @@ export default function Cards(){
               )
             }
           </Grid>
-
         </Container>
+        <Navbar></Navbar>
     </>
   );
 }
