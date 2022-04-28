@@ -131,7 +131,7 @@ export default function AddVaga(props) {
       <Modal.Body>
           <Row>
             <Col>
-                <Typography variant="h5" component="div">
+                <Typography variant="h5" component="div" style={{ wordWrap: "break-word" }}>
                 {props.vaga.cargo.toUpperCase()}
                 </Typography>
             </Col>
@@ -178,7 +178,7 @@ export default function AddVaga(props) {
                 <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade }
               </Typography>
 
-              <Typography paragraph><br/>
+              <Typography style={{ wordWrap: "break-word" }} paragraph><br/>
                 <strong>Descrição</strong>: <br />
                  {props.vaga.descricao}
               </Typography>

@@ -24,7 +24,7 @@ export default function Cards(){
   const [filtro, setFiltro] = useState("")
   const dispatch = useDispatch();
 
-  useEffect(()=>{
+/*   useEffect(()=>{
     fetch("http://localhost:8080/listarVagas", {
           method: "GET",
           headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'}
@@ -33,16 +33,22 @@ export default function Cards(){
       }).then(data=>{
         data.mensagem.map((vagaObjeto) => dispatch({type:'AddVagaRecrutador', vaga: vagaObjeto}));
       })
-  }, []);  
+  }, []);   */
 
-  const onHandle = (event) => {
+/*   const onHandle = (event) => {
     event.preventDefault();
     console.log(event.currentTarget);
     const data = new FormData(event.currentTarget);
     setFiltro(data.get('filtro'))
 
     //dispatch({type:'FiltrarVagaRecrutador', cargo: data.get('filtro')});      
-  }
+  } */
+
+  listaVagas = [
+    { id:1 , cargo: 'cargoasdasd12345678901234567890123456' , descricao:'asdsagdasyudgsauygdasugdsaiuhdasuihdasigdasgdahgdsagdjghash' , salario:1100 , tipo: 'remoto', tag1: 'java', tag2: 'kotlin', tag3: 'php', cidade:'sao carlos' , estado: 'sp', ativo: true, quantidade: 1, recrutador_usuario_id: 1},
+    { id:2 , cargo: 'cargo2' , descricao:'descricao1' , salario:1100 , tipo: 'remoto', tag1: 'java', tag2: 'kotlin', tag3: 'php', cidade:'sao carlos' , estado: 'sp', ativo: true, quantidade: 1, recrutador_usuario_id: 1},
+    { id:3 , cargo: 'cargo3' , descricao:'descricao2' , salario:1100 , tipo: 'remoto', tag1: 'java', tag2: 'kotlin', tag3: 'php', cidade:'sao carlos' , estado: 'sp', ativo: true, quantidade: 1, recrutador_usuario_id: 1},
+  ]
 
   const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
@@ -68,7 +74,7 @@ export default function Cards(){
     <>
       <Navbar></Navbar>
         <Container sx={{ py: 4 }}>
-          <Box onSubmit={onHandle} component="form">
+          <Box onSubmit={''} component="form">
             <CssTextField
               label="TextField"
               fullWidth

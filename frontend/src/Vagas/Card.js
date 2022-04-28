@@ -59,7 +59,7 @@ export default (props) => {
     <>
     <Card sx={{ minWidth: 275, borderRadius: 3 , border: 1 }} style={{borderColor: '#8D40C9'}}>
       <CardContent>
-        <Typography variant="h5" component="div">
+        <Typography variant="h5" component="div" noWrap={true} style={{wordWrap: "break-word"}}>
           {props.vaga.cargo.toUpperCase()}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
