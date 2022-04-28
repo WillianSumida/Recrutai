@@ -18,6 +18,8 @@ import FormAdicionarVaga from './FormAdicionarVaga';
 import VisualizarVaga from './VisualizarVaga';
 import { Modal, Button} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import Participants from './Participants';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -42,6 +44,10 @@ export default (props) => {
   const [showInfo, setShowInfo] = useState(false);
   const handleCloseInfo = () => setShowInfo(false);
   const handleShowInfo = () => setShowInfo(true);
+
+  const [showParticipants, setShowParticipants] = useState(false);
+  const handleCloseParticipants = () => setShowParticipants(false);
+  const handleShowParticipants = () => setShowParticipants(true);
 
   function deletarVaga(){
     (async() => {
@@ -109,6 +115,9 @@ export default (props) => {
             <IconButton aria-label="Editar vaga">
               <EditIcon onClick={handleShow}/>
             </IconButton>
+            <IconButton aria-label="Visualizar candidatos">
+              <PersonSearchIcon onClick={handleShowParticipants}/>
+            </IconButton>
             <ExpandMore aria-label="Visualizar vaga">
               <FormatListBulletedIcon onClick={handleShowInfo} clickable={true}/>
             </ExpandMore>
@@ -122,6 +131,11 @@ export default (props) => {
       <Modal centered={true} show={showInfo} size={'md'} scrollable={true} onHide={handleCloseInfo}>
         <VisualizarVaga title='Visualizar' vaga={props.vaga}/>
       </Modal>
+
+      <Modal centered={true} show={showParticipants} size={'xl'} scrollable={true} onHide={handleCloseParticipants}>
+        <Participants title='Tabela'/>
+      </Modal>
+
     </>
   );
 }
