@@ -49,7 +49,7 @@ export default function ButtonAppBar() {
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            Recruta+
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>

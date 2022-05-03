@@ -12,12 +12,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import styled from "styled-components";
 import Navbar from "../Navbar/Navbar";
-
-
+import MenuItem from '@mui/material/MenuItem';
+import {Row, Col} from 'react-bootstrap';
+import Typography from '@mui/material/Typography';
 
 export default function Cards(){
-  var listaVagas = useSelector(state => state.vagaRecrutador);;
+  var listaVagas = useSelector(state => state.vagaRecrutador);
   const [filtro, setFiltro] = useState("")
+  const [tipoBusca, setTipoBusca] = useState("")
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -31,11 +33,11 @@ export default function Cards(){
       })
   }, []);
 
-    const onHandle = (event) => {
+  const onHandle = (event) => {
     event.preventDefault();
-    console.log(event.currentTarget);
     const data = new FormData(event.currentTarget);
-    setFiltro(data.get('filtro'))  
+    setTipoBusca(data.get('tipo'))
+    setFiltro(data.get('filtro').toUpperCase())
   }
 
   const CssTextField = styled(TextField)({
@@ -57,27 +59,70 @@ export default function Cards(){
       },
     },
   });
-  
+
+  function trataTipoBusca(){
+
+    var a;
+
+    if(tipoBusca === "Cargo"){ 
+      a = listaVagas.filter(obj => obj.cargo.toUpperCase() === filtro);
+      console.log(a);
+      return a;
+    }
+
+    if(tipoBusca === "Habilidade") return listaVagas.filter(obj => obj.tag1.toUpperCase() === filtro || obj.tag2.toUpperCase() === filtro || obj.tag3.toUpperCase() === filtro)
+
+    if(tipoBusca === "Nivel") return listaVagas.filter(obj => obj.nivel.toUpperCase() === filtro)
+  }
+
   return (  
     <>
       <Navbar></Navbar>
         <Container sx={{ py: 4 }}>
           <Box onSubmit={onHandle} component="form">
-            <CssTextField
-              label="Filtrar Vagas - Cargo"
-              fullWidth
-              name="filtro"
-              className='SearchBar'
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton type='submit' edge="end" style={{color:"#8D40C9"}}>
-                      <SearchIcon/>
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <Row>
+              <Col>
+              <CssTextField
+                select
+                name="tipo"
+                fullWidth
+                label="Filtrar por"
+                autoFocus
+                defaultValue={"Cargo"}
+              >
+
+              <MenuItem key="Cargo" value="Cargo">
+                Cargo
+              </MenuItem>
+              <MenuItem key="Habilidade" value="Habilidade">
+                Habilidade
+              </MenuItem>
+              <MenuItem key="Nivel" value="Nivel">
+                Nível
+              </MenuItem>
+              <MenuItem key="Data" value="Data">
+                Data
+              </MenuItem>
+              </CssTextField>
+              </Col>
+              <Col xs={9}>
+              <CssTextField
+                label="Filtrar Vagas"
+                name="filtro"
+                className='SearchBar'
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton type='submit' edge="end" style={{color:"#8D40C9"}}>
+                        <SearchIcon/>
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              </Col>
+            </Row>
           </Box>
           <br></br>
 
@@ -87,13 +132,13 @@ export default function Cards(){
             </Grid>
             {(filtro==="" || filtro===null) ? 
               (listaVagas.map((vagaObjeto) => (
-                <Grid item xs={12} md={4} sm={6} key={vagaObjeto.cargo}>
+                <Grid item xs={12} md={4} sm={6} key={vagaObjeto.id}>
                   <Card vaga={vagaObjeto}/>
                 </Grid>
               ))) : 
               (
-                (listaVagas.filter(obj => obj.cargo === filtro).map((vagaObjeto) => (
-                  <Grid item xs={12} sm={6} md={4} sx={{mb:'2rem'}} >
+                (trataTipoBusca().map((vagaObjeto) => (
+                  <Grid item xs={12} sm={6} md={4} key={vagaObjeto.id} >
                     <Card vaga={vagaObjeto}/>
                   </Grid>
                 )))
