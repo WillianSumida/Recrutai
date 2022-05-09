@@ -100,9 +100,6 @@ export default function Cards(){
               <MenuItem key="Nivel" value="Nivel">
                 Nível
               </MenuItem>
-              <MenuItem key="Data" value="Data">
-                Data
-              </MenuItem>
               </CssTextField>
               </Col>
               <Col xs={9}>

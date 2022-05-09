@@ -6,7 +6,7 @@ async function conecta() {
     const con = await banco.createConnection({
         host: "localhost",
         port: 3306,
-        user: "root",
+        user: "sa",
         password: "root",
         database: "recruta"
     })
@@ -263,11 +263,11 @@ async function listarUmRecrutador(usuario_id) {
 //<><><><><><><> SEÇÃO VAGA <><><><><><><><>
 //Inserir Vaga
 async function inserirVaga(vaga) {
-    console.log("Inserindo vaga...");
+    console.log("Inserindo vaga ...");
     const conexao = await conecta();
 
-    const sql = "INSERT INTO vaga(cargo,descricao,salario,tipo,tag1,tag2,tag3,cidade,estado,ativo,quantidade,recrutador_usuario_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-    const param = [vaga.cargo,vaga.descricao,vaga.salario,vaga.tipo,vaga.tag1,vaga.tag2,vaga.tag3,vaga.cidade,vaga.estado,vaga.ativo,vaga.quantidade,vaga.recrutador_usuario_id];
+    const sql = "INSERT INTO vaga(cargo,descricao,salario,tipo,tag1,tag2,tag3,cidade,estado,ativo,nivel,quantidade,recrutador_usuario_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    const param = [vaga.cargo,vaga.descricao,vaga.salario,vaga.tipo,vaga.tag1,vaga.tag2,vaga.tag3,vaga.cidade,vaga.estado,vaga.ativo,vaga.nivel, vaga.quantidade,vaga.recrutador_usuario_id];
     return await conexao.query(sql, param);
 }
 
@@ -276,13 +276,12 @@ async function alterarVaga(vaga) {
     console.log("Alterando vaga...");
     const conexao = await conecta();
     const [resultado] = await conexao.query("SELECT * FROM vaga WHERE id=?;", [vaga.id]);
-
+    console.log(resultado)
     if (resultado.length == 0) {
         return "Id Inexistente!"
     }
-
-    const sql = "UPDATE vaga SET cargo=?, descricao=?,salario=?,tipo=?,tag1=?,tag2=?,tag3=?,cidade=?,estado=?,ativo=?,quantidade=?,recrutador_usuario_id=? WHERE id=?;";
-    const param = [vaga.cargo, vaga.descricao,vaga.salario,vaga.tipo,vaga.tag1,vaga.tag2,vaga.tag3,vaga.cidade,vaga.estado,vaga.ativo,vaga.quantidade,vaga.recrutador_usuario_id, vaga.id];
+    const sql = "UPDATE vaga SET cargo=?, descricao=?,salario=?,tipo=?,tag1=?,tag2=?,tag3=?,cidade=?,estado=?,ativo=?, nivel=?,quantidade=?,recrutador_usuario_id=? WHERE id=?;";
+    const param = [vaga.cargo, vaga.descricao,vaga.salario,vaga.tipo,vaga.tag1,vaga.tag2,vaga.tag3,vaga.cidade,vaga.estado,vaga.ativo, vaga.nivel, vaga.quantidade,vaga.recrutador_usuario_id, vaga.id];
     return await conexao.query(sql, param);
 }
 

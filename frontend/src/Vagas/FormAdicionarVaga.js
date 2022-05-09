@@ -58,13 +58,14 @@ export default function AddVaga(props) {
       cidade: data.get('cidade'),
       estado: data.get('estado'),
       quantidade: data.get('quantidade'),
-      //nivel: data.get('nivel'),
+      nivel: data.get('nivel'),
       ativo: 0,
-      recrutador_usuario_id: 16
+      recrutador_usuario_id: 2
     };
 
     if (props.title == 'Adicionar Vaga'){
       (async() => {
+        console.log(Vaga)
         const resposta = await fetch("http://localhost:8080/adicionarVaga", {
           method: "POST",
           headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
@@ -72,6 +73,7 @@ export default function AddVaga(props) {
         });
     
         var respostaJson = await resposta.json(); 
+        console.log(respostaJson)
         await dispatch({type:'AddVagaRecrutador', vaga: Vaga})
       
       })();
@@ -95,7 +97,6 @@ export default function AddVaga(props) {
   const vaga ={};
   if (props.title === 'Adicionar Vaga'){
       vaga.cargo = 'cargo';
-      //props.vaga.nivel = '';
       vaga.descricao = 'Essa vaga é ...';
       vaga.salario = '0,00';
       vaga.tipo = '';
@@ -107,7 +108,6 @@ export default function AddVaga(props) {
       vaga.quantidade = '10';
   }else{
       vaga.cargo = props.vaga.cargo;
-      //props.vaga.nivel = '';
       vaga.descricao = props.vaga.descricao;
       vaga.salario = props.vaga.salario;
       vaga.tipo = props.vaga.tipo;

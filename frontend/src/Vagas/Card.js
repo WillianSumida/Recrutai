@@ -99,7 +99,7 @@ export default (props) => {
               </Col>
               <Col>
                 <Typography>
-                <strong>Nível</strong>: 'Pleno'
+                <strong>Nível</strong>: {props.vaga.nivel}
                 </Typography>
               </Col>
             </Row>
