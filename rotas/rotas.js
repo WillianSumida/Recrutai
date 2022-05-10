@@ -1,4 +1,6 @@
 const { body, validationResult } = require("express-validator");
+const fetch = require("node-fetch");
+const cors = require("cors");
 const banco = require("../bancoDeDados/conexao");
 
 module.exports = app => {
@@ -6,6 +8,7 @@ module.exports = app => {
     //Página Inicial
     app.post("/login", app.configuracao.autenticacao.login)
     app.post(".validateToken", app.configuracao.autenticacao.validaChave)
+    app.use(cors());
 
     //<><><><><><><><><><><><><><><><><><><><><><><><><>
     //<><><><><><><>SEÇÃO USUÁRIO<><><><><><><><><><>
@@ -691,5 +694,20 @@ module.exports = app => {
                 res.send(retorno);
             }
         });
+
+    //Consumo conteudo git
+    app.post("/listarInfoGit", async function(req, res){
+        try {
+            const url_api='https://api.github.com/users/williansumida';
+            const resposta = await fetch(url_api);
+
+            const resultado = await resposta.json();
+            console.log(resultado)
+            res.send(resultado);
+        }catch(e){
+            console.log(e)
+        }
+    });
+    
         
 };
