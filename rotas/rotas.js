@@ -696,18 +696,27 @@ module.exports = app => {
         });
 
     //Consumo conteudo git
-    app.post("/listarInfoGit", async function(req, res){
-        try {
-            const url_api='https://api.github.com/users/williansumida';
-            const resposta = await fetch(url_api);
+    app.post("/listarInfoGit", function (req, res) {
+        var retorno = [];
+            const url_api = 'https://api.github.com/users/williansumida';
+            fetch(url_api).then(function(res1) { 
+                return res1.json();
+            }).then(function(res2) { 
+                return res2.repos_url
+            }).then(function(res3){
+                fetch(res3).then(function(res4) { 
+                    return res4.json();
+                }).then(function(res5) {
+                    res5.forEach(data => {
+                        retorno.push({'language': data.language, 'data': data.created_at})
+                    })
+                    res.send(retorno)
+                })
+            })
 
-            const resultado = await resposta.json();
-            console.log(resultado)
-            res.send(resultado);
-        }catch(e){
-            console.log(e)
-        }
+           
+
     });
-    
-        
+
+
 };
