@@ -65,8 +65,6 @@ export default function CadastroCandidato() {
         }).then(function (response) { return response.json(); }).then(function (data) {
           //user = {location: data.location};
           //console.log(user);
-          alert(JSON.stringify(data));
-
           setFiltro({ location: data.location, tag1: data.tag1, tag2: data.tag2, tag3: data.tag3 });
         });
       })();

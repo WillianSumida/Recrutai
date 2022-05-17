@@ -702,7 +702,6 @@ module.exports = app => {
         var retorno = [];
         var location;
             const url_api = 'https://api.github.com/users/' + req.body.portfolio;
-            console.log(url_api);
             fetch(url_api).then(function(res1) { 
                 return res1.json();
             }).then(function(res2) {
@@ -721,9 +720,11 @@ module.exports = app => {
                     retorno.sort(function(a, b) { return a.data - b.data; });
         
                     const filter = retorno.filter((item) => {
+                        if(item.language != null){
                         const duplicatedItem = setItem.has(item.language);
                         setItem.add(item.language);
                         return !duplicatedItem;
+                        }
                     });
                     
                     var array = {'location': location,"tag1": filter[filter.length - 1].language, "tag2": filter[filter.length - 2].language, "tag3": filter[filter.length - 3].language}
