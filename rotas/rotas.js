@@ -701,7 +701,7 @@ module.exports = app => {
         const setItem = new Set();
         var retorno = [];
         var location;
-            const url_api = 'https://api.github.com/users/jrrmarcos';
+            const url_api = 'https://api.github.com/users/' + req.body.portfolio;
             console.log(url_api);
             fetch(url_api).then(function(res1) { 
                 return res1.json();

@@ -55,51 +55,56 @@ export default function CadastroCandidato() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget); 
 
-    (async () => {
-      fetch("http://localhost:8080/listarInfoGit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      }).then(function (response) { return response.json(); }).then(function (data) {
-        //user = {location: data.location};
-        //console.log(user);
-        alert(JSON.stringify(data));
+      (async () => {
+        fetch("http://localhost:8080/listarInfoGit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({portfolio: data.get('portfolio')})
+        }).then(function (response) { return response.json(); }).then(function (data) {
+          //user = {location: data.location};
+          //console.log(user);
+          alert(JSON.stringify(data));
 
-        setFiltro({ location: data.location, tag1: data.tag1, tag2: data.tag2, tag3: data.tag3 });
-      });
-    })();
+          setFiltro({ location: data.location, tag1: data.tag1, tag2: data.tag2, tag3: data.tag3 });
+        });
+      })();
   };
 
   return (
     <Grid sx={{ px: 2 }}>
       <br />
       <Container sx={{ py: 4, border: 1, borderColor: "#8D40C9", borderRadius: '2%' }} style={{ backgroundColor: "#F9EAF9" }}>
-        <Box sx={{mb: 3}}
-          display="flex" 
+        <Box sx={{ mb: 3 }}
+          display="flex"
           alignItems="center"
           justifyContent="center"
         >
-          <Avatar sx={{ width: 100, height: 100, border: 2, borderColor: "white" }}/>
+          <Avatar sx={{ width: 100, height: 100, border: 2, borderColor: "white" }} />
         </Box>
         <h2 align="center">Cadastrar Candidato</h2>
         <br></br>
-        <Grid item xs={12} className="mb-3">
-          <CssTextField
-            name="portfolio"
-            fullWidth
-            id="portfolio"
-            label="Username GitHub"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleSubmit} edge="end" style={{ color: "#8D40C9" }}>
-                    <SendIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Grid>
+
+        <Box onSubmit={handleSubmit} component="form">
+          <Grid item xs={12} className="mb-3">
+            <CssTextField
+              name="portfolio"
+              fullWidth
+              id="portfolio"
+              label="Username GitHub"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton type='submit' edge="end" style={{ color: "#8D40C9" }}>
+                      <SendIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+        </Box>
         <Grid item xs={12} className="mb-3">
           <CssTextField
             name="localizacao"

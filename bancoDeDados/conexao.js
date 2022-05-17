@@ -6,8 +6,8 @@ async function conecta() {
     const con = await banco.createConnection({
         host: "localhost",
         port: 3306,
-        user: "root",
-        password: "123456",
+        user: "sa",
+        password: "root",
         database: "recruta"
     })
     console.log("Conexão efetuada com sucesso!");
