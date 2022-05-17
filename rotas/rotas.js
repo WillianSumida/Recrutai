@@ -2,6 +2,7 @@ const { body, validationResult } = require("express-validator");
 const fetch = require("node-fetch");
 const cors = require("cors");
 const banco = require("../bancoDeDados/conexao");
+const { filter } = require("lodash");
 
 module.exports = app => {
 
@@ -697,11 +698,15 @@ module.exports = app => {
 
     //Consumo conteudo git
     app.post("/listarInfoGit", function (req, res) {
+        const setItem = new Set();
         var retorno = [];
-            const url_api = 'https://api.github.com/users/williansumida';
+        var location;
+            const url_api = 'https://api.github.com/users/jrrmarcos';
+            console.log(url_api);
             fetch(url_api).then(function(res1) { 
                 return res1.json();
-            }).then(function(res2) { 
+            }).then(function(res2) {
+                location = res2.location; 
                 return res2.repos_url
             }).then(function(res3){
                 fetch(res3).then(function(res4) { 
@@ -710,11 +715,22 @@ module.exports = app => {
                     res5.forEach(data => {
                         retorno.push({'language': data.language, 'data': data.created_at})
                     })
-                    res.send(retorno)
+
+                    retorno.forEach(item => { item.data = new Date(item.data).getTime()  })
+
+                    retorno.sort(function(a, b) { return a.data - b.data; });
+        
+                    const filter = retorno.filter((item) => {
+                        const duplicatedItem = setItem.has(item.language);
+                        setItem.add(item.language);
+                        return !duplicatedItem;
+                    });
+                    
+                    var array = {'location': location,"tag1": filter[filter.length - 1].language, "tag2": filter[filter.length - 2].language, "tag3": filter[filter.length - 3].language}
+
+                    res.send(array);
                 })
             })
-
-           
 
     });
 

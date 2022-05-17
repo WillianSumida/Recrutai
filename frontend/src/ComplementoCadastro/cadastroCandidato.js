@@ -59,12 +59,13 @@ export default function CadastroCandidato() {
     (async () => {
       fetch("http://localhost:8080/listarInfoGit", {
         method: "POST",
-        headers: { "content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
       }).then(function (response) { return response.json(); }).then(function (data) {
         //user = {location: data.location};
         //console.log(user);
+        alert(JSON.stringify(data));
 
-        setFiltro({ location: data.location, login: data.login });
+        setFiltro({ location: data.location, tag1: data.tag1, tag2: data.tag2, tag3: data.tag3 });
       });
     })();
   };
@@ -87,7 +88,7 @@ export default function CadastroCandidato() {
             name="portfolio"
             fullWidth
             id="portfolio"
-            label="Portfólio GitHub"
+            label="Username GitHub"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -107,13 +108,15 @@ export default function CadastroCandidato() {
             value={filtro.location}
             id="localizacao"
             label="Localização"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Grid>
         <Grid item xs={12} className="mb-3">
           <CssTextField
             name="telefone"
             fullWidth
-            value={filtro.login}
             id="telefone"
             label="Telefone"
           />
@@ -169,8 +172,12 @@ export default function CadastroCandidato() {
               <CssTextField
                 name="tag1"
                 fullWidth
+                value={filtro.tag1}
                 id="tag1"
                 label="Habilidade 1"
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Grid>
           </Col>
@@ -179,8 +186,12 @@ export default function CadastroCandidato() {
               <CssTextField
                 name="tag2"
                 fullWidth
+                value={filtro.tag2}
                 id="tag2"
                 label="Habilidade 2"
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Grid>
           </Col>
@@ -189,8 +200,12 @@ export default function CadastroCandidato() {
               <CssTextField
                 name="tag3"
                 fullWidth
+                value={filtro.tag3}
                 id="tag3"
                 label="Habilidade 3"
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Grid>
           </Col>
