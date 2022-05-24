@@ -58,7 +58,7 @@ export default function Cadastro() {
     // eslint-disable-next-line no-console
     const Usuario = {
       login: data.get('email'),
-      nome: data.get('firstName'),
+      nome: data.get('firstName') + ' ' + data.get('Sobrenome'),
       senha: data.get('senha'),
       recrutador: data.get('tipo'),
     };

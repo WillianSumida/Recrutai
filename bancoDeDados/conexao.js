@@ -6,8 +6,8 @@ async function conecta() {
     const con = await banco.createConnection({
         host: "localhost",
         port: 3306,
-        user: "sa",
-        password: "root",
+        user: "root",
+        password: "123456",
         database: "recruta"
     })
     console.log("Conexão efetuada com sucesso!");
@@ -33,8 +33,8 @@ async function inserirUsuario(usuario) {
         return "Login previamente cadastrado!"
     }
     try{
-        const sql = "INSERT INTO usuario(login,senha,nome,recrutador,cidade,estado,verificado,telefone) VALUES (?,?,?,?,?,?,?,?)";
-        const param = [usuario.login, usuario.senha, usuario.nome, usuario.recrutador, usuario.cidade, usuario.estado, usuario.verificado, usuario.telefone];
+        const sql = "INSERT INTO usuario(login,senha,nome,recrutador,localizacao,verificado,telefone) VALUES (?,?,?,?,?,?,?)";
+        const param = [usuario.login, usuario.senha, usuario.nome, usuario.recrutador, usuario.localizacao, usuario.verificado, usuario.telefone];
         return await conexao.query(sql, param);
     }
     catch(erro)
@@ -84,8 +84,17 @@ async function inserirCandidato(candidato) {
     console.log("Inserindo candidato...");
     const conexao = await conecta();
 
-    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,tag1,tag2,tag3,idade,portfolio) VALUES (?,?,?,?,?,?,?,?)";
-    const param = [candidato.usuario_id, candidato.grau_formacao,candidato.instituicao_ensino,candidato.tag1,candidato.tag2,candidato.tag3,candidato.idade,candidato.portfolio];
+    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,tag1,tag2,tag3,dataNascimento,portfolio) VALUES (?,?,?,?,?,?,?,?)";
+    const param = [candidato.usuario_id, candidato.grau_formacao,candidato.instituicao_ensino,candidato.tag1,candidato.tag2,candidato.tag3,candidato.data,candidato.portfolio];
+    return await conexao.query(sql, param);
+}
+
+async function atualizarUsuarioCandidato(candidato) {
+    console.log("Atualizando candidato...");
+    const conexao = await conecta();
+
+    const sql = "UPDATE usuario SET localizacao = ?, verificado = 1, telefone = ? WHERE id = ?";
+    const param = [candidato.localizacao, candidato.telefone, candidato.usuario_id];
     return await conexao.query(sql, param);
 }
 
@@ -380,5 +389,5 @@ module.exports = {
     listarVagas, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga,
     listarUmRecrutador, listarRecrutadores, inserirRecrutador, excluirRecrutador, alterarRecrutador,
     listarExperiencias, inserirExperiencia, excluirExperiencia, alterarExperiencia,
-    listarProcessosCandidato, listarProcessosRecrutador, inserirProcesso, alterarProcesso
+    listarProcessosCandidato, listarProcessosRecrutador, inserirProcesso, alterarProcesso, atualizarUsuarioCandidato
 }

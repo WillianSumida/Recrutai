@@ -21,10 +21,6 @@ module.exports = app => {
         body("senha", "Senha deve ter entre 6 e 8 caracteres").trim().isLength({ min: 6, max: 8 }),
         body("nome", "*Obrigatório").trim().isLength({ min: 2, max: 100 }),
         body("recrutador").trim(),
-        /* body("cidade").trim().isLength({ min: 2, max: 100 }),
-       body("estado").trim().isLength({ min: 2, max: 2 }),
-       body("verificado").trim(),
-       body("telefone").trim().isLength({ min: 8, max: 15 }), */
     ],
         async (req, res) => {
             const erro = validationResult(req);
@@ -38,9 +34,8 @@ module.exports = app => {
                         login: req.body.login,
                         senha: req.body.senha,
                         nome: req.body.nome,
-                        recrutador: req.body.recrutador, //por enquanto estatico
-                        cidade: "",
-                        estado: "",
+                        recrutador: req.body.recrutador,
+                        localizacao: '',
                         verificado: 0,
                         telefone: ''
                     });
@@ -119,12 +114,14 @@ module.exports = app => {
         .all(app.configuracao.passport.authenticate())
         .post([
             body("usuario_id").trim().isLength({ min: 1 }),
+            body("localizacao").trim().isLength({ min: 2, max: 100 }),
+            body("telefone").trim().isLength({ min: 8, max: 16 }),
             body("grau_formacao").trim().isLength({ min: 2, max: 100 }),
             body("instituicao_ensino").trim().isLength({ min: 2, max: 100 }),
             body("tag1").trim().isLength({ min: 2, max: 100 }),
             body("tag2").trim().isLength({ min: 2, max: 100 }),
             body("tag3").trim().isLength({ min: 2, max: 100 }),
-            body("idade").trim().isLength({ min: 1, max: 3 }),
+            body("data").trim().isLength({ min: 1, max: 10 }),
             body("portfolio").trim().isLength({ min: 1, max: 100 }),],
             async (req, res) => {
                 const erro = validationResult(req);
@@ -135,18 +132,21 @@ module.exports = app => {
                     try {
                         const resultado = await banco.inserirCandidato({
                             usuario_id: req.body.usuario_id,
+                            portfolio: req.body.portfolio,
                             grau_formacao: req.body.grau_formacao,
                             instituicao_ensino: req.body.instituicao_ensino,
                             tag1: req.body.tag1,
                             tag2: req.body.tag2,
                             tag3: req.body.tag3,
-                            idade: req.body.idade,
-                            portfolio: req.body.portfolio
+                            data: req.body.data,
                         });
-                        if (resultado == "Login previamente cadastrado!") {
-                            retorno = ({ 'error': false, 'mensagem': resultado })
-                        }
-                    } catch {
+                        const resultado2 = await banco.atualizarUsuarioCandidato({
+                            localizacao: req.body.localizacao,
+                            telefone: req.body.telefone,
+                            usuario_id: req.body.usuario_id,
+                        });
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch(ex) {
                         retorno = ({ 'error': true, 'mensagem': 'Cadastro não realizado!' })
                     }
                     res.send(retorno);
