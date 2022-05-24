@@ -73,9 +73,9 @@ export default (props) => {
         </Typography>
         <Typography variant="body2" color="text.secondary">
             <Stack direction="row" spacing={1}>
-              <Chip label={props.vaga.tag1.toUpperCase()} clickable={true} />
-              <Chip label={props.vaga.tag2.toUpperCase()} clickable={true} />
-              <Chip label={props.vaga.tag3.toUpperCase()} clickable={true} />
+              <Chip label={props.vaga.tag1.toUpperCase()}  />
+              <Chip label={props.vaga.tag2.toUpperCase()}  />
+              <Chip label={props.vaga.tag3.toUpperCase()}  />
             </Stack>
         </Typography>
         <br />
@@ -109,17 +109,17 @@ export default (props) => {
               </Typography>
             </CardContent>
       <CardActions disableSpacing>
-            <IconButton aria-label="Remover vaga">
-              <DeleteIcon onClick={deletarVaga}/>
+            <IconButton aria-label="Remover vaga" onClick={deletarVaga}>
+              <DeleteIcon />
             </IconButton>
-            <IconButton aria-label="Editar vaga">
-              <EditIcon onClick={handleShow}/>
+            <IconButton aria-label="Editar vaga" onClick={handleShow}>
+              <EditIcon />
             </IconButton>
-            <IconButton aria-label="Visualizar candidatos">
-              <PersonSearchIcon onClick={handleShowParticipants}/>
+            <IconButton aria-label="Visualizar candidatos" onClick={handleShowParticipants}>
+              <PersonSearchIcon />
             </IconButton>
-            <ExpandMore aria-label="Visualizar vaga">
-              <FormatListBulletedIcon onClick={handleShowInfo} clickable={true}/>
+            <ExpandMore aria-label="Visualizar vaga" onClick={handleShowInfo}>
+              <FormatListBulletedIcon   />
             </ExpandMore>
           </CardActions>
     </Card>

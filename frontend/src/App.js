@@ -9,11 +9,12 @@ import { Provider } from 'react-redux';
 import CadastroCandidato from './ComplementoCadastro/cadastroCandidato';
 
 export default function App() {
+
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/newlogin" element={<NewLogin />} />
+          <Route path="/" element={<NewLogin />} />
           <Route path="/newcadastro" element={<NewCadastro />} />
           <Route path="/cards" element={<Cards />} />
           <Route path="/cadastrarCandidato" element={<CadastroCandidato />} />

@@ -17,9 +17,8 @@ module.exports = app => {
             
             //console.log("resultado: ", resultado)
             //console.log("req.body.senha: ", req.body.senha)
-
             //Exceção para usuário não cadastrado
-            if (resultado.length == 0) { 
+            if (resultado == null) { 
                 return res.status(400).send("Usuário não cadastrado!") 
             }
             

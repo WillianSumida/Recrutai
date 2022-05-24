@@ -44,8 +44,8 @@ export default function AdicionarVagaCard() {
     <>
     <Card sx={{ minWidth: 275, minHeight: 319, borderRadius: 3 , border: 2 }} style={{borderColor: '#8D40C9', backgroundColor:"#E3C9F8"}} align={"center"}>
       <CardHeader title="Adicionar uma vaga"/>
-      <IconButton aria-label="Adicionar vaga">
-          <AddCircleOutlineIcon onClick={handleShow} sx={{ fontSize: 230 }} style={{color:"#fff", opacity:0.6}}  />
+      <IconButton aria-label="Adicionar vaga" onClick={handleShow}>
+          <AddCircleOutlineIcon sx={{ fontSize: 230 }} style={{color:"#fff", opacity:0.6}}  />
       </IconButton>
     </Card>
 
