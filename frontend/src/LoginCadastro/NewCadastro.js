@@ -52,6 +52,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function Cadastro() {
+  const navigate = useNavigate()
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -63,7 +64,7 @@ export default function Cadastro() {
       recrutador: data.get('tipo'),
     };
 
-    if(Usuario.senha == data.get("password")){
+    if(Usuario.senha == data.get("password") && Usuario.senha.length > 6){
       (async() => {
         const resposta = await fetch("http://localhost:8080/adicionarUsuario", {
           method: "POST",
@@ -72,12 +73,11 @@ export default function Cadastro() {
         });
     
         var respostaJson = await resposta.json();
-  
+        navigate("/");
       })();
-      document.getElementById("myCheck").click();
     }
     else {
-        toast.error('As senhas não coincidem')
+        toast.error('As senhas não coincidem ou o tamanho da senha está incorreto')
     }
   };
 
@@ -127,6 +127,7 @@ export default function Cadastro() {
                   label="Eu sou"
                   fullWidth
                   autoFocus
+                  defaultValue={0}
                 >
 
                     <MenuItem key="Recrutador" value={1}>
@@ -211,8 +212,6 @@ export default function Cadastro() {
                 </Link1>
               </Grid>
             </Grid>          
-            <Link1 type="hidden" href="/newlogin" id="myCheck" variant="body2">
-            </Link1>
           </Box>
           </Box>
         </Grid>

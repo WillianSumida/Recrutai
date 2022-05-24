@@ -15,12 +15,14 @@ import Navbar from "../Navbar/Navbar";
 import MenuItem from '@mui/material/MenuItem';
 import {Row, Col} from 'react-bootstrap';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from "react-router-dom";
 
 export default function Cards(){
-  var listaVagas = useSelector(state => state.vagaRecrutador);
+  const navigate = useNavigate()
   const [filtro, setFiltro] = useState("")
   const [tipoBusca, setTipoBusca] = useState("")
   const dispatch = useDispatch();
+  var listaVagas = useSelector(state => state.vagaRecrutador)
 
   useEffect(()=>{
     fetch("http://localhost:8080/listarVagas", {
@@ -66,7 +68,6 @@ export default function Cards(){
 
     if(tipoBusca === "Cargo"){ 
       a = listaVagas.filter(obj => obj.cargo.toUpperCase() === filtro);
-      console.log(a);
       return a;
     }
 
@@ -128,7 +129,7 @@ export default function Cards(){
               <AddVaga></AddVaga>
             </Grid>
             {(filtro==="" || filtro===null) ? 
-              (listaVagas.map((vagaObjeto) => (
+              (listaVagas?.map((vagaObjeto) => (
                 <Grid item xs={12} md={4} sm={6} key={vagaObjeto.id}>
                   <Card vaga={vagaObjeto}/>
                 </Grid>
