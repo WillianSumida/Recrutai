@@ -17,6 +17,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { style } from '@mui/system';
+import { useSelector } from 'react-redux';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -49,6 +50,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
 export default function CadastroCandidato() {
   const [filtro, setFiltro] = useState('');
   const [userGitHub, setUserGitHub] = useState('');
+  //const userAutenticado = useSelector(state => state.user);
 
   const handleSubmitGitHub = (event) => {
     event.preventDefault();
@@ -79,7 +81,7 @@ export default function CadastroCandidato() {
       tag2: data.get('tag2'),
       tag3: data.get('tag3'),
       data: data.get('data'),
-      usuario_id: 1
+      usuario_id: 1, //CONFERIR USER STATE
     };
 
     (async () => {
@@ -93,12 +95,14 @@ export default function CadastroCandidato() {
       var respostaJson = await resposta.json();
       console.log(respostaJson)
 
+      toast.success('Seu cadastro está completo!');
     })();
   }
 
 
   return (
     <Grid sx={{ px: 2 }}>
+      <ToastContainer></ToastContainer>
       <br />
       <Container sx={{ py: 4, border: 1, borderColor: "#8D40C9", borderRadius: '2%' }} style={{ backgroundColor: "#F9EAF9" }}>
         <Box sx={{ mb: 3 }}

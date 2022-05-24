@@ -23,6 +23,7 @@ export default function Cards(){
   const [tipoBusca, setTipoBusca] = useState("")
   const dispatch = useDispatch();
   var listaVagas = useSelector(state => state.vagaRecrutador)
+  var userAutenticado = useSelector(state => state.user)
 
   useEffect(()=>{
     fetch("http://localhost:8080/listarVagas", {

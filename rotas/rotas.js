@@ -118,9 +118,9 @@ module.exports = app => {
             body("telefone").trim().isLength({ min: 8, max: 16 }),
             body("grau_formacao").trim().isLength({ min: 2, max: 100 }),
             body("instituicao_ensino").trim().isLength({ min: 2, max: 100 }),
-            body("tag1").trim().isLength({ min: 2, max: 100 }),
-            body("tag2").trim().isLength({ min: 2, max: 100 }),
-            body("tag3").trim().isLength({ min: 2, max: 100 }),
+            body("tag1").trim().isLength({ min: 0, max: 100 }),
+            body("tag2").trim().isLength({ min: 0, max: 100 }),
+            body("tag3").trim().isLength({ min: 0, max: 100 }),
             body("data").trim().isLength({ min: 1, max: 10 }),
             body("portfolio").trim().isLength({ min: 1, max: 100 }),],
             async (req, res) => {
@@ -147,7 +147,7 @@ module.exports = app => {
                         });
                         retorno = ({ 'error': false, 'mensagem': resultado })
                     } catch(ex) {
-                        retorno = ({ 'error': true, 'mensagem': 'Cadastro não realizado!' })
+                        retorno = ({ 'error': true, 'mensagem': ex })
                     }
                     res.send(retorno);
                 }
@@ -481,9 +481,9 @@ module.exports = app => {
                             quantidade: req.body.quantidade,
                             recrutador_usuario_id: req.body.recrutador_usuario_id
                         });
-                        retorno = ({ 'error': false, 'mensagem': retorno })
-                    } catch {
-                        retorno = ({ 'error': true, 'mensagem': "Erro ao cadastrar vaga!" })
+                        retorno = ({ 'error': false, 'mensagem': resultado })
+                    } catch(ex) {
+                        retorno = ({ 'error': true, 'mensagem': ex });
                     }
                     res.send(retorno);
                 }

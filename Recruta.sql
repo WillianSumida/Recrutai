@@ -8,22 +8,21 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `senha` VARCHAR(100) NOT NULL,
   `nome` VARCHAR(100) NOT NULL,
   `recrutador` BOOLEAN NOT NULL DEFAULT 0,
-  `cidade` VARCHAR(100) ,
-  `estado` VARCHAR(2) ,
+  `localizacao` VARCHAR(100) NULL,
   `verificado` BOOLEAN NOT NULL DEFAULT 0,
-  `telefone` VARCHAR(15),
+  `telefone` VARCHAR(15) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `login_UNIQUE` (`login` ASC)) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `candidato` (
+  CREATE TABLE IF NOT EXISTS `candidato` (
   `usuario_id` INT NOT NULL,
   `grau_formacao` VARCHAR(100) NOT NULL,
   `instituicao_ensino` VARCHAR(100) NOT NULL,
   `tag1` VARCHAR(100) NULL,
   `tag2` VARCHAR(100) NULL,
   `tag3` VARCHAR(100) NULL,
-  `idade` INT NOT NULL,
+  `dataNascimento` VARCHAR(20) NOT NULL,
   `portfolio` VARCHAR(100) NULL,
   PRIMARY KEY (`usuario_id`),
   CONSTRAINT `fk_candidato_usuario`
@@ -69,8 +68,10 @@ CREATE TABLE IF NOT EXISTS `vaga` (
   `cidade` VARCHAR(100) NULL,
   `estado` VARCHAR(2) NULL,
   `ativo` BOOLEAN DEFAULT 1,
+  `nivel` VARCHAR(20) NOT NULL,
   `quantidade` INT NOT NULL,
   `Recrutador_Usuario_id` INT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC)  ,
   INDEX `fk_Vaga_Recrutador1_idx` (`Recrutador_Usuario_id` ASC)  ,

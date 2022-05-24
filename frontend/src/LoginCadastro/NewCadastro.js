@@ -207,7 +207,7 @@ export default function Cadastro() {
             </ColorButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link1 href="/newlogin" variant="body2">
+                <Link1 href="/" variant="body2">
                   Já possui uma conta? Acesse
                 </Link1>
               </Grid>
