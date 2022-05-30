@@ -69,7 +69,7 @@ export default (props) => {
           {props.vaga.cargo.toUpperCase()}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          13 de Março de 2027
+          {new Date(props.vaga.created_at).toISOString().slice(0,10).replace(/-/g,"-")}
         </Typography>
         <Typography variant="body2" color="text.secondary">
             <Stack direction="row" spacing={1}>

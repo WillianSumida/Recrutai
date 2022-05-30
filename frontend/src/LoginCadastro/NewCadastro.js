@@ -59,7 +59,7 @@ export default function Cadastro() {
     // eslint-disable-next-line no-console
     const Usuario = {
       login: data.get('email'),
-      nome: data.get('firstName'),
+      nome: data.get('firstName') + ' ' + data.get('Sobrenome'),
       senha: data.get('senha'),
       recrutador: data.get('tipo'),
     };
@@ -207,7 +207,7 @@ export default function Cadastro() {
             </ColorButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link1 href="/newlogin" variant="body2">
+                <Link1 href="/" variant="body2">
                   Já possui uma conta? Acesse
                 </Link1>
               </Grid>

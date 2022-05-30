@@ -2,7 +2,7 @@ import { createStore } from 'redux';
 
 const INITIAL_STATE = {
     vagaRecrutador: [],
-    user: '',
+    user: []
 };
 
 function redux(state = INITIAL_STATE, action) {

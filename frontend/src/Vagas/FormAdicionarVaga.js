@@ -11,6 +11,8 @@ const theme = createTheme();
 
 export default function AddVaga(props) {
   const listaVagas = useSelector(state => state.vagaRecrutador);
+  const userAutenticado = useSelector(state => state.user);
+
   const dispatch = useDispatch();
 
   const estados = [
@@ -60,7 +62,7 @@ export default function AddVaga(props) {
       quantidade: data.get('quantidade'),
       nivel: data.get('nivel'),
       ativo: 0,
-      recrutador_usuario_id: 2
+      recrutador_usuario_id: userAutenticado[0].id,
     };
 
     if (props.title == 'Adicionar Vaga'){
