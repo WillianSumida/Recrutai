@@ -15,13 +15,17 @@ import MenuItem from '@mui/material/MenuItem';
 import {Row, Col} from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
-export default function Cards(){
+export default function CardsCandidato(){
   const navigate = useNavigate()
   const [filtro, setFiltro] = useState("")
   const [tipoBusca, setTipoBusca] = useState("")
   const dispatch = useDispatch();
   var listaVagas = useSelector(state => state.vagaRecrutador)
   var user = useSelector(state => state.user)
+
+  sessionStorage.setItem('idCandidato', 2)
+  sessionStorage.setItem('tags',(JSON.stringify(['kotlin', 'node', 'python'])))
+
   useEffect(()=>{
     fetch("http://localhost:8080/listarVagas", {
           method: "GET",

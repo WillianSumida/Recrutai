@@ -4,6 +4,7 @@ import {  BrowserRouter, Routes, Route } from "react-router-dom"; //para rotas d
 import NewLogin from "./LoginCadastro/NewLogin";
 import NewCadastro from "./LoginCadastro/NewCadastro";
 import Cards from "./Vagas/Cards";
+import CardsCandidato from "./VagasCandidato/CardsCandidato";
 import store from './Store/index';
 import { Provider } from 'react-redux';
 import CadastroCandidato from './ComplementoCadastro/cadastroCandidato';
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/newcadastro" element={<NewCadastro />} />
           <Route path="/cards" element={<Cards />} />
           <Route path="/cadastrarCandidato" element={<CadastroCandidato />} />
+          <Route path="/vagasCandidato" element={<CardsCandidato />} />
         </Routes>
       </BrowserRouter>
     </Provider>
