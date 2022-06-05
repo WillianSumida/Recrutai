@@ -18,6 +18,8 @@ import VisualizarVaga from './VisualizarVaga';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import DoneIcon from '@mui/icons-material/Done';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,14 +34,16 @@ const ExpandMore = styled((props) => {
 
 function Compatibilidade(props) {
   var tags = JSON.parse(sessionStorage.getItem('tags'));
+  var nivel = (sessionStorage.getItem('nivel'));
   var percent = 0;
   props.vaga.forEach(element => {
     tags.forEach(el => {
       if (element == el) percent += 1
     })
   });
+  if (props.vaga.nivel === nivel) percent+=1
 
-  var comp= Math.round((percent/props.vaga.length)*100)
+  var comp= Math.round((percent/(props.vaga.length+1))*100)
   //console.log(JSON.parse(tags).tag1)  
   return (
     <>
@@ -91,7 +95,7 @@ export default (props) => {
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             13 de Março de 2027
           </Typography>
-          <Compatibilidade vaga={[props.vaga.tag1, props.vaga.tag2, props.vaga.tag3]} /><br></br>
+          <Compatibilidade vaga={[props.vaga.tag1, props.vaga.tag2, props.vaga.tag3]} nivel={props.vaga.nivel} /><br></br>
           <Typography variant="body2" color="text.secondary">
             <Stack direction="row" spacing={1}>
               <Chip label={props.vaga.tag1.toUpperCase()} />
@@ -130,14 +134,14 @@ export default (props) => {
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="Remover vaga" onClick={deletarVaga}>
-            <DeleteIcon />
+            <DoneIcon />
           </IconButton>
           <IconButton aria-label="Editar vaga" onClick={handleShow}>
-            <EditIcon />
+            <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="Visualizar candidatos" onClick={handleShowParticipants}>
+{/*           <IconButton aria-label="Visualizar candidatos" onClick={handleShowParticipants}>
             <PersonSearchIcon />
-          </IconButton>
+          </IconButton> */}
           <ExpandMore aria-label="Visualizar vaga" onClick={handleShowInfo}>
             <FormatListBulletedIcon />
           </ExpandMore>
