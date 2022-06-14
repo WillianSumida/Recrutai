@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import DoneIcon from '@mui/icons-material/Done';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Badge from '@mui/material/Badge';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,6 +33,8 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+var comp
+var sameNivel
 function Compatibilidade(props) {
   var tags = JSON.parse(sessionStorage.getItem('tags'));
   var nivel = (sessionStorage.getItem('nivel'));
@@ -41,20 +44,31 @@ function Compatibilidade(props) {
       if (element == el) percent += 1
     })
   });
-  if (props.vaga.nivel === nivel) percent+=1
 
-  var comp= Math.round((percent/(props.vaga.length+1))*100)
+  sameNivel = '';
+  if (props.vaga.nivel === nivel) {
+      percent+=1
+      sameNivel = "O nivel está compativel"
+    }else{
+      sameNivel="Nivel nao compativel"
+    }
+
+  comp= Math.round((percent/(props.vaga.length+1))*100)
   //console.log(JSON.parse(tags).tag1)  
   return (
     <>
       <Typography variant="body1" color="text.secondary">
-        <Stack spacing={1}>
+      <Stack spacing={1}>
+
+
+
           <Chip  color="secondary" label={'Compatibilidade ' + comp+ '%'} />
         </Stack>
       </Typography>
     </>
   );
 }
+
 
 export default (props) => {
   const listaVagas = useSelector(state => state.vagaRecrutador);
@@ -149,9 +163,8 @@ export default (props) => {
       </Card>
 
       <Modal centered={true} show={showInfo} size={'md'} scrollable={true} onHide={handleCloseInfo}>
-        <VisualizarVaga title='Visualizar' vaga={props.vaga} />
+        <VisualizarVaga title='Visualizar' vaga={props.vaga} compat={comp}/>
       </Modal>
-
     </>
   );
 }

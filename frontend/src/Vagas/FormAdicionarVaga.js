@@ -13,6 +13,7 @@ export default function AddVaga(props) {
   const listaVagas = useSelector(state => state.vagaRecrutador);
   const userAutenticado = useSelector(state => state.user);
 
+
   const dispatch = useDispatch();
 
   const estados = [
@@ -48,6 +49,7 @@ export default function AddVaga(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(userAutenticado[0])
     // eslint-disable-next-line no-console
     const Vaga = {
       cargo: data.get('cargo'),
