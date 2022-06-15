@@ -143,7 +143,7 @@ export default (props) => {
             </Col>
           </Row>
           <Typography paragraph><br />
-            <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade}
+            <strong>Localização</strong>: {props.vaga.cidade + " - " + props.vaga.estado}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>

@@ -125,7 +125,6 @@ export default function AddVaga(props) {
       vaga.quantidade = props.vaga.quantidade;
   }
 
-  console.log(props.vaga);
   return (
     <>
       <Modal.Header closeButton>
@@ -155,10 +154,10 @@ export default function AddVaga(props) {
               <Form.Group className="mb-3">
                 <Form.Label>Nível</Form.Label>
                 <Form.Select name="nivel" defaultValue={vaga.nivel} >
-                  <option value="estagio">Estagio</option>
-                  <option value="junior">Junior</option>
-                  <option value="pleno">Pleno</option>
-                  <option value="senior">Senior</option>
+                  <option value="Estágio">Estágio</option>
+                  <option value="Junior">Junior</option>
+                  <option value="Pleno">Pleno</option>
+                  <option value="Senior">Senior</option>
                 </Form.Select>
               </Form.Group>
             </Col>
@@ -166,8 +165,8 @@ export default function AddVaga(props) {
               <Form.Group className="mb-3">
                 <Form.Label>Tipo</Form.Label>
                 <Form.Select name="tipo" defaultValue={vaga.tipo} >
-                  <option value="presencial">Presencial</option>
-                  <option value="remoto">Remoto</option>
+                  <option value="Presencial">Presencial</option>
+                  <option value="Remoto">Remoto</option>
                 </Form.Select>
               </Form.Group>
             </Col>

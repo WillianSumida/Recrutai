@@ -79,6 +79,7 @@ export default function CadastroCandidato() {
       telefone: data.get('telefone'),
       grau_formacao: data.get('formacao'),
       instituicao_ensino: data.get('instituicao'),
+      nivel: data.get('nivel'),
       tag1: data.get('tag1'),
       tag2: data.get('tag2'),
       tag3: data.get('tag3'),
@@ -96,6 +97,9 @@ export default function CadastroCandidato() {
 
       var respostaJson = await resposta.json();
       console.log(respostaJson)
+
+      sessionStorage.setItem('tags',(JSON.stringify([Candidato.tag1,Candidato.tag2, Candidato.tag3])))
+      sessionStorage.setItem('nivel', Candidato.nivel);
 
       toast.success('Seu cadastro está completo!');
       navigate('/vagasCandidato');
@@ -167,7 +171,6 @@ export default function CadastroCandidato() {
               label="Grau de Formação"
               fullWidth
               required
-              autoFocus
               defaultValue={"Fundamental Completo"}
             >
               <MenuItem key="FC" value={"Fundamental Completo"}>
@@ -205,6 +208,29 @@ export default function CadastroCandidato() {
               id="instituicao"
               label="Última Instituição de Ensino"
             />
+          </Grid>
+          <Grid item xs={12} className="mb-3">
+            <CssTextField
+              select
+              name="nivel"
+              label="Nível Profissional"
+              fullWidth
+              required
+              defaultValue={"Estágio"}
+            >
+              <MenuItem key="E" value={"Estágio"}>
+                Estágio
+              </MenuItem>
+              <MenuItem key="J" value={"Junior"}>
+                Junior
+              </MenuItem>
+              <MenuItem key="P" value={"Pleno"}>
+                Pleno
+              </MenuItem>
+              <MenuItem key="S" value={"Senior"}>
+                Senior
+              </MenuItem>
+            </CssTextField>
           </Grid>
           <Row>
             <Col>

@@ -198,7 +198,7 @@ export default function AddVaga(props) {
         </Row>
 
         <Typography paragraph><br />
-          <strong>Localização</strong>: {props.vaga.estado + " - " + props.vaga.cidade}
+          <strong>Localização</strong>: {props.vaga.cidade + " - " + props.vaga.estado}
         </Typography>
 
         <Typography variant="body1" color="text.secondary">

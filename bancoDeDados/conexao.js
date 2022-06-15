@@ -84,8 +84,8 @@ async function inserirCandidato(candidato) {
     console.log("Inserindo candidato...");
     const conexao = await conecta();
 
-    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,tag1,tag2,tag3,dataNascimento,portfolio) VALUES (?,?,?,?,?,?,?,?)";
-    const param = [candidato.usuario_id, candidato.grau_formacao,candidato.instituicao_ensino,candidato.tag1,candidato.tag2,candidato.tag3,candidato.data,candidato.portfolio];
+    const sql = "INSERT INTO candidato(usuario_id,grau_formacao,instituicao_ensino,nivel,tag1,tag2,tag3,dataNascimento,portfolio) VALUES (?,?,?,?,?,?,?,?,?)";
+    const param = [candidato.usuario_id, candidato.grau_formacao,candidato.instituicao_ensino,candidato.nivel,candidato.tag1,candidato.tag2,candidato.tag3,candidato.data,candidato.portfolio];
     return await conexao.query(sql, param);
 }
 
@@ -108,8 +108,8 @@ async function alterarCandidato(candidato) {
         return "Id Inexistente!"
     }
 
-    const sql = "UPDATE candidato SET grau_formacao=?, instituicao_ensino=?, tag1=?, tag2=?, tag3=?, idade=?, portfolio=? WHERE usuario_id=?;";
-    const param = [candidato.grau_formacao, candidato.instituicao_ensino, candidato.tag1, candidato.tag2, candidato.tag3, candidato.idade, candidato.portfolio, candidato.usuario_id];
+    const sql = "UPDATE candidato SET grau_formacao=?, instituicao_ensino=?, nivel=?, tag1=?, tag2=?, tag3=?, idade=?, portfolio=? WHERE usuario_id=?;";
+    const param = [candidato.usuario_id, candidato.grau_formacao,candidato.instituicao_ensino,candidato.nivel,candidato.tag1,candidato.tag2,candidato.tag3,candidato.data,candidato.portfolio];
     return await conexao.query(sql, param);
 }
 

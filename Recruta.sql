@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `usuario_id` INT NOT NULL,
   `grau_formacao` VARCHAR(100) NOT NULL,
   `instituicao_ensino` VARCHAR(100) NOT NULL,
+  `nivel` VARCHAR(100) NOT NULL,
   `tag1` VARCHAR(100) NULL,
   `tag2` VARCHAR(100) NULL,
   `tag3` VARCHAR(100) NULL,

@@ -23,10 +23,6 @@ export default function CardsCandidato(){
   var listaVagas = useSelector(state => state.vagaRecrutador)
   var user = useSelector(state => state.user)
 
-  sessionStorage.setItem('idCandidato', 2)
-  sessionStorage.setItem('nivel', 'pleno')
-  sessionStorage.setItem('tags',(JSON.stringify(['kotlin', 'node', 'python'])))
-
   useEffect(()=>{
     fetch("http://localhost:8080/listarVagas", {
           method: "GET",
