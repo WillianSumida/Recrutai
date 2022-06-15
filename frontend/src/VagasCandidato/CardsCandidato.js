@@ -24,7 +24,7 @@ export default function CardsCandidato(){
   var user = useSelector(state => state.user)
 
   sessionStorage.setItem('idCandidato', 2)
-  sessionStorage.setItem('nivel', 'estagio')
+  sessionStorage.setItem('nivel', 'pleno')
   sessionStorage.setItem('tags',(JSON.stringify(['kotlin', 'node', 'python'])))
 
   useEffect(()=>{
