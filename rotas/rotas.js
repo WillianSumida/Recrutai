@@ -565,6 +565,19 @@ module.exports = app => {
             res.send(retorno)
         });
 
+        //Listar Todas as Vagas
+    app.route("/listarVagasRecrutador")
+        .all(app.configuracao.passport.authenticate())
+        .post(async (req, res) => {
+            try {
+                const resultado = await banco.listarVagasRecrutador(req.body.id);
+                retorno = ({ 'error': false, 'mensagem': resultado })
+            } catch {
+                retorno = ({ 'error': true, 'mensagem': "Erro ao listar vagas!" })
+            }
+            res.send(retorno)
+    });
+
     //Listar Uma Vaga
     app.route("/listarUmaVaga/:id")
         .all(app.configuracao.passport.authenticate())

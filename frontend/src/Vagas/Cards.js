@@ -26,10 +26,11 @@ export default function Cards(){
   var userAutenticado = useSelector(state => state.user)
 
   useEffect(()=>{
-    fetch("http://localhost:8080/listarVagas", {
-          method: "GET",
-          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'}
-      }).then(res=> {
+    fetch("http://localhost:8080/listarVagasRecrutador", {
+          method: "POST",
+          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
+          body : JSON.stringify({id: sessionStorage.getItem('usuario')}),
+        }).then(res=> {
         return res.json();
       }).then(data=>{
         data.mensagem.map((vagaObjeto) => dispatch({type:'AddVagaRecrutador', vaga: vagaObjeto}));

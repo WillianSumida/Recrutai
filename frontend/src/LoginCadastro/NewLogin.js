@@ -116,7 +116,11 @@ export default function SignInSide() {
               else toast.error('Login nao realizado');
             })
           }
-          else navigate('/cadastrarCandidato');
+          else{
+            sessionStorage.setItem('usuario', response.id);
+            if(response.verificado == 0) navigate('/cadastrarCandidato');
+            else navigate('/vagasCandidato');
+          }
         }
         else toast.error('Login nao realizado');
 

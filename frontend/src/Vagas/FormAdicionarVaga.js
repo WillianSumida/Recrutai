@@ -49,7 +49,6 @@ export default function AddVaga(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(userAutenticado[0])
     // eslint-disable-next-line no-console
     const Vaga = {
       cargo: data.get('cargo'),
@@ -65,6 +64,7 @@ export default function AddVaga(props) {
       nivel: data.get('nivel'),
       ativo: 0,
       recrutador_usuario_id: sessionStorage.getItem('usuario'),
+      created_at: new Date() ,
     };
 
     if (props.title == 'Adicionar Vaga'){
@@ -101,6 +101,7 @@ export default function AddVaga(props) {
   const vaga ={};
   if (props.title === 'Adicionar Vaga'){
       vaga.cargo = 'cargo';
+      vaga.nivel = '';
       vaga.descricao = 'Essa vaga é ...';
       vaga.salario = '0,00';
       vaga.tipo = '';
@@ -112,6 +113,7 @@ export default function AddVaga(props) {
       vaga.quantidade = '10';
   }else{
       vaga.cargo = props.vaga.cargo;
+      vaga.nivel = props.vaga.nivel;
       vaga.descricao = props.vaga.descricao;
       vaga.salario = props.vaga.salario;
       vaga.tipo = props.vaga.tipo;
@@ -123,6 +125,7 @@ export default function AddVaga(props) {
       vaga.quantidade = props.vaga.quantidade;
   }
 
+  console.log(props.vaga);
   return (
     <>
       <Modal.Header closeButton>
@@ -151,8 +154,8 @@ export default function AddVaga(props) {
             <Col>
               <Form.Group className="mb-3">
                 <Form.Label>Nível</Form.Label>
-                <Form.Select name="nivel" >
-                  <option value="estagio" selected>Estagio</option>
+                <Form.Select name="nivel" defaultValue={vaga.nivel} >
+                  <option value="estagio">Estagio</option>
                   <option value="junior">Junior</option>
                   <option value="pleno">Pleno</option>
                   <option value="senior">Senior</option>

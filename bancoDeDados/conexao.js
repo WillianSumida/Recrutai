@@ -325,6 +325,14 @@ async function listarVagas() {
     return resultado;
 }
 
+//Listar Todas Vagas Recrutador
+async function listarVagasRecrutador(id) {
+    console.log("Listando Recrutador vagas...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM vaga WHERE Recrutador_Usuario_Id=?", [id]);
+    return resultado;
+}
+
 //Listar Uma Vaga
 async function listarUmaVaga(id) {
     console.log("Listando vaga...");
@@ -396,7 +404,7 @@ module.exports = {
     login,
     listarUsuarios, listarUmUsuario, inserirUsuario, excluirUsuario,
     listarCandidatos, listarUmCandidato, inserirCandidato, excluirCandidato, alterarCandidato,
-    listarVagas, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga,
+    listarVagas, listarVagasRecrutador, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga,
     listarUmRecrutador, listarRecrutadores, inserirRecrutador, excluirRecrutador, alterarRecrutador,
     listarExperiencias, inserirExperiencia, excluirExperiencia, alterarExperiencia,
     listarProcessosCandidato, listarProcessosRecrutador, inserirProcesso, alterarProcesso, atualizarUsuarioCandidato

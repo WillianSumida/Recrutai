@@ -61,6 +61,9 @@ export default (props) => {
     })();
   };
 
+  var time = new Date(props.vaga.created_at);
+  var outraData = new Date();
+  outraData.setHours(time.getHours() - 3);
   return (  
     <>
     <Card sx={{ minWidth: 275, borderRadius: 3 , border: 1 }} style={{borderColor: '#8D40C9'}}>
@@ -69,7 +72,7 @@ export default (props) => {
           {props.vaga.cargo.toUpperCase()}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {new Date(props.vaga.created_at).toISOString().slice(0,10).replace(/-/g,"-")}
+          {outraData.toISOString().slice(0,10).replace(/-/g,"-")}
         </Typography>
         <Typography variant="body2" color="text.secondary">
             <Stack direction="row" spacing={1}>

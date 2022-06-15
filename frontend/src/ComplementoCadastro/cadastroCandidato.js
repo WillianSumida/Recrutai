@@ -16,8 +16,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 import { style } from '@mui/system';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -50,7 +52,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
 export default function CadastroCandidato() {
   const [filtro, setFiltro] = useState('');
   const [userGitHub, setUserGitHub] = useState('');
-  //const userAutenticado = useSelector(state => state.user);
+  const navigate = useNavigate();
 
   const handleSubmitGitHub = (event) => {
     event.preventDefault();
@@ -81,7 +83,7 @@ export default function CadastroCandidato() {
       tag2: data.get('tag2'),
       tag3: data.get('tag3'),
       data: data.get('data'),
-      usuario_id: 1, //CONFERIR USER STATE
+      usuario_id: sessionStorage.getItem('usuario'),
     };
 
     (async () => {
@@ -96,6 +98,7 @@ export default function CadastroCandidato() {
       console.log(respostaJson)
 
       toast.success('Seu cadastro está completo!');
+      navigate('/vagasCandidato');
     })();
   }
 

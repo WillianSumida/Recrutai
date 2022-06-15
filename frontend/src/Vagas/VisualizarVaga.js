@@ -99,7 +99,7 @@ export default function AddVaga(props) {
   const vaga ={};
   if (props.title === 'Adicionar Vaga'){
       vaga.cargo = 'cargo';
-      //props.vaga.nivel = '';
+      vaga.nivel = '';
       vaga.descricao = 'Essa vaga é ...';
       vaga.salario = '0,00';
       vaga.tipo = '';
@@ -111,7 +111,7 @@ export default function AddVaga(props) {
       vaga.quantidade = '10';
   }else{
       vaga.cargo = props.vaga.cargo;
-      //props.vaga.nivel = '';
+      vaga.nivel = props.vaga.nivel;
       vaga.descricao = props.vaga.descricao;
       vaga.salario = props.vaga.salario;
       vaga.tipo = props.vaga.tipo;
@@ -123,6 +123,9 @@ export default function AddVaga(props) {
       vaga.quantidade = props.vaga.quantidade;
   }
 
+  var time = new Date(props.vaga.created_at);
+  var outraData = new Date();
+  outraData.setHours(time.getHours() - 3);
   return (
     <>
       <Modal.Header closeButton>
@@ -146,7 +149,7 @@ export default function AddVaga(props) {
             </Col>
         </Row>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          13 de Março de 2027
+          {outraData.toISOString().slice(0,10).replace(/-/g,"-")}
         </Typography>
         <br />
             <Row>

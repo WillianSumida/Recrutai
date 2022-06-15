@@ -34,6 +34,7 @@ export default function CardsCandidato(){
       }).then(res=> {
         return res.json();
       }).then(data=>{
+        console.log(data);
         data.mensagem.map((vagaObjeto) => dispatch({type:'AddVagaRecrutador', vaga: vagaObjeto}));
       })
   }, []);

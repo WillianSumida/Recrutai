@@ -35,6 +35,7 @@ module.exports = app => {
                 nome: resultado.nome, //nome do usuário
                 email: resultado.admin, //valida se é admin ou não
                 recrutador: resultado.recrutador,
+                verificado: resultado.verificado,
                 iat: now, //data de cadastro
                 exp: now * (60 * 60 * 2) //cálculo de data de expiração
             }
