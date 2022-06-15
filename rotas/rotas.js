@@ -24,7 +24,7 @@ module.exports = app => {
     ],
         async (req, res) => {
             const erro = validationResult(req);
-            const retorno = null
+            var retorno = null
 
             if (!erro.isEmpty()) {
                 res.status(400).send(erro.array())
@@ -39,9 +39,8 @@ module.exports = app => {
                         verificado: 0,
                         telefone: ''
                     });
-                    if (resultado == "Login previamente cadastrado!") {
-                        retorno = ({ 'error': false, 'mensagem': resultado })
-                    }
+                    if (resultado != "Login previamente cadastrado!") retorno = ({ 'error': false, 'mensagem': resultado })
+                    else retorno = ({ 'error': true, 'mensagem': "Login previamente cadastrado!" })
                 } catch {
                     retorno = ({ 'error': true, 'mensagem': 'Cadastro não realizado!' })
                 }
@@ -336,7 +335,6 @@ module.exports = app => {
 
     //Inserir Recrutador
     app.route("/adicionarRecrutador")
-        .all(app.configuracao.passport.authenticate())
         .post([
             body("usuario_id").trim().isLength({ min: 1 }),
             body("empresa").trim().isLength({ min: 2, max: 100 }),
@@ -353,9 +351,10 @@ module.exports = app => {
                             empresa: req.body.empresa,
                             cargo: req.body.cargo
                         });
-                        retorno = ({ 'error': false, 'mensagem': resultado })
+                        if (resultado != "Recrutador previamente cadastrado!") retorno = ({ 'error': false, 'recrutador': req.body.usuario_id ,'mensagem': 'PrimeiroAcesso' })
+                        else retorno = ({ 'error': false , 'recrutador': req.body.usuario_id, 'mensagem': 'Cadastrado' })
                     } catch {
-                        retorno = ({ 'error': true, 'mensagem': "Erro ao cadastrar recrutador!" })
+                        retorno = ({ 'error': true, 'mensagem': 'Cadastro não realizado!' })
                     }
                     res.send(retorno);
                 }

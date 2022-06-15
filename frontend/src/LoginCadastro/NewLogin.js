@@ -78,6 +78,7 @@ export default function SignInSide() {
       login: data.get('email'),
       senha: data.get('senha'),
     };
+    var resultado = '';
 
     (async () => {
       const resposta = await fetch("http://localhost:8080/login", {
@@ -91,15 +92,37 @@ export default function SignInSide() {
         else{
           return {error: true}
         }
-      }).then(data => {
-        if (data.error != true) {
-          dispatch({ type: 'AddAutenticado', user: data })
-          navigate("/cards");
-        }else{
-          toast.error('Login nao realizado')
+      }).then(response => {
+        if(response.error != true){
+          if(response.recrutador == 1){
+            const Recrutador = {
+              usuario_id: response.id,
+              empresa: 'Empresa',
+              cargo: 'Recrutador',
+            };
+
+            fetch("http://localhost:8080/adicionarRecrutador", {
+              method: "POST",
+              headers: {"content-Type": "application/json"},
+              body: JSON.stringify(Recrutador)
+            }).then(res => {
+                return res.json();
+            }).then(response => {
+              if (!response.error) {
+                console.log(response);
+                sessionStorage.setItem('usuario', response.recrutador)
+                navigate("/cards");
+              }
+              else toast.error('Login nao realizado');
+            })
+          }
+          else navigate('/cadastrarCandidato');
         }
+        else toast.error('Login nao realizado');
+
       });
     })();
+
   };
 
   return (

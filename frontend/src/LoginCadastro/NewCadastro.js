@@ -22,6 +22,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { toast, ToastContainer } from 'react-toastify';
+import { ToastHeader } from 'react-bootstrap';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -73,7 +74,8 @@ export default function Cadastro() {
         });
     
         var respostaJson = await resposta.json();
-        navigate("/");
+        if(!respostaJson.error) navigate("/");
+        else toast.error(respostaJson.mensagem);
       })();
     }
     else {

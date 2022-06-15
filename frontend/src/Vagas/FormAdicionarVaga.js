@@ -62,7 +62,7 @@ export default function AddVaga(props) {
       quantidade: data.get('quantidade'),
       nivel: data.get('nivel'),
       ativo: 0,
-      recrutador_usuario_id: userAutenticado[0].id,
+      recrutador_usuario_id: sessionStorage.getItem('usuario'),
     };
 
     if (props.title == 'Adicionar Vaga'){

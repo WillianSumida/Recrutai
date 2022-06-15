@@ -6,8 +6,8 @@ async function conecta() {
     const con = await banco.createConnection({
         host: "localhost",
         port: 3306,
-        user: "sa",
-        password: "root",
+        user: "root",
+        password: "123456",
         database: "recruta"
     })
     console.log("Conexão efetuada com sucesso!");
@@ -210,10 +210,20 @@ async function listarExperiencias(candidato_usuario_id) {
 async function inserirRecrutador(recrutador) {
     console.log("Inserindo recrutador...");
     const conexao = await conecta();
+    const [resultado] = await conexao.query("SELECT * FROM recrutador WHERE usuario_id =?;", [recrutador.usuario_id]);
 
-    const sql = "INSERT INTO recrutador(usuario_id,empresa,cargo) VALUES (?,?,?)";
-    const param = [recrutador.usuario_id, recrutador.empresa,recrutador.cargo];
-    return await conexao.query(sql, param);
+    if (resultado.length > 0) {
+        return "Recrutador previamente cadastrado!"
+    }
+    try{
+        const sql = "INSERT INTO recrutador(usuario_id,empresa,cargo) VALUES (?,?,?)";
+        const param = [recrutador.usuario_id, recrutador.empresa,recrutador.cargo];
+        return await conexao.query(sql, param);
+    }
+    catch(erro)
+    {
+        return "Erro ao inserir" + erro;
+    }
 }
 
 
