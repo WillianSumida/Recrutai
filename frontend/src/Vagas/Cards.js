@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import {Row, Col} from 'react-bootstrap';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
+import Footer from "../Footer/Footer";
 
 export default function Cards(){
   const navigate = useNavigate()
@@ -146,6 +147,7 @@ export default function Cards(){
             }
           </Grid>
         </Container>
+      <Footer></Footer>
     </>
   );
 }

@@ -14,6 +14,8 @@ import Navbar from "../Navbar/Navbar";
 import MenuItem from '@mui/material/MenuItem';
 import {Row, Col} from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import Footer from "../Footer/Footer";
 
 export default function CardsCandidato(){
   const navigate = useNavigate()
@@ -79,6 +81,7 @@ export default function CardsCandidato(){
   return (  
     <>
       <Navbar></Navbar>
+        <ToastContainer></ToastContainer>
         <Container sx={{ py: 4 }}>
           <Box onSubmit={onHandle} component="form">
             <Row>
@@ -141,6 +144,7 @@ export default function CardsCandidato(){
             }
           </Grid>
         </Container>
+      <Footer></Footer>
     </>
   );
 }

@@ -236,6 +236,10 @@ module.exports = app => {
                     retorno = ({ 'error': true, 'mensagem': "Usuário inexistente!" })
                 }
             }
+            else{ 
+                retorno = {'error': true, 'mensagem': "Usuário inexistente!"}
+            }
+            res.send(retorno);
         });
 
     //<><><><><><><><><><><><><><><><><><><><><><><><><>

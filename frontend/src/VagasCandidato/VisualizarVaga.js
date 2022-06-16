@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import { useDispatch, useSelector } from 'react-redux';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 
 const theme = createTheme();
@@ -31,112 +32,24 @@ export default function AddVaga(props) {
     return verify
   }
 
-  const estados = [
-    { "nome": "Acre", "sigla": "AC" },
-    { "nome": "Alagoas", "sigla": "AL" },
-    { "nome": "Amapá", "sigla": "AP" },
-    { "nome": "Amazonas", "sigla": "AM" },
-    { "nome": "Bahia", "sigla": "BA" },
-    { "nome": "Ceará", "sigla": "CE" },
-    { "nome": "Distrito Federal", "sigla": "DF" },
-    { "nome": "Espírito Santo", "sigla": "ES" },
-    { "nome": "Goiás", "sigla": "GO" },
-    { "nome": "Maranhão", "sigla": "MA" },
-    { "nome": "Mato Grosso", "sigla": "MT" },
-    { "nome": "Mato Grosso do Sul", "sigla": "MS" },
-    { "nome": "Minas Gerais", "sigla": "MG" },
-    { "nome": "Pará", "sigla": "PA" },
-    { "nome": "Paraíba", "sigla": "PB" },
-    { "nome": "Paraná", "sigla": "PR" },
-    { "nome": "Pernambuco", "sigla": "PE" },
-    { "nome": "Piauí", "sigla": "PI" },
-    { "nome": "Rio de Janeiro", "sigla": "RJ" },
-    { "nome": "Rio Grande do Norte", "sigla": "RN" },
-    { "nome": "Rio Grande do Sul", "sigla": "RS" },
-    { "nome": "Rondônia", "sigla": "RO" },
-    { "nome": "Roraima", "sigla": "RR" },
-    { "nome": "Santa Catarina", "sigla": "SC" },
-    { "nome": "São Paulo", "sigla": "SP" },
-    { "nome": "Sergipe", "sigla": "SE" },
-    { "nome": "Tocantins", "sigla": "TO" }
-  ];
+  function Compatibilidade(props,propsNivel) {
+    var tags = JSON.parse(sessionStorage.getItem('tags'));
+    var nivel = (sessionStorage.getItem('nivel'));
+    var percent = 0;
+    props.forEach(element => {
+      tags.forEach(el => {
+        if (element == el) percent += 1
+      })
+    });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    const Vaga = {
-      cargo: data.get('cargo'),
-      descricao: data.get('descricao'),
-      salario: data.get('salario'),
-      tipo: data.get('tipo'),
-      tag1: data.get('tag1'),
-      tag2: data.get('tag2'),
-      tag3: data.get('tag3'),
-      cidade: data.get('cidade'),
-      estado: data.get('estado'),
-      quantidade: data.get('quantidade'),
-      //nivel: data.get('nivel'),
-      ativo: 0,
-      recrutador_usuario_id: 16
-    };
-
-    if (props.title == 'Adicionar Vaga') {
-      (async () => {
-        const resposta = await fetch("http://localhost:8080/adicionarVaga", {
-          method: "POST",
-          headers: { "content-Type": "application/json", 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74' },
-          body: JSON.stringify(Vaga)
-        });
-
-        var respostaJson = await resposta.json();
-        await dispatch({ type: 'AddVagaRecrutador', vaga: Vaga })
-
-      })();
-    } else {
-      Vaga.id = props.vaga.id;
-      console.log(Vaga.id);
-      (async () => {
-        const resposta = await fetch("http://localhost:8080/alterarVaga", {
-          method: "PUT",
-          headers: { "content-Type": "application/json", 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74' },
-          body: JSON.stringify(Vaga)
-        });
-        var respostaJson = await resposta.json();
-        console.log(resposta);
-        await dispatch({ type: 'UpdateVagaRecrutador', vaga: Vaga })
-      })();
-    }
-
+    if (propsNivel.toUpperCase() === nivel.toUpperCase() ) percent+=1
+    
+    return Math.round((percent/(props.length+1))*100)
   }
 
-  const vaga = {};
-  if (props.title === 'Adicionar Vaga') {
-    vaga.cargo = 'cargo';
-    //props.vaga.nivel = '';
-    vaga.descricao = 'Essa vaga é ...';
-    vaga.salario = '0,00';
-    vaga.tipo = '';
-    vaga.tag1 = 'Java';
-    vaga.tag2 = 'C#';
-    vaga.tag3 = 'PHP';
-    vaga.cidade = 'São Carlos';
-    vaga.estado = '';
-    vaga.quantidade = '10';
-  } else {
-    vaga.cargo = props.vaga.cargo;
-    //props.vaga.nivel = '';
-    vaga.descricao = props.vaga.descricao;
-    vaga.salario = props.vaga.salario;
-    vaga.tipo = props.vaga.tipo;
-    vaga.tag1 = props.vaga.tag1;
-    vaga.tag2 = props.vaga.tag2;
-    vaga.tag3 = props.vaga.tag3;
-    vaga.cidade = props.vaga.cidade;
-    vaga.estado = props.vaga.estado;
-    vaga.quantidade = props.vaga.quantidade;
-  }
-
+  var time = new Date(props.vaga.created_at);
+  var outraData = time;
+  outraData.setHours(time.getHours() - 3);
   return (
     <>
       <Modal.Header closeButton>
@@ -161,7 +74,7 @@ export default function AddVaga(props) {
           </Col>
         </Row>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          13 de Março de 2027
+          {outraData.toISOString().slice(0,10).replace(/-/g,"-")}
         </Typography>
         <br />
         <Row>
@@ -184,7 +97,7 @@ export default function AddVaga(props) {
           </Col>
           <Col>
           {
-            (nivel == props.vaga.nivel)?
+            (nivel.toUpperCase() == props.vaga.nivel.toUpperCase())?
             <Typography>
             <strong>Nível</strong>: <Chip variant="outlined" size='small' color='success' icon={ <DoneIcon/>} label={props.vaga.nivel.toUpperCase()} style={{ fontSize: 13, fontWeight: "bold" }}/>
             </Typography>
@@ -203,7 +116,7 @@ export default function AddVaga(props) {
 
         <Typography variant="body1" color="text.secondary">
           <Stack spacing={1}>
-            <Chip variant='outlined' color='secondary' label={'Compatibilidade ' + props.compat + '%'} style={{borderColor: "#8873C1", fontSize: 14, fontWeight: "bold" }}/>
+            <Chip variant='outlined' color='secondary' label={'Compatibilidade ' + Compatibilidade([props.vaga.tag1, props.vaga.tag2, props.vaga.tag3], props.vaga.nivel) + '%'} style={{borderColor: "#8873C1", fontSize: 14, fontWeight: "bold" }}/>
           </Stack>
         </Typography>
 

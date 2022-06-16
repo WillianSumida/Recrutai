@@ -20,6 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { style } from '@mui/system';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import Footer from "../Footer/Footer";
+import Navbar from "../Navbar/Navbar";
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -108,10 +110,12 @@ export default function CadastroCandidato() {
 
 
   return (
+    <>
+    <Navbar></Navbar>
     <Grid sx={{ px: 2 }}>
       <ToastContainer></ToastContainer>
       <br />
-      <Container sx={{ py: 4, border: 1, borderColor: "#8D40C9", borderRadius: '2%' }} style={{ backgroundColor: "#F9EAF9" }}>
+      <Container sx={{ py: 5, border: 1, borderColor: "#8D40C9", borderRadius: '2%' }} style={{ backgroundColor: "#F9EAF9" }}>
         <Box sx={{ mb: 3 }}
           display="flex"
           alignItems="center"
@@ -295,7 +299,8 @@ export default function CadastroCandidato() {
           </Box>
         </Box>
       </Container >
-      <br />
     </Grid>
+    <Footer></Footer>
+    </>
   );
 }

@@ -46,13 +46,13 @@ function Compatibilidade(props) {
   });
 
   sameNivel = '';
-  if (props.vaga.nivel === nivel) {
+  if (props.nivel.toUpperCase() === nivel.toUpperCase() ) {
       percent+=1
       sameNivel = "O nivel está compativel"
     }else{
       sameNivel="Nivel nao compativel"
     }
-
+  
   comp= Math.round((percent/(props.vaga.length+1))*100)
   //console.log(JSON.parse(tags).tag1)  
   return (
@@ -99,6 +99,9 @@ export default (props) => {
 
   };
 
+  var time = new Date(props.vaga.created_at);
+  var outraData = time;
+  outraData.setHours(time.getHours() - 3);
   return (
     <>
       <Card sx={{ minWidth: 275, borderRadius: 3, border: 1 }} style={{ borderColor: '#8D40C9' }}>
@@ -107,7 +110,7 @@ export default (props) => {
             {props.vaga.cargo.toUpperCase()}
           </Typography>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            13 de Março de 2027
+            {outraData.toISOString().slice(0,10).replace(/-/g,"-")}
           </Typography>
           <Compatibilidade vaga={[props.vaga.tag1, props.vaga.tag2, props.vaga.tag3]} nivel={props.vaga.nivel} /><br></br>
           <Typography variant="body2" color="text.secondary">

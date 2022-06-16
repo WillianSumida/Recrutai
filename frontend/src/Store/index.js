@@ -28,6 +28,8 @@ function redux(state = INITIAL_STATE, action) {
             };
         case 'AddAutenticado':
             return { ...state.user, user: [action.user] };
+        case 'Deslogar':
+            return {...state, vagaRecrutador: [], user:[]};
         default:
             return state;
     }

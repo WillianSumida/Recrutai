@@ -124,7 +124,7 @@ export default function AddVaga(props) {
   }
 
   var time = new Date(props.vaga.created_at);
-  var outraData = new Date();
+  var outraData = time;
   outraData.setHours(time.getHours() - 3);
   return (
     <>

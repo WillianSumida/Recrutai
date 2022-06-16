@@ -26,7 +26,7 @@ function Copyright() {
     <Typography variant="body2" color="text.primary" align="center" sx={{ mt: 5 }}>
       {'Copyright © '}
       <Link1 color="inherit" href="">
-        Recrutai
+        Recruta+
       </Link1>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -113,13 +113,30 @@ export default function SignInSide() {
                 sessionStorage.setItem('usuario', response.recrutador)
                 navigate("/cards");
               }
-              else toast.error('Login nao realizado');
+              else toast.error('Login não realizado');
             })
           }
-          else{
+          else{ //Candidato
             sessionStorage.setItem('usuario', response.id);
-            if(response.verificado == 0) navigate('/cadastrarCandidato');
-            else navigate('/vagasCandidato');
+
+            if(response.verificado == 0){
+               navigate('/cadastrarCandidato');
+            }
+            else{
+              fetch("http://localhost:8080/listarUmCandidato/" + sessionStorage.getItem('usuario'), {
+                method: "GET",
+                headers: {"content-Type": "application/json", 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
+              }).then(res => {
+                return res.json();
+              }).then(response => {
+                if (!response.error) {
+                  sessionStorage.setItem('tags',(JSON.stringify([response.mensagem.tag1,response.mensagem.tag2, response.mensagem.tag3])))
+                  sessionStorage.setItem('nivel', response.mensagem.nivel);
+                  navigate('/vagasCandidato');
+                }
+                else toast.error('Login não realizado');
+              })
+            }
           }
         }
         else toast.error('Login nao realizado');
