@@ -21,6 +21,7 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import DoneIcon from '@mui/icons-material/Done';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Badge from '@mui/material/Badge';
+import { toast, ToastContainer } from 'react-toastify';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -86,24 +87,32 @@ export default (props) => {
   const handleCloseParticipants = () => setShowParticipants(false);
   const handleShowParticipants = () => setShowParticipants(true);
 
-  function deletarVaga() {
+  function interesseVaga() {
     (async () => {
-      const resposta = await fetch("http://localhost:8080/excluirVaga/" + props.vaga.id, {
-        method: "DELETE",
-        headers: { "content-Type": "application/json", 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg2NzcyNzgsImV4cCI6MTE4NzA0NzY0MDE2MDB9.oo_v_YWaa-rLd3Ag7zqbE5sRWaxFq9Ru6u_uEl7SKgY' },
-      });
-      console.log('entre no delete');
-      var respostaJson = await resposta.json();
-      await dispatch({ type: 'DeleteVagaRecrutador', vaga: props.vaga })
-    })();
+      const resposta = await fetch("http://localhost:8080/interesseVaga", {
+          method: "POST",
+          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
+          body : JSON.stringify({candidato_id:sessionStorage.getItem('usuario') , recrutador_id: props.vaga.Recrutador_Usuario_id, vaga_id: props.vaga.id})
+        })
+
+        if(await resposta.error){ 
+          toast.error("Erro! Tente novamente mais tarde");
+          location.reload();
+        }else{
+          toast.success("Você se candidatou a vaga, " + props.vaga.cargo)
+        }
+      }  
+    )();
 
   };
 
   var time = new Date(props.vaga.created_at);
   var outraData = time;
   outraData.setHours(time.getHours() - 3);
+  console.log(props.vaga)
   return (
     <>
+      <ToastContainer></ToastContainer>
       <Card sx={{ minWidth: 275, borderRadius: 3, border: 1 }} style={{ borderColor: '#8D40C9' }}>
         <CardContent>
           <Typography variant="h5" component="div" noWrap={true} style={{ wordWrap: "break-word" }}>
@@ -150,10 +159,10 @@ export default (props) => {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="Remover vaga" onClick={deletarVaga}>
+          <IconButton aria-label="Interesse vaga" onClick={interesseVaga}>
             <DoneIcon />
           </IconButton>
-          <IconButton aria-label="Editar vaga" onClick={handleShow}>
+          <IconButton aria-label="Status vaga" onClick={handleShow}>
             <FavoriteIcon />
           </IconButton>
 {/*           <IconButton aria-label="Visualizar candidatos" onClick={handleShowParticipants}>

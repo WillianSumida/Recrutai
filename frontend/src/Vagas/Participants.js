@@ -125,7 +125,6 @@ export default function Participants(props) {
           sortable: false,
           renderCell: (params) => {
             const onClick = async (e) => {
-              params.row.devolutiva = !params.row.devolutiva;
               const retorno = await fetch("http://localhost:8080/trocarDevolutiva", {
                   method: "POST",
                   headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
@@ -133,9 +132,12 @@ export default function Participants(props) {
               })
 
               const resposta = await retorno.json();
-              if(resposta.error){ 
+              if(await resposta.error){ 
                 alert("Erro! Tente novamente mais tarde");
                 location.reload();
+              }
+              else{
+                params.row.devolutiva = !params.row.devolutiva;
               }
             };
             return <Button onClick={onClick}>{iconColor(params.row.devolutiva)}</Button>;

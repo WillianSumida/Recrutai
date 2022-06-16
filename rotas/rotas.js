@@ -147,7 +147,7 @@ module.exports = app => {
                             usuario_id: req.body.usuario_id,
                         });
                         retorno = ({ 'error': false, 'mensagem': resultado })
-                    } catch(ex) {
+                    } catch (ex) {
                         retorno = ({ 'error': true, 'mensagem': ex })
                     }
                     res.send(retorno);
@@ -236,8 +236,8 @@ module.exports = app => {
                     retorno = ({ 'error': true, 'mensagem': "Usuário inexistente!" })
                 }
             }
-            else{ 
-                retorno = {'error': true, 'mensagem': "Usuário inexistente!"}
+            else {
+                retorno = { 'error': true, 'mensagem': "Usuário inexistente!" }
             }
             res.send(retorno);
         });
@@ -359,8 +359,8 @@ module.exports = app => {
                             empresa: req.body.empresa,
                             cargo: req.body.cargo
                         });
-                        if (resultado != "Recrutador previamente cadastrado!") retorno = ({ 'error': false, 'recrutador': req.body.usuario_id ,'mensagem': 'PrimeiroAcesso' })
-                        else retorno = ({ 'error': false , 'recrutador': req.body.usuario_id, 'mensagem': 'Cadastrado' })
+                        if (resultado != "Recrutador previamente cadastrado!") retorno = ({ 'error': false, 'recrutador': req.body.usuario_id, 'mensagem': 'PrimeiroAcesso' })
+                        else retorno = ({ 'error': false, 'recrutador': req.body.usuario_id, 'mensagem': 'Cadastrado' })
                     } catch {
                         retorno = ({ 'error': true, 'mensagem': 'Cadastro não realizado!' })
                     }
@@ -489,7 +489,7 @@ module.exports = app => {
                             recrutador_usuario_id: req.body.recrutador_usuario_id
                         });
                         retorno = ({ 'error': false, 'mensagem': resultado })
-                    } catch(ex) {
+                    } catch (ex) {
                         retorno = ({ 'error': true, 'mensagem': ex });
                     }
                     res.send(retorno);
@@ -573,7 +573,7 @@ module.exports = app => {
             res.send(retorno)
         });
 
-        //Listar Todas as Vagas
+    //Listar Todas as Vagas
     app.route("/listarVagasRecrutador")
         .all(app.configuracao.passport.authenticate())
         .post(async (req, res) => {
@@ -584,7 +584,7 @@ module.exports = app => {
                 retorno = ({ 'error': true, 'mensagem': "Erro ao listar vagas!" })
             }
             res.send(retorno)
-    });
+        });
 
     //Listar Uma Vaga
     app.route("/listarUmaVaga/:id")
@@ -708,7 +708,7 @@ module.exports = app => {
             if (req.body.id && req.body.vaga) {
                 try {
                     const resultado = await banco.listarProcessosRecrutador(req.body.id, req.body.vaga);
-                    if(resultado != "Id Inexistente!") retorno = ({ 'error': false, 'mensagem': resultado })
+                    if (resultado != "Id Inexistente!") retorno = ({ 'error': false, 'mensagem': resultado })
                     else retorno = ({ 'error': true, 'mensagem': "Erro ao listar processos seletivos do recrutador!" })
                 } catch {
                     retorno = ({ 'error': true, 'mensagem': "Erro ao listar processos seletivos do recrutador!" })
@@ -725,7 +725,24 @@ module.exports = app => {
             if (req.body.devolutiva != null && req.body.id && req.body.vaga && req.body.candidato) {
                 try {
                     const resultado = await banco.trocarDevolutiva(req.body.devolutiva, req.body.id, req.body.vaga, req.body.candidato);
-                    if(resultado != "Id Inexistente!") retorno = ({ 'error': false, 'mensagem': resultado })
+                    if (resultado != "Id Inexistente!") retorno = ({ 'error': false, 'mensagem': resultado })
+                    else retorno = ({ 'error': true, 'mensagem': "Erro!" })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro!" })
+                }
+            }
+            else retorno = ({ 'error': true, 'mensagem': "Erro!" })
+            res.send(retorno);
+        });
+
+    //interesse VAGA
+    app.route("/interesseVaga")
+        .all(app.configuracao.passport.authenticate())
+        .post(async (req, res) => {
+            if (req.body.candidato_id && req.body.recrutador_id && req.body.vaga_id) {
+                try {
+                    const resultado = await banco.interesseVaga(req.body.candidato_id, req.body.recrutador_id, req.body.vaga_id);
+                    if (resultado != "Id Inexistente!") retorno = ({ 'error': false, 'mensagem': resultado })
                     else retorno = ({ 'error': true, 'mensagem': "Erro!" })
                 } catch {
                     retorno = ({ 'error': true, 'mensagem': "Erro!" })
@@ -740,37 +757,37 @@ module.exports = app => {
         const setItem = new Set();
         var retorno = [];
         var location;
-            const url_api = 'https://api.github.com/users/' + req.body.portfolio;
-            fetch(url_api).then(function(res1) { 
-                return res1.json();
-            }).then(function(res2) {
-                location = res2.location; 
-                return res2.repos_url
-            }).then(function(res3){
-                fetch(res3).then(function(res4) { 
-                    return res4.json();
-                }).then(function(res5) {
-                    res5.forEach(data => {
-                        retorno.push({'language': data.language, 'data': data.created_at})
-                    })
+        const url_api = 'https://api.github.com/users/' + req.body.portfolio;
+        fetch(url_api).then(function (res1) {
+            return res1.json();
+        }).then(function (res2) {
+            location = res2.location;
+            return res2.repos_url
+        }).then(function (res3) {
+            fetch(res3).then(function (res4) {
+                return res4.json();
+            }).then(function (res5) {
+                res5.forEach(data => {
+                    retorno.push({ 'language': data.language, 'data': data.created_at })
+                })
 
-                    retorno.forEach(item => { item.data = new Date(item.data).getTime()  })
+                retorno.forEach(item => { item.data = new Date(item.data).getTime() })
 
-                    retorno.sort(function(a, b) { return a.data - b.data; });
-        
-                    const filter = retorno.filter((item) => {
-                        if(item.language != null){
+                retorno.sort(function (a, b) { return a.data - b.data; });
+
+                const filter = retorno.filter((item) => {
+                    if (item.language != null) {
                         const duplicatedItem = setItem.has(item.language);
                         setItem.add(item.language);
                         return !duplicatedItem;
-                        }
-                    });
-                    
-                    var array = {'location': location,"tag1": filter[filter.length - 1].language, "tag2": filter[filter.length - 2].language, "tag3": filter[filter.length - 3].language}
+                    }
+                });
 
-                    res.send(array);
-                })
+                var array = { 'location': location, "tag1": filter[filter.length - 1].language, "tag2": filter[filter.length - 2].language, "tag3": filter[filter.length - 3].language }
+
+                res.send(array);
             })
+        })
 
     });
 
