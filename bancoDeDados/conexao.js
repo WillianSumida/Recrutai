@@ -387,24 +387,35 @@ async function listarProcessosCandidato(candidato_usuario_id) {
     return resultado[0];
 }
 //Listar Processo Recrutador
-async function listarProcessosRecrutador(recrutador_usuario_id) {
+async function listarProcessosRecrutador(recrutador_usuario_id, vaga_id) {
     console.log("Listando processos do recrutador...");
 
     const conexao = await conecta();
-    const [resultado] = await conexao.query("SELECT * FROM processo WHERE recrutador_usuario_id=?;", [recrutador_usuario_id]);
-
+    const [resultado] = await conexao.query("SELECT u.id, u.nome, u.login, u.telefone, u.localizacao, c.grau_formacao, c.instituicao_ensino, c.nivel, c.tag1, c.tag2, c.tag3, c.dataNascimento, c.portfolio, p.devolutiva FROM processo as p INNER JOIN candidato as c ON p.candidato_usuario_id = c.usuario_id INNER JOIN usuario as u ON u.id = p.candidato_usuario_id WHERE p.recrutador_usuario_id=? AND p.vaga_id=?;", [recrutador_usuario_id, vaga_id]);
     if (resultado.length == 0) {
         return "Id Inexistente!"
     }
 
-    return resultado[0];
+    return resultado;
+}
+
+//Listar Processo Recrutador
+async function trocarDevolutiva(devolutiva, recrutador_id, vaga_id, candidato_id) {
+    console.log("Listando trocar devolutiva...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("update processo set devolutiva = ? where recrutador_usuario_id =? and vaga_id = ? and candidato_usuario_id = ?;", [devolutiva, recrutador_id, vaga_id, candidato_id]);
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    return resultado;
 }
 
 module.exports = {
     login,
     listarUsuarios, listarUmUsuario, inserirUsuario, excluirUsuario,
     listarCandidatos, listarUmCandidato, inserirCandidato, excluirCandidato, alterarCandidato,
-    listarVagas, listarVagasRecrutador, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga,
+    listarVagas, listarVagasRecrutador, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga, trocarDevolutiva,
     listarUmRecrutador, listarRecrutadores, inserirRecrutador, excluirRecrutador, alterarRecrutador,
     listarExperiencias, inserirExperiencia, excluirExperiencia, alterarExperiencia,
     listarProcessosCandidato, listarProcessosRecrutador, inserirProcesso, alterarProcesso, atualizarUsuarioCandidato

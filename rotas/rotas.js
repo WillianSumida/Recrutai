@@ -702,18 +702,37 @@ module.exports = app => {
         });
 
     //Listar Processos Recrutador
-    app.route("/listarProcessosRecrutador/:recrutador_usuario_id?")
+    app.route("/listarProcessosRecrutador")
         .all(app.configuracao.passport.authenticate())
-        .get(async (req, res) => {
-            if (req.params.recrutador_usuario_id) {
+        .post(async (req, res) => {
+            if (req.body.id && req.body.vaga) {
                 try {
-                    const resultado = await banco.listarProcessosRecrutador(req.params.recrutador_usuario_id);
-                    retorno = ({ 'error': false, 'mensagem': resultado })
+                    const resultado = await banco.listarProcessosRecrutador(req.body.id, req.body.vaga);
+                    if(resultado != "Id Inexistente!") retorno = ({ 'error': false, 'mensagem': resultado })
+                    else retorno = ({ 'error': true, 'mensagem': "Erro ao listar processos seletivos do recrutador!" })
                 } catch {
                     retorno = ({ 'error': true, 'mensagem': "Erro ao listar processos seletivos do recrutador!" })
                 }
-                res.send(retorno);
             }
+            else retorno = ({ 'error': true, 'mensagem': "Erro ao listar processos seletivos do recrutador!" })
+            res.send(retorno);
+        });
+
+    //Listar Processos Recrutador
+    app.route("/trocarDevolutiva")
+        .all(app.configuracao.passport.authenticate())
+        .post(async (req, res) => {
+            if (req.body.devolutiva != null && req.body.id && req.body.vaga && req.body.candidato) {
+                try {
+                    const resultado = await banco.trocarDevolutiva(req.body.devolutiva, req.body.id, req.body.vaga, req.body.candidato);
+                    if(resultado != "Id Inexistente!") retorno = ({ 'error': false, 'mensagem': resultado })
+                    else retorno = ({ 'error': true, 'mensagem': "Erro!" })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro!" })
+                }
+            }
+            else retorno = ({ 'error': true, 'mensagem': "Erro!" })
+            res.send(retorno);
         });
 
     //Consumo conteudo git

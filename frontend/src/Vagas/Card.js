@@ -136,7 +136,7 @@ export default (props) => {
       </Modal>
 
       <Modal centered={true} show={showParticipants} size={'xl'} scrollable={true} onHide={handleCloseParticipants}>
-        <Participants title='Tabela'/>
+        <Participants vaga={props.vaga} title='Tabela'/>
       </Modal>
 
     </>
