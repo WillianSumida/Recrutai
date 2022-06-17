@@ -34,6 +34,7 @@ export default function Cards(){
         }).then(res=> {
         return res.json();
       }).then(data=>{
+        dispatch({type:'Deslogar'})
         data.mensagem.map((vagaObjeto) => dispatch({type:'AddVagaRecrutador', vaga: vagaObjeto}));
       })
   }, []);

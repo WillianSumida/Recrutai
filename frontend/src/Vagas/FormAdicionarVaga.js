@@ -69,7 +69,6 @@ export default function AddVaga(props) {
 
     if (props.title == 'Adicionar Vaga'){
       (async() => {
-        console.log(Vaga)
         const resposta = await fetch("http://localhost:8080/adicionarVaga", {
           method: "POST",
           headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
@@ -77,13 +76,11 @@ export default function AddVaga(props) {
         });
     
         var respostaJson = await resposta.json(); 
-        console.log(respostaJson)
         await dispatch({type:'AddVagaRecrutador', vaga: Vaga})
       
       })();
     }else{
         Vaga.id = props.vaga.id;
-        console.log(Vaga.id);
         (async() => {
           const resposta = await fetch("http://localhost:8080/alterarVaga", {
             method: "PUT",
@@ -91,7 +88,6 @@ export default function AddVaga(props) {
             body: JSON.stringify(Vaga)
           });
           var respostaJson = await resposta.json(); 
-          console.log(resposta);
           await dispatch({type:'UpdateVagaRecrutador', vaga: Vaga})
       })();
     }

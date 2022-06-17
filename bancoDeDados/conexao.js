@@ -6,8 +6,8 @@ async function conecta() {
     const con = await banco.createConnection({
         host: "localhost",
         port: 3306,
-        user: "root",
-        password: "123456",
+        user: "sa",
+        password: "root",
         database: "recruta"
     })
     console.log("Conexão efetuada com sucesso!");
@@ -411,6 +411,17 @@ async function trocarDevolutiva(devolutiva, recrutador_id, vaga_id, candidato_id
     return resultado;
 }
 
+async function listarVagasAplicadas(usuario_id) {
+    console.log("Listando vagas Aplicadas...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("select vg.id, vg.cargo, vg.descricao, vg.salario, vg.tipo, vg.tag1, vg.tag2, vg.tag3, vg.cidade, vg.estado, vg.ativo, vg.nivel, vg.quantidade, vg.Recrutador_Usuario_id, vg.created_at, pr.devolutiva from processo as pr inner join vaga as vg on pr.vaga_id = vg.id where pr.candidato_usuario_id = ? ;", [usuario_id]);
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    return resultado;
+}
+
 module.exports = {
     login,
     listarUsuarios, listarUmUsuario, inserirUsuario, excluirUsuario,
@@ -418,5 +429,6 @@ module.exports = {
     listarVagas, listarVagasRecrutador, listarUmaVaga, inserirVaga, excluirVaga, alterarVaga, trocarDevolutiva,
     listarUmRecrutador, listarRecrutadores, inserirRecrutador, excluirRecrutador, alterarRecrutador,
     listarExperiencias, inserirExperiencia, excluirExperiencia, alterarExperiencia,
-    listarProcessosCandidato, listarProcessosRecrutador, inserirProcesso, alterarProcesso, atualizarUsuarioCandidato
+    listarProcessosCandidato, listarProcessosRecrutador, inserirProcesso, alterarProcesso, atualizarUsuarioCandidato,
+    listarVagasAplicadas,
 }

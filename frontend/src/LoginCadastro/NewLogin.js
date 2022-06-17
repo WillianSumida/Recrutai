@@ -109,7 +109,6 @@ export default function SignInSide() {
                 return res.json();
             }).then(response => {
               if (!response.error) {
-                console.log(response);
                 sessionStorage.setItem('usuario', response.recrutador)
                 navigate("/cards");
               }

@@ -752,6 +752,23 @@ module.exports = app => {
             res.send(retorno);
         });
 
+    //vagas Aplicadas
+    app.route("/vagasAplicadas")
+        .all(app.configuracao.passport.authenticate())
+        .post(async (req, res) => {
+            if (req.body.usuario_id) {
+                try {
+                    const resultado = await banco.listarVagasAplicadas(req.body.usuario_id);
+                    if (resultado != "Id Inexistente!") retorno = ({ 'error': false, 'mensagem': resultado })
+                    else retorno = ({ 'error': true, 'mensagem': "Erro!" })
+                } catch {
+                    retorno = ({ 'error': true, 'mensagem': "Erro!" })
+                }
+            }
+            else retorno = ({ 'error': true, 'mensagem': "Erro!" })
+            res.send(retorno);
+        });
+
     //Consumo conteudo git
     app.post("/listarInfoGit", function (req, res) {
         const setItem = new Set();

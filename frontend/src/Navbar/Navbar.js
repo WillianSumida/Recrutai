@@ -37,7 +37,7 @@ export default function ButtonAppBar(props) {
 
       navigate('/');
     }
-    
+   
   return (
     <Box sx={{ flexGrow: 1}}>
       <AppBar position="static" style={{backgroundColor:"#8D40C9"}}>
@@ -64,8 +64,8 @@ export default function ButtonAppBar(props) {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={() => navigate('/vagasCandidato') } >Vagas Disponiveis</MenuItem>
+        <MenuItem onClick={() => navigate('/vagasCandidatoAplicado') } >Vagas Aplicadas</MenuItem>
         <MenuItem onClick={deslogar}>Logout</MenuItem>
       </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

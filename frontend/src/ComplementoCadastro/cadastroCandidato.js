@@ -90,7 +90,6 @@ export default function CadastroCandidato() {
     };
 
     (async () => {
-      console.log(Candidato)
       const resposta = await fetch("http://localhost:8080/adicionarCandidato", {
         method: "POST",
         headers: { "content-Type": "application/json", 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74' },
@@ -98,7 +97,6 @@ export default function CadastroCandidato() {
       });
 
       var respostaJson = await resposta.json();
-      console.log(respostaJson)
 
       sessionStorage.setItem('tags',(JSON.stringify([Candidato.tag1,Candidato.tag2, Candidato.tag3])))
       sessionStorage.setItem('nivel', Candidato.nivel);

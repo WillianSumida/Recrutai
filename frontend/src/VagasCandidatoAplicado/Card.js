@@ -54,7 +54,7 @@ function Compatibilidade(props) {
       sameNivel="Nivel nao compativel"
     }
   
-  comp= Math.round((percent/(props.vaga.length+1))*100)
+  comp= Math.round((percent/(props.vaga.length+1))*100) 
   return (
     <>
       <Typography variant="body1" color="text.secondary">
@@ -74,10 +74,6 @@ export default (props) => {
   const listaVagas = useSelector(state => state.vagaRecrutador);
   const dispatch = useDispatch();
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [showInfo, setShowInfo] = useState(false);
   const handleCloseInfo = () => setShowInfo(false);
   const handleShowInfo = () => setShowInfo(true);
@@ -85,25 +81,6 @@ export default (props) => {
   const [showParticipants, setShowParticipants] = useState(false);
   const handleCloseParticipants = () => setShowParticipants(false);
   const handleShowParticipants = () => setShowParticipants(true);
-
-  function interesseVaga() {
-    (async () => {
-      const resposta = await fetch("http://localhost:8080/interesseVaga", {
-          method: "POST",
-          headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
-          body : JSON.stringify({candidato_id:sessionStorage.getItem('usuario') , recrutador_id: props.vaga.Recrutador_Usuario_id, vaga_id: props.vaga.id})
-        })
-
-        if(await resposta.error){ 
-          toast.error("Erro! Tente novamente mais tarde");
-          location.reload();
-        }else{
-          toast.success("Você se candidatou a vaga, " + props.vaga.cargo)
-        }
-      }  
-    )();
-
-  };
 
   var time = new Date(props.vaga.created_at);
   var outraData = time;
@@ -157,10 +134,7 @@ export default (props) => {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="Interesse vaga" onClick={interesseVaga}>
-            <DoneIcon />
-          </IconButton>
-          <IconButton aria-label="Status vaga" onClick={handleShow}>
+          <IconButton aria-label="Status vaga">
             <FavoriteIcon />
           </IconButton>
 {/*           <IconButton aria-label="Visualizar candidatos" onClick={handleShowParticipants}>

@@ -55,7 +55,6 @@ export default (props) => {
         method: "DELETE",
         headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDg2NzcyNzgsImV4cCI6MTE4NzA0NzY0MDE2MDB9.oo_v_YWaa-rLd3Ag7zqbE5sRWaxFq9Ru6u_uEl7SKgY'},
       });
-      console.log('entre no delete');
       var respostaJson = await resposta.json(); 
       await dispatch({type:'DeleteVagaRecrutador', vaga: props.vaga})
     })();

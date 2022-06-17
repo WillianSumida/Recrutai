@@ -5,6 +5,7 @@ import NewLogin from "./LoginCadastro/NewLogin";
 import NewCadastro from "./LoginCadastro/NewCadastro";
 import Cards from "./Vagas/Cards";
 import CardsCandidato from "./VagasCandidato/CardsCandidato";
+import CardsCandidatoAplicado from "./VagasCandidatoAplicado/CardsCandidatoAplicado";
 import store from './Store/index';
 import { Provider } from 'react-redux';
 import CadastroCandidato from './ComplementoCadastro/cadastroCandidato';
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/cards" element={<Cards />} />
           <Route path="/cadastrarCandidato" element={<CadastroCandidato />} />
           <Route path="/vagasCandidato" element={<CardsCandidato />} />
+          <Route path="/vagasCandidatoAplicado" element={<CardsCandidatoAplicado />} />
         </Routes>
       </BrowserRouter>
     </Provider>
