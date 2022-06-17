@@ -554,7 +554,7 @@ module.exports = app => {
                     const resultado = await banco.excluirVaga(req.params.id);
                     retorno = ({ 'error': false, 'mensagem': resultado })
                 } catch {
-                    retorno = ({ 'error': true, 'mensagem': "Erro ao cadastrar experiência!" })
+                retorno = ({ 'error': true, 'mensagem': "Erro ao deletar vaga!" })
                 }
                 res.send(retorno)
             }

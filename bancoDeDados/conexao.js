@@ -309,10 +309,12 @@ async function excluirVaga(id) {
     console.log("Excluindo vaga...");
     const conexao = await conecta();
     const [resultado] = await conexao.query("SELECT * FROM vaga WHERE id=?;", [id]);
-
+    
     if (resultado.length == 0) {
         return "Id inexistente!"
     }
+
+    const [result] = await conexao.query("DELETE FROM processo WHERE vaga_id=?;", [id])
 
     return await conexao.query("DELETE FROM vaga WHERE id=?;", [id])
 }
