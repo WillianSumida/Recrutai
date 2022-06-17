@@ -411,6 +411,17 @@ async function trocarDevolutiva(devolutiva, recrutador_id, vaga_id, candidato_id
     return resultado;
 }
 
+async function interesseVaga(candidato_id, recrutador_id, vaga_id) {
+    console.log("Listando interesse Vaga...");
+    const conexao = await conecta();
+    const [resultado] = await conexao.query("insert into processo values(?, ?, ?, 0, 0);", [candidato_id, recrutador_id, vaga_id]);
+    if (resultado.length == 0) {
+        return "Id Inexistente!"
+    }
+
+    return resultado;
+}
+
 async function listarVagasAplicadas(usuario_id) {
     console.log("Listando vagas Aplicadas...");
     const conexao = await conecta();
@@ -430,5 +441,5 @@ module.exports = {
     listarUmRecrutador, listarRecrutadores, inserirRecrutador, excluirRecrutador, alterarRecrutador,
     listarExperiencias, inserirExperiencia, excluirExperiencia, alterarExperiencia,
     listarProcessosCandidato, listarProcessosRecrutador, inserirProcesso, alterarProcesso, atualizarUsuarioCandidato,
-    listarVagasAplicadas,
+    listarVagasAplicadas, interesseVaga,
 }

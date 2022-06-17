@@ -22,6 +22,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Badge from '@mui/material/Badge';
 import { toast, ToastContainer } from 'react-toastify';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -67,6 +68,11 @@ function Compatibilidade(props) {
       </Typography>
     </>
   );
+}
+
+function statusVaga(status){
+  if (status) return <FavoriteOutlinedIcon id="icon" color="error"></FavoriteOutlinedIcon>
+  else return <FavoriteOutlinedIcon id="icon" color="disableed"></FavoriteOutlinedIcon>
 }
 
 
@@ -135,7 +141,7 @@ export default (props) => {
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="Status vaga">
-            <FavoriteIcon />
+            {statusVaga(props.vaga.devolutiva)}
           </IconButton>
 {/*           <IconButton aria-label="Visualizar candidatos" onClick={handleShowParticipants}>
             <PersonSearchIcon />

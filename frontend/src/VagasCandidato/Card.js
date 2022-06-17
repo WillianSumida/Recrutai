@@ -93,10 +93,11 @@ export default (props) => {
           headers: {"content-Type": "application/json", 'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwibm9tZSI6InJlY3J1dGFkb3IiLCJpYXQiOjE2NDkxMTEzMTQsImV4cCI6MTE4NzM2MDE0NjA4MDB9.JmIy-uYFEP9kxNHgphTTG4X-CHhXFPGQSdOIfcASM74'},
           body : JSON.stringify({candidato_id:sessionStorage.getItem('usuario') , recrutador_id: props.vaga.Recrutador_Usuario_id, vaga_id: props.vaga.id})
         })
-
-        if(await resposta.error){ 
+         const resp = await resposta.json()
+        
+        if(await resp.error){ 
           toast.error("Erro! Tente novamente mais tarde");
-          location.reload();
+          //location.reload();
         }else{
           toast.success("Você se candidatou a vaga, " + props.vaga.cargo)
         }
@@ -159,9 +160,6 @@ export default (props) => {
         <CardActions disableSpacing>
           <IconButton aria-label="Interesse vaga" onClick={interesseVaga}>
             <DoneIcon />
-          </IconButton>
-          <IconButton aria-label="Status vaga" onClick={handleShow}>
-            <FavoriteIcon />
           </IconButton>
 {/*           <IconButton aria-label="Visualizar candidatos" onClick={handleShowParticipants}>
             <PersonSearchIcon />
