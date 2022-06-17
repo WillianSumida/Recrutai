@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import styled from "styled-components";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../Navbar/NavbarRecrutador";
 import MenuItem from '@mui/material/MenuItem';
 import {Row, Col} from 'react-bootstrap';
 import Typography from '@mui/material/Typography';

@@ -16,6 +16,7 @@ import {Row, Col} from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import Footer from "../Footer/Footer";
+import Typography from '@mui/material/Typography';
 
 export default function CardsCandidato(){
   const navigate = useNavigate()
@@ -83,6 +84,9 @@ export default function CardsCandidato(){
       <Navbar></Navbar>
         <ToastContainer></ToastContainer>
         <Container sx={{ py: 4 }}>
+        <Typography sx={{ fontSize: 40 }} align='center' color="black" gutterBottom>
+          Vagas Disponíveis
+        </Typography>
           <Box onSubmit={onHandle} component="form">
             <Row>
               <Col>

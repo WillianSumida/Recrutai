@@ -56,10 +56,10 @@ export default function AddVaga(props) {
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Row>
+        <Row> 
           <Col>
             <Typography variant="h5" component="div" style={{ wordWrap: "break-word" }}>
-              {props.vaga.cargo.toUpperCase()}
+              {props.vaga.cargo.toUpperCase()} 
             </Typography>
           </Col>
           <Col>
@@ -76,7 +76,8 @@ export default function AddVaga(props) {
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {outraData.toISOString().slice(0,10).replace(/-/g,"-")}
         </Typography>
-        <br />
+        <br/>
+        
         <Row>
           <Col>
             <Typography>

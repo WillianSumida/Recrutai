@@ -42,32 +42,6 @@ export default function ButtonAppBar(props) {
     <Box sx={{ flexGrow: 1}}>
       <AppBar position="static" style={{backgroundColor:"#8D40C9"}}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        
-        <MenuItem onClick={() => navigate('/vagasCandidato') } >Vagas Disponiveis</MenuItem>
-        <MenuItem onClick={() => navigate('/vagasCandidatoAplicado') } >Vagas Aplicadas</MenuItem>
-      </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <img src={logo} width='72vw' height='72vh' className='img' />
             Recruta+
